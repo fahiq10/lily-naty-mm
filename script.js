@@ -16,10 +16,8 @@ const accounts = [
     price: 30000,
     status: "available",
     image: "account-001.png",
-
     description:
       "Grand Master account with 111 rare outfits, 134 gun skins, 23 emotes and 3 Evo guns.",
-
     details: {
       rank: "Grand Master",
       rareOutfits: "111",
@@ -28,7 +26,6 @@ const accounts = [
       evoGuns: "3"
     }
   },
-
   {
     id: "002",
     title: "Free Fire MAX Account",
@@ -36,10 +33,8 @@ const accounts = [
     price: 45000,
     status: "available",
     image: "account-002.jpg",
-
     description:
       "Heroic account with 138 rare outfits and 2 Evo guns.",
-
     details: {
       rank: "Heroic",
       rareOutfits: "138",
@@ -81,7 +76,7 @@ function naira(n) {
 
 function waLink(account) {
   const msg = encodeURIComponent(
-    `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} — ${naira(account.price)}. Is it still available?`
+    `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
   );
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
@@ -95,7 +90,7 @@ function waLink(account) {
 function render() {
   const q = search.value.trim().toLowerCase();
 
-  const filtered = accounts.filter(account => {
+  const filtered = accounts.filter(function (account) {
     const filterOK =
       activeFilter === "all" ||
       account.status === activeFilter;
@@ -110,45 +105,43 @@ function render() {
   });
 
   grid.innerHTML = filtered
-    .map(account => `
-      <article>
+    .map(function (account) {
+      return `
+        <article>
+          <img
+            src="${account.image}"
+            alt="${account.title} #${account.id}"
+            loading="lazy"
+          >
 
-        <img
-          src="${account.image}"
-          alt="${account.title} #${account.id}"
-          loading="lazy"
-        >
+          <div class="card-body">
 
-        <div class="card-body">
+            <div class="card-top">
+              <span class="badge ${account.status}">
+                ${account.status === "available" ? "AVAILABLE" : "SOLD"}
+              </span>
 
-          <div class="card-top">
-            <span class="badge ${account.status}">
-              ${account.status === "available" ? "AVAILABLE" : "SOLD"}
-            </span>
+              <small>#${account.id}</small>
+            </div>
 
-            <small>#${account.id}</small>
+            <h3>${account.title}</h3>
+
+            <p>${account.description}</p>
+
+            <div class="price">
+              ${naira(account.price)}
+            </div>
+
+            <div class="card-actions">
+              <button onclick="openDetails('${account.id}')">
+                View Details
+              </button>
+            </div>
+
           </div>
-
-          <h3>${account.title}</h3>
-
-          <p>${account.description}</p>
-
-          <div class="price">
-            ${naira(account.price)}
-          </div>
-
-          <div class="card-actions">
-
-            <button onclick="openDetails('${account.id}')">
-              View Details
-            </button>
-
-          </div>
-
-        </div>
-
-      </article>
-    `)
+        </article>
+      `;
+    })
     .join("");
 
   empty.hidden = filtered.length !== 0;
@@ -156,13 +149,17 @@ function render() {
 
 
 // =========================
-// ACCOUNT DETAILS MODAL
+// ACCOUNT DETAILS
 // =========================
 
 function openDetails(id) {
-  const account = accounts.find(item => item.id === id);
+  const account = accounts.find(function (item) {
+    return item.id === id;
+  });
 
-  if (!account) return;
+  if (!account) {
+    return;
+  }
 
   document.getElementById("modalImg").src = account.image;
 
@@ -189,16 +186,19 @@ ${account.description}
   document.getElementById("modalDescription").textContent =
     detailsText;
 
-  const status = document.getElementById("modalStatus");
+  const status =
+    document.getElementById("modalStatus");
 
   status.textContent =
     account.status === "available"
       ? "AVAILABLE"
       : "SOLD";
 
-  status.className = `badge ${account.status}`;
+  status.className =
+    `badge ${account.status}`;
 
-  const wa = document.getElementById("modalWhatsApp");
+  const wa =
+    document.getElementById("modalWhatsApp");
 
   wa.href = waLink(account);
 
@@ -207,7 +207,9 @@ ${account.description}
       ? "inline-block"
       : "none";
 
-  document.getElementById("modal").classList.add("open");
+  document
+    .getElementById("modal")
+    .classList.add("open");
 }
 
 
@@ -215,24 +217,27 @@ ${account.description}
 // FILTER BUTTONS
 // =========================
 
-document.querySelectorAll(".filter").forEach(button => {
+document
+  .querySelectorAll(".filter")
+  .forEach(function (button) {
 
-  button.addEventListener("click", () => {
+    button.addEventListener("click", function () {
 
-    document
-      .querySelectorAll(".filter")
-      .forEach(btn =>
-        btn.classList.remove("active")
-      );
+      document
+        .querySelectorAll(".filter")
+        .forEach(function (btn) {
+          btn.classList.remove("active");
+        });
 
-    button.classList.add("active");
+      button.classList.add("active");
 
-    activeFilter = button.dataset.filter;
+      activeFilter =
+        button.dataset.filter;
 
-    render();
+      render();
+    });
+
   });
-
-});
 
 
 // =========================
@@ -248,7 +253,7 @@ search.addEventListener("input", render);
 
 document
   .getElementById("closeModal")
-  .addEventListener("click", () => {
+  .addEventListener("click", function () {
 
     document
       .getElementById("modal")
@@ -259,12 +264,10 @@ document
 
 document
   .getElementById("modal")
-  .addEventListener("click", event => {
+  .addEventListener("click", function (event) {
 
     if (event.target.id === "modal") {
-
       event.currentTarget.classList.remove("open");
-
     }
 
   });
@@ -276,7 +279,7 @@ document
 
 document
   .querySelectorAll("[data-whatsapp]")
-  .forEach(element => {
+  .forEach(function (element) {
 
     element.href =
       `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
@@ -287,81 +290,27 @@ document
 
 
 // ==================================================
-// COMMUNITY CHAT — SUPABASE
+// COMMUNITY CHAT
 // ==================================================
 
-const chatForm = document.getElementById("chatForm");
-const chatNickname = document.getElementById("chatNickname");
-const chatMessage = document.getElementById("chatMessage");
-const chatMessages = document.getElementById("chatMessages");
-const chatStatus = document.getElementById("chatStatus");
+const chatForm =
+  document.getElementById("chatForm");
+
+const chatNickname =
+  document.getElementById("chatNickname");
+
+const chatMessage =
+  document.getElementById("chatMessage");
+
+const chatMessages =
+  document.getElementById("chatMessages");
+
+const chatStatus =
+  document.getElementById("chatStatus");
 
 
 // =========================
-// LOAD CHAT MESSAGES
-// =========================
-
-async function loadMessages() {
-
-  try {
-
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/messages?select=*&order=created_at.asc`,
-      {
-        method: "GET",
-
-        headers: {
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${SUPABASE_KEY}`
-        }
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        `Supabase error: ${response.status}`
-      );
-    }
-
-    const messages = await response.json();
-
-    chatMessages.innerHTML = "";
-
-    if (messages.length === 0) {
-
-      chatMessages.innerHTML = `
-        <div class="chat-empty">
-          No messages yet. Be the first to say hello 👋
-        </div>
-      `;
-
-      return;
-    }
-
-    messages.forEach(message => {
-      displayMessage(message);
-    });
-
-    chatMessages.scrollTop =
-      chatMessages.scrollHeight;
-
-  } catch (error) {
-
-    console.error("Chat loading error:", error);
-
-    chatMessages.innerHTML = `
-      <div class="chat-empty">
-        Unable to load messages.
-      </div>
-    `;
-
-  }
-
-}
-
-
-// =========================
-// DISPLAY ONE MESSAGE
+// DISPLAY MESSAGE
 // =========================
 
 function displayMessage(message) {
@@ -369,7 +318,8 @@ function displayMessage(message) {
   const messageDiv =
     document.createElement("div");
 
-  messageDiv.className = "chat-message";
+  messageDiv.className =
+    "chat-message";
 
   const name =
     document.createElement("strong");
@@ -401,14 +351,78 @@ function displayMessage(message) {
 
 
 // =========================
-// SEND CHAT MESSAGE
+// LOAD MESSAGES
+// =========================
+
+async function loadMessages() {
+
+  try {
+
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/messages?select=*&order=created_at.asc`,
+      {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Supabase error: ${response.status}`
+      );
+    }
+
+    const messages =
+      await response.json();
+
+    chatMessages.innerHTML = "";
+
+    if (messages.length === 0) {
+
+      chatMessages.innerHTML = `
+        <div class="chat-empty">
+          No messages yet. Be the first to say hello 👋
+        </div>
+      `;
+
+      return;
+    }
+
+    messages.forEach(function (message) {
+      displayMessage(message);
+    });
+
+    chatMessages.scrollTop =
+      chatMessages.scrollHeight;
+
+  } catch (error) {
+
+    console.error(
+      "Chat loading error:",
+      error
+    );
+
+    chatMessages.innerHTML = `
+      <div class="chat-empty">
+        Unable to load messages.
+      </div>
+    `;
+  }
+}
+
+
+// =========================
+// SEND MESSAGE
 // =========================
 
 if (chatForm) {
 
   chatForm.addEventListener(
     "submit",
-    async event => {
+    async function (event) {
 
       event.preventDefault();
 
@@ -427,31 +441,27 @@ if (chatForm) {
 
       try {
 
-        const response =
-          await fetch(
-            `${SUPABASE_URL}/rest/v1/messages`,
-            {
-              method: "POST",
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/messages`,
+          {
+            method: "POST",
 
-              headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization":
-                  `Bearer ${SUPABASE_KEY}`,
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Authorization":
+                `Bearer ${SUPABASE_KEY}`,
+              "Content-Type":
+                "application/json",
+              "Prefer":
+                "return=representation"
+            },
 
-                "Content-Type":
-                  "application/json",
-
-                "Prefer":
-                  "return=representation"
-              },
-
-              body: JSON.stringify({
-                nickname: nickname,
-                message: message
-              })
-            }
-          );
-
+            body: JSON.stringify({
+              nickname: nickname,
+              message: message
+            })
+          }
+        );
 
         if (!response.ok) {
 
@@ -466,20 +476,14 @@ if (chatForm) {
           throw new Error(
             `Message failed: ${response.status}`
           );
-
         }
-
 
         const saved =
           await response.json();
 
-
         if (saved.length > 0) {
-
           displayMessage(saved[0]);
-
         }
-
 
         chatMessage.value = "";
 
@@ -489,20 +493,16 @@ if (chatForm) {
         chatMessages.scrollTop =
           chatMessages.scrollHeight;
 
-
-        setTimeout(() => {
-
+        setTimeout(function () {
           chatStatus.textContent = "";
-
         }, 2000);
-
 
       } catch (error) {
 
         console.error(error);
 
         chatStatus.textContent =
-          "Message could not be sent. Check Supabase.";
+          "Message could not be sent.";
 
       }
 
