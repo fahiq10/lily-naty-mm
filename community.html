@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LILY NATY MM Community</title>
+
+  <meta
+    name="description"
+    content="LILY NATY MM Community — a Free Fire middleman community for account trades."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, #32105c 0%, #100817 45%, #050308 100%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px 50px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #8b2cff, #d000ff);
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 0 25px rgba(170, 0, 255, 0.45);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 19px;
+    }
+
+    .brand-text span {
+      display: block;
+      color: #c9a6ff;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .back-btn {
+      color: white;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.14);
+      transform: translateY(-2px);
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      margin: 20px 0 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 7vw, 68px);
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: #b45cff;
+      text-shadow: 0 0 25px rgba(180,92,255,0.45);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 15px auto 0;
+      color: #cfc5d8;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(176, 78, 255, 0.13);
+      border: 1px solid rgba(176, 78, 255, 0.35);
+      color: #d8a9ff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    /* MAIN IMAGE */
+    .community-image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: #09050d;
+      box-shadow:
+        0 25px 80px rgba(0,0,0,0.55),
+        0 0 45px rgba(153,0,255,0.18);
+    }
+
+    .community-image img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    /* INFO CARDS */
+    .section-title {
+      text-align: center;
+      margin: 42px 0 18px;
+      font-size: 28px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .info-card {
+      padding: 23px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .info-card h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .info-card p {
+      color: #bdb2c7;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .step {
+      text-align: center;
+      padding: 20px 12px;
+      border-radius: 17px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #7d20ff, #c500ff);
+      font-weight: 900;
+    }
+
+    .step h4 {
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      color: #a99faf;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* CTA */
+    .cta {
+      margin-top: 42px;
+      text-align: center;
+      padding: 38px 20px;
+      border-radius: 24px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(125,32,255,0.25),
+          rgba(205,0,255,0.09)
+        );
+      border: 1px solid rgba(186,83,255,0.3);
+    }
+
+    .cta h2 {
+      font-size: clamp(26px, 5vw, 40px);
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      color: #c5b8ce;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.5;
+    }
+
+    .whatsapp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 22px;
+      padding: 14px 24px;
+      border-radius: 13px;
+      background: #25d366;
+      color: #061b0e;
+      text-decoration: none;
+      font-weight: 900;
+      box-shadow: 0 10px 30px rgba(37,211,102,0.2);
+      transition: 0.2s;
+    }
+
+    .whatsapp:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .notice {
+      margin-top: 15px;
+      color: #918699;
+      font-size: 11px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      color: #746b7b;
+      font-size: 12px;
+      margin-top: 38px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 750px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      header {
+        align-items: flex-start;
+      }
+
+      .brand-text strong {
+        font-size: 16px;
+      }
+
+      .back-btn {
+        font-size: 12px;
+        padding: 9px 12px;
+      }
+
+      .community-image {
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <header>
+
+      <a href="index.html" class="brand">
+        <div class="logo">LN</div>
+
+        <div class="brand-text">
+          <strong>LILY NATY</strong>
+          <span>MM COMMUNITY</span>
+        </div>
+      </a>
+
+      <a href="index.html" class="back-btn">
+        ← Back to Accounts
+      </a>
+
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+
+      <span class="tag">FREE FIRE MIDDLEMAN COMMUNITY</span>
+
+      <h1>
+        LILY <span>NATY</span>
+        <br>
+        MM COMMUNITY
+      </h1>
+
+      <p>
+        A community built around Free Fire account trades and
+        middleman support. Whether you're buying, selling, or
+        looking for an MM, LILY NATY is here to help coordinate the trade.
+      </p>
+
+    </section>
+
+
+    <!-- PROMO IMAGE -->
+    <section class="community-image">
+
+      <!--
+        IMPORTANT:
+        Upload your generated image to the GitHub repository
+        and name it exactly:
+
+        lily-naty-community.png
+      -->
+
+      <img
+        src="lily-naty-community.png"
+        alt="LILY NATY MM Community"
+      >
+
+    </section>
+
+
+    <!-- WHAT WE DO -->
+    <h2 class="section-title">What We Do</h2>
+
+    <section class="cards">
+
+      <div class="info-card">
+        <div class="icon">🛒</div>
+        <h3>Buying Accounts</h3>
+        <p>
+          Looking for a Free Fire account?
+          Browse available accounts and contact LILY NATY
+          to discuss the trade.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <div class="icon">💰</div>
+        <h3>Selling Accounts</h3>
+        <p>
+          Have an account you want to sell?
+          Contact the community to discuss the account
+          and the trade process.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <div class="icon">🛡️</div>
+        <h3>Middleman Service</h3>
+        <p>
+          A middleman can help coordinate communication
+          and the agreed trade process between the buyer
+          and seller.
+        </p>
+      </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <h2 class="section-title">How It Works</h2>
+
+    <section class="steps">
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <h4>Contact</h4>
+        <p>Contact LILY NATY about the trade.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <h4>Discuss</h4>
+        <p>Discuss the account and agreed terms.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <h4>Middleman</h4>
+        <p>The MM coordinates the agreed process.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <h4>Complete</h4>
+        <p>Both sides complete the agreed trade.</p>
+      </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="cta">
+
+      <h2>Need a Middleman?</h2>
+
+      <p>
+        Want to buy, sell, or ask about a Free Fire account?
+        Contact LILY NATY through WhatsApp to discuss your trade.
+      </p>
+
+      <a
+        class="whatsapp"
+        href="https://wa.me/2349122602735?text=Hello%20LILY%20NATY%2C%20I%20want%20to%20ask%20about%20the%20MM%20community."
+        target="_blank"
+        rel="noopener"
+      >
+        💬 Contact LILY NATY on WhatsApp
+      </a>
+
+      <div class="notice">
+        Always confirm the account details and trade terms before proceeding.
+      </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+      © 2026 LILY NATY MM Community • Free Fire
+    </footer>
+
+  </div>
+
+</body>
+</html>
