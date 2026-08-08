@@ -1,13 +1,10 @@
 // =========================
 // LILY NATY ACCOUNT DATA
-// Add new accounts inside this array.
-// status must be "available" or "sold".
 // =========================
-const WHATSAPP_NUMBER = "2349122602735"; // <-- REPLACE with your WhatsApp number, country code, no + or spaces.
+
+const WHATSAPP_NUMBER = "2349122602735";
 
 const accounts = [
-  {
-    const accounts = [
   {
     id: "001",
     title: "Free Fire MAX Account",
@@ -15,7 +12,10 @@ const accounts = [
     price: 30000,
     status: "available",
     image: "account-001.png",
-    description: "Grand Master account with 111 rare outfits, 134 gun skins, 23 emotes and 3 Evo guns.",
+
+    description:
+      "Grand Master account with 111 rare outfits, 134 gun skins, 23 emotes and 3 Evo guns.",
+
     details: {
       rank: "Grand Master",
       rareOutfits: "111",
@@ -24,6 +24,7 @@ const accounts = [
       evoGuns: "3"
     }
   },
+
   {
     id: "002",
     title: "Free Fire MAX Account",
@@ -31,7 +32,10 @@ const accounts = [
     price: 45000,
     status: "available",
     image: "account-002.jpg",
-    description: "Heroic account with 138 rare outfits and 2 Evo guns.",
+
+    description:
+      "Heroic account with 138 rare outfits and 2 Evo guns.",
+
     details: {
       rank: "Heroic",
       rareOutfits: "138",
@@ -41,85 +45,209 @@ const accounts = [
     }
   }
 ];
+
 const grid = document.getElementById("accountGrid");
 const search = document.getElementById("search");
 const empty = document.getElementById("empty");
+
 let activeFilter = "all";
 
 function naira(n) {
-  return new Intl.NumberFormat("en-NG", {style:"currency", currency:"NGN", maximumFractionDigits:0}).format(n);
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0
+  }).format(n);
 }
 
 function waLink(account) {
-  const msg = encodeURIComponent(`Hello LILY NATY, I'm interested in Free Fire Account #${account.id} — ${account.title} (${naira(account.price)}). Is it still available?`);
+  const msg = encodeURIComponent(
+    `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} — ${naira(account.price)}. Is it still available?`
+  );
+
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
 }
 
 function render() {
   const q = search.value.trim().toLowerCase();
-  const filtered = accounts.filter(a => {
-    const filterOK = activeFilter === "all" || a.status === activeFilter;
-    const searchOK = !q || `${a.title} ${a.game} ${a.id}`.toLowerCase().includes(q);
+
+  const filtered = accounts.filter(account => {
+    const filterOK =
+      activeFilter === "all" || account.status === activeFilter;
+
+    const searchOK =
+      !q ||
+      `${account.title} ${account.game} ${account.id} ${account.details.rank}`
+        .toLowerCase()
+        .includes(q);
+
     return filterOK && searchOK;
   });
 
-  grid.innerHTML = filtered.map(a => `
-    <article class="card">
-      <img src="${a.image}" alt="${a.title}" loading="lazy">
-      <div class="card-body">
-        <div class="card-top">
-          <span class="badge ${a.status}">${a.status === "available" ? "AVAILABLE" : "SOLD"}</span>
-          <small>#${a.id}</small>
+  grid.innerHTML = filtered
+    .map(account => `
+      <article class="card">
+
+        <img
+          src="${account.image}"
+          alt="${account.title} #${account.id}"
+          loading="lazy"
+        >
+
+        <div class="card-body">
+
+          <div class="card-top">
+            <span class="badge ${account.status}">
+              ${account.status === "available" ? "AVAILABLE" : "SOLD"}
+            </span>
+
+            <small>#${account.id}</small>
+          </div>
+
+          <h3>${account.title}</h3>
+
+          <p>${account.description}</p>
+
+          <div class="price">
+            ${naira(account.price)}
+          </div>
+
+          <div class="card-actions">
+
+            <button onclick="openDetails('${account.id}')">
+              View Details
+            </button>
+
+          </div>
+
         </div>
-        <h3>${a.title}</h3>
-        <p>${a.description}</p>
-        <div class="price">${naira(a.price)}</div>
-        <div class="card-actions">
-          <button onclick="openDetails('${a.id}')">View Details</button>
-          ${a.status === "available"
-            ? `<a href="${waLink(a)}" target="_blank" rel="noopener">Contact to Buy</a>`
-            : `<button disabled>Sold Out</button>`}
-        </div>
-      </div>
-    </article>
-  `).join("");
+
+      </article>
+    `)
+    .join("");
 
   empty.hidden = filtered.length !== 0;
 }
 
 function openDetails(id) {
-  const a = accounts.find(x => x.id === id);
-  if (!a) return;
-  document.getElementById("modalImg").src = a.image;
-  document.getElementById("modalTitle").textContent = a.title;
-  document.getElementById("modalPrice").textContent = naira(a.price);
-  document.getElementById("modalDescription").textContent = a.description;
+  const account = accounts.find(item => item.id === id);
+
+  if (!account) return;
+
+  document.getElementById("modalImg").src = account.image;
+
+  document.getElementById("modalTitle").textContent =
+    `${account.title} #${account.id}`;
+
+  document.getElementById("modalPrice").textContent =
+    naira(account.price);
+
+  const detailsText = `
+Rank: ${account.details.rank}
+
+Rare Outfits: ${account.details.rareOutfits}
+
+Gun Skins: ${account.details.gunSkins}
+
+Emotes: ${account.details.emotes}
+
+Evo Guns: ${account.details.evoGuns}
+
+${account.description}
+  `.trim();
+
+  document.getElementById("modalDescription").textContent =
+    detailsText;
+
   const status = document.getElementById("modalStatus");
-  status.textContent = a.status === "available" ? "AVAILABLE" : "SOLD";
-  status.className = `badge ${a.status}`;
+
+  status.textContent =
+    account.status === "available" ? "AVAILABLE" : "SOLD";
+
+  status.className = `badge ${account.status}`;
+
   const wa = document.getElementById("modalWhatsApp");
-  wa.href = waLink(a);
-  wa.style.display = a.status === "available" ? "inline-block" : "none";
+
+  wa.href = waLink(account);
+
+  wa.style.display =
+    account.status === "available"
+      ? "inline-block"
+      : "none";
+
   document.getElementById("modal").classList.add("open");
 }
 
-document.querySelectorAll(".filter").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    activeFilter = btn.dataset.filter;
+// =========================
+// FILTER BUTTONS
+// =========================
+
+document.querySelectorAll(".filter").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    document
+      .querySelectorAll(".filter")
+      .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    activeFilter = button.dataset.filter;
+
     render();
   });
+
 });
+
+// =========================
+// SEARCH
+// =========================
 
 search.addEventListener("input", render);
-document.getElementById("closeModal").addEventListener("click", () => document.getElementById("modal").classList.remove("open"));
-document.getElementById("modal").addEventListener("click", e => {
-  if (e.target.id === "modal") e.currentTarget.classList.remove("open");
+
+// =========================
+// CLOSE MODAL
+// =========================
+
+document
+  .getElementById("closeModal")
+  .addEventListener("click", () => {
+
+    document
+      .getElementById("modal")
+      .classList.remove("open");
+
+  });
+
+document
+  .getElementById("modal")
+  .addEventListener("click", event => {
+
+    if (event.target.id === "modal") {
+
+      event.currentTarget.classList.remove("open");
+
+    }
+
+  });
+
+// =========================
+// WHATSAPP BUTTONS
+// =========================
+
+document.querySelectorAll("[data-whatsapp]").forEach(element => {
+
+  element.href =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${
+      encodeURIComponent(
+        "Hello LILY NATY, I want to ask about the available Free Fire accounts."
+      )
+    }`;
+
 });
 
-document.querySelectorAll("[data-whatsapp]").forEach(el => {
-  el.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello LILY NATY, I want to ask about the available Free Fire accounts.")}`;
-});
+// =========================
+// START WEBSITE
+// =========================
 
 render();
