@@ -7,13 +7,22 @@ const WHATSAPP_NUMBER = "2349122602735"; // <-- REPLACE with your WhatsApp numbe
 
 const accounts = [
   {
+    const accounts = [
+  {
     id: "001",
     title: "Free Fire MAX Account",
     game: "Free Fire",
     price: 30000,
     status: "available",
-    image: "account-002.jpg",
-    description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
+    image: "account-001.png",
+    description: "Grand Master account with 111 rare outfits, 134 gun skins, 23 emotes and 3 Evo guns.",
+    details: {
+      rank: "Grand Master",
+      rareOutfits: "111",
+      gunSkins: "134",
+      emotes: "23",
+      evoGuns: "3"
+    }
   },
   {
     id: "002",
@@ -21,38 +30,17 @@ const accounts = [
     game: "Free Fire",
     price: 45000,
     status: "available",
-    image: "account-003.jpg",
-    description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
-  },
-  {
-    id: "003",
-    title: "Free Fire MAX Account",
-    game: "Free Fire",
-    price: 80000,
-    status: "available",
-    image: "account-004.jpg",
-    description: "Premium Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
-  },
-  {
-    id: "004",
-    title: "Free Fire MAX Account",
-    game: "Free Fire",
-    price: 20000,
-    status: "available",
-    image: "account-005.jpg",
-    description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
-  },
-  {
-    id: "005",
-    title: "Free Fire MAX Account",
-    game: "Free Fire",
-    price: 50000,
-    status: "available",
-    image: "account-006.png",
-    description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
+    image: "account-002.jpg",
+    description: "Heroic account with 138 rare outfits and 2 Evo guns.",
+    details: {
+      rank: "Heroic",
+      rareOutfits: "138",
+      gunSkins: "Not specified",
+      emotes: "Not specified",
+      evoGuns: "2"
+    }
   }
 ];
-
 const grid = document.getElementById("accountGrid");
 const search = document.getElementById("search");
 const empty = document.getElementById("empty");
