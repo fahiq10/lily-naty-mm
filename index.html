@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace.">
+  <title>LILY NATY | Free Fire Accounts</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#home">LILY NATY <span>MM ACCOUNTS</span></a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#accounts">Accounts</a>
+      <a href="#how">How It Works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="wa-btn" data-whatsapp href="#">WhatsApp</a>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">TRUSTED • FAST • FREE FIRE ONLY</p>
+        <h1>PREMIUM <b>FREE FIRE</b><br>ACCOUNTS</h1>
+        <p>Browse available accounts, check the screenshots and contact LILY NATY directly to buy.</p>
+        <div class="hero-actions">
+          <a class="primary" href="#accounts">View Accounts</a>
+          <a class="secondary" data-whatsapp href="#">Contact on WhatsApp</a>
+        </div>
+      </div>
+      <div class="hero-art">FREE<br>FIRE</div>
+    </section>
+
+    <section class="trust">
+      <div><strong>✓</strong><span><b>Verified Listings</b><small>Account details shown clearly</small></span></div>
+      <div><strong>⚡</strong><span><b>Fast Response</b><small>Contact directly on WhatsApp</small></span></div>
+      <div><strong>₦</strong><span><b>Clear Prices</b><small>No hidden price on listings</small></span></div>
+      <div><strong>◉</strong><span><b>Free Fire Only</b><small>Focused marketplace</small></span></div>
+    </section>
+
+    <section id="accounts" class="accounts-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">LILY NATY MARKETPLACE</p>
+          <h2>AVAILABLE ACCOUNTS</h2>
+        </div>
+        <input id="search" type="search" placeholder="Search accounts...">
+      </div>
+
+      <div class="filters">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="available">Available</button>
+        <button class="filter" data-filter="sold">Sold</button>
+      </div>
+
+      <div id="accountGrid" class="grid"></div>
+      <p id="empty" class="empty" hidden>No accounts match your search.</p>
+    </section>
+
+    <section id="how" class="how">
+      <p class="eyebrow">HOW IT WORKS</p>
+      <h2>Simple 3-step purchase</h2>
+      <div class="steps">
+        <article><span>01</span><h3>Choose</h3><p>Pick an account and inspect its listing.</p></article>
+        <article><span>02</span><h3>Contact</h3><p>Tap Contact to Buy and message LILY NATY on WhatsApp.</p></article>
+        <article><span>03</span><h3>Complete</h3><p>Agree on the deal and receive the account details after payment.</p></article>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <p class="eyebrow">FAQ</p>
+      <h2>Questions?</h2>
+      <details><summary>How do I buy an account?</summary><p>Open an account listing and tap Contact to Buy. WhatsApp will open with the account number pre-filled.</p></details>
+      <details><summary>Can I ask for more screenshots?</summary><p>Yes. Message LILY NATY before buying and request any extra proof/details you need.</p></details>
+      <details><summary>Can an account be marked sold?</summary><p>Yes. Update the listing data in <code>script.js</code> and set its status to <code>sold</code>.</p></details>
+    </section>
+
+    <section class="contact-banner">
+      <div><p class="eyebrow">NEED HELP?</p><h2>Want to ask about an account?</h2><p>Message LILY NATY directly on WhatsApp.</p></div>
+      <a class="primary" data-whatsapp href="#">Chat on WhatsApp →</a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand">LILY NATY <span>MM ACCOUNTS</span></div>
+    <p>© 2026 LILY NATY. All rights reserved.</p>
+  </footer>
+
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button id="closeModal" class="close">×</button>
+      <img id="modalImg" src="" alt="Free Fire account screenshot">
+      <div class="modal-info">
+        <span id="modalStatus" class="badge"></span>
+        <h2 id="modalTitle"></h2>
+        <div id="modalPrice" class="price"></div>
+        <p id="modalDescription"></p>
+        <a id="modalWhatsApp" class="primary" href="#">Contact to Buy on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
