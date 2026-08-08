@@ -12,7 +12,7 @@ const accounts = [
     game: "Free Fire",
     price: 30000,
     status: "available",
-    image: "assets/account-002.jpg",
+    image: "account-002.jpg",
     description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
   },
   {
@@ -21,7 +21,7 @@ const accounts = [
     game: "Free Fire",
     price: 45000,
     status: "available",
-    image: "assets/account-003.jpg",
+    image: "account-003.jpg",
     description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
   },
   {
@@ -30,7 +30,7 @@ const accounts = [
     game: "Free Fire",
     price: 80000,
     status: "available",
-    image: "assets/account-004.jpg",
+    image: "account-004.jpg",
     description: "Premium Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
   },
   {
@@ -39,7 +39,7 @@ const accounts = [
     game: "Free Fire",
     price: 20000,
     status: "available",
-    image: "assets/account-005.jpg",
+    image: "account-005.jpg",
     description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
   },
   {
@@ -48,7 +48,7 @@ const accounts = [
     game: "Free Fire",
     price: 50000,
     status: "available",
-    image: "assets/account-006.png",
+    image: "account-006.png",
     description: "Free Fire account listing. Screenshots provided for preview. Contact LILY NATY for full details."
   }
 ];
