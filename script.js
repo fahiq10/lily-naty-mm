@@ -1,17 +1,10 @@
-```javascript
 // ==================================================
 // LILY NATY MM ACCOUNTS
 // GOOGLE SHEETS VERSION
 // ==================================================
 
-
-// ==================================================
-// SETTINGS
-// ==================================================
-
 const WHATSAPP_NUMBER = "2349122602735";
 
-// Your Google Apps Script Web App URL
 const GOOGLE_SHEET_API =
   "https://script.google.com/macros/s/AKfycbwHnvjNUOBQm25wi6SYrwbnjlyT8R9fJjcWrBdnREqKzZ7Y_LOs1BBcISAG9jgOUn4Xdg/exec";
 
@@ -33,13 +26,11 @@ let activeFilter = "all";
 // ==================================================
 
 function naira(number) {
-
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
     maximumFractionDigits: 0
   }).format(Number(number) || 0);
-
 }
 
 
@@ -48,160 +39,92 @@ function naira(number) {
 // ==================================================
 
 function cleanKey(key) {
-
   return String(key || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "");
-
 }
 
 
 function getValue(row, possibleNames) {
-
   const keys = Object.keys(row);
 
   for (const wanted of possibleNames) {
-
     const wantedClean = cleanKey(wanted);
 
     const foundKey = keys.find(function (key) {
-
       return cleanKey(key) === wantedClean;
-
     });
 
     if (foundKey !== undefined) {
-
       return row[foundKey];
-
     }
-
   }
 
   return "";
-
 }
 
 
 // ==================================================
 // CONVERT GOOGLE SHEET ROW
-// INTO WEBSITE ACCOUNT
 // ==================================================
 
 function convertAccount(row) {
 
-  const id =
-    getValue(row, ["ID", "Id", "id"]);
-
-  const title =
-    getValue(row, ["Title", "title"]);
-
-  const price =
-    getValue(row, ["Price", "price"]);
-
-  const status =
-    String(
-      getValue(row, ["Status", "status"])
-    )
-      .trim()
-      .toLowerCase();
-
-  const image =
-    getValue(row, ["Image", "image"]);
-
-  const rank =
-    getValue(row, [
-      "Rank",
-      " Rank",
-      "rank"
-    ]);
-
-  const rareOutfits =
-    getValue(row, [
-      "rare outfits",
-      "rareOutfits"
-    ]);
-
-  const gunSkins =
-    getValue(row, [
-      "gunskins",
-      "gun skins",
-      "gunSkins"
-    ]);
-
-  const emotes =
-    getValue(row, [
-      "emotes"
-    ]);
-
-  const evoGuns =
-    getValue(row, [
-      "evo guns",
-      "evoGuns"
-    ]);
-
-  const description =
-    getValue(row, [
-      "Description",
-      "description"
-    ]);
-
-  const game =
-    getValue(row, [
-      "Game",
-      "game"
-    ]);
-
-
   return {
-
-    id: String(id),
+    id: String(getValue(row, ["ID"])),
 
     title:
-      title || "Free Fire Account",
+      getValue(row, ["Title"]) ||
+      "Free Fire Account",
 
     game:
-      game || "Free Fire",
+      getValue(row, ["Game"]) ||
+      "Free Fire",
 
     price:
-      Number(price) || 0,
+      Number(getValue(row, ["Price"])) || 0,
 
     status:
-      status || "available",
+      String(getValue(row, ["Status"]) || "available")
+        .trim()
+        .toLowerCase(),
 
     image:
-      image || "",
+      getValue(row, ["Image"]) || "",
 
     description:
-      description || "Free Fire account.",
+      getValue(row, ["Description"]) ||
+      "Free Fire account.",
 
     details: {
 
       rank:
-        rank || "Not specified",
+        getValue(row, ["Rank"]) ||
+        "Not specified",
 
       rareOutfits:
-        rareOutfits || "Not specified",
+        getValue(row, ["rare outfits"]) ||
+        "Not specified",
 
       gunSkins:
-        gunSkins || "Not specified",
+        getValue(row, ["gunskins", "gun skins"]) ||
+        "Not specified",
 
       emotes:
-        emotes || "Not specified",
+        getValue(row, ["emotes"]) ||
+        "Not specified",
 
       evoGuns:
-        evoGuns || "Not specified"
-
+        getValue(row, ["evo guns"]) ||
+        "Not specified"
     }
-
   };
-
 }
 
 
 // ==================================================
-// LOAD ACCOUNTS FROM GOOGLE SHEET
+// LOAD ACCOUNTS
 // ==================================================
 
 async function loadAccounts() {
@@ -209,102 +132,59 @@ async function loadAccounts() {
   try {
 
     grid.innerHTML = `
-      <p style="
-        color:#777;
-        padding:20px;
-      ">
+      <p style="color:#777;padding:20px;">
         Loading accounts...
       </p>
     `;
 
-
-    // Add timestamp so browser doesn't show old data
-    const url =
-      GOOGLE_SHEET_API +
-      "?t=" +
-      Date.now();
-
-
-    const response =
-      await fetch(url);
-
+    const response = await fetch(
+      GOOGLE_SHEET_API + "?t=" + Date.now()
+    );
 
     if (!response.ok) {
-
       throw new Error(
-        "Google Sheet returned " +
-        response.status
+        "Google Sheet returned " + response.status
       );
-
     }
 
-
-    const data =
-      await response.json();
-
+    const data = await response.json();
 
     if (!Array.isArray(data)) {
-
       throw new Error(
         "Google Sheet did not return an array."
       );
-
     }
 
+    accounts = data.map(convertAccount);
 
-    accounts =
-      data.map(convertAccount);
-
-
-    console.log(
-      "Accounts loaded:",
-      accounts
-    );
-
+    console.log("LILY NATY accounts loaded:", accounts);
 
     render();
 
-
   } catch (error) {
 
-    console.error(
-      "Account loading error:",
-      error
-    );
-
+    console.error("Account loading error:", error);
 
     grid.innerHTML = `
-      <p style="
-        color:#ff7777;
-        padding:20px;
-      ">
+      <p style="color:#ff7777;padding:20px;">
         Unable to load accounts right now.
       </p>
     `;
-
   }
-
 }
 
 
 // ==================================================
-// WHATSAPP LINK
+// WHATSAPP
 // ==================================================
 
 function waLink(account) {
 
-  const message =
-    encodeURIComponent(
-
-      `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
-
-    );
-
-
-  return (
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`
+  const message = encodeURIComponent(
+    `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
   );
 
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
 }
 
 
@@ -314,132 +194,95 @@ function waLink(account) {
 
 function render() {
 
-  if (!search || !grid) {
+  if (!grid || !search) {
     return;
   }
 
-
   const q =
-    search.value
-      .trim()
-      .toLowerCase();
+    search.value.trim().toLowerCase();
+
+  const filtered = accounts.filter(function (account) {
+
+    // SOLD ACCOUNTS DO NOT SHOW
+    if (account.status === "sold") {
+      return false;
+    }
+
+    const filterOK =
+      activeFilter === "all" ||
+      account.status === activeFilter;
+
+    const searchText = `
+      ${account.title}
+      ${account.game}
+      ${account.id}
+      ${account.details.rank}
+    `.toLowerCase();
+
+    const searchOK =
+      !q || searchText.includes(q);
+
+    return filterOK && searchOK;
+  });
 
 
-  const filtered =
-    accounts.filter(function (account) {
+  grid.innerHTML = filtered.map(function (account) {
 
+    return `
+      <article>
 
-      // IMPORTANT:
-      // SOLD ACCOUNTS ARE COMPLETELY HIDDEN
-      //
-      // This means when you change the
-      // Google Sheet Status to "sold",
-      // the account disappears from the website.
+        <img
+          src="${account.image}"
+          alt="${account.title} #${account.id}"
+          loading="lazy"
+        >
 
-      if (
-        account.status === "sold"
-      ) {
+        <div class="card-body">
 
-        return false;
+          <div class="card-top">
 
-      }
+            <span class="badge available">
+              AVAILABLE
+            </span>
 
+            <small>
+              #${account.id}
+            </small>
 
-      const filterOK =
-        activeFilter === "all" ||
-        account.status === activeFilter;
+          </div>
 
+          <h3>
+            ${account.title}
+          </h3>
 
-      const searchText = `
+          <p>
+            ${account.description}
+          </p>
 
-        ${account.title}
-        ${account.game}
-        ${account.id}
-        ${account.details.rank}
+          <div class="price">
+            ${naira(account.price)}
+          </div>
 
-      `.toLowerCase();
+          <div class="card-actions">
 
-
-      const searchOK =
-        !q ||
-        searchText.includes(q);
-
-
-      return filterOK && searchOK;
-
-    });
-
-
-  grid.innerHTML =
-    filtered
-      .map(function (account) {
-
-        return `
-
-          <article>
-
-            <img
-              src="${account.image}"
-              alt="${account.title} #${account.id}"
-              loading="lazy"
+            <button
+              onclick="openDetails('${account.id}')"
             >
+              View Details
+            </button>
 
+          </div>
 
-            <div class="card-body">
+        </div>
 
+      </article>
+    `;
 
-              <div class="card-top">
-
-                <span class="badge available">
-                  AVAILABLE
-                </span>
-
-                <small>
-                  #${account.id}
-                </small>
-
-              </div>
-
-
-              <h3>
-                ${account.title}
-              </h3>
-
-
-              <p>
-                ${account.description}
-              </p>
-
-
-              <div class="price">
-                ${naira(account.price)}
-              </div>
-
-
-              <div class="card-actions">
-
-                <button
-                  onclick="openDetails('${account.id}')"
-                >
-                  View Details
-                </button>
-
-              </div>
-
-
-            </div>
-
-          </article>
-
-        `;
-
-      })
-      .join("");
+  }).join("");
 
 
   empty.hidden =
     filtered.length !== 0;
-
 }
 
 
@@ -451,36 +294,27 @@ function openDetails(id) {
 
   const account =
     accounts.find(function (item) {
-
       return item.id === String(id);
-
     });
-
 
   if (!account) {
     return;
   }
 
 
-  document.getElementById(
-    "modalImg"
-  ).src = account.image;
+  document.getElementById("modalImg").src =
+    account.image;
 
 
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
+  document.getElementById("modalTitle").textContent =
     `${account.title} #${account.id}`;
 
 
-  document.getElementById(
-    "modalPrice"
-  ).textContent =
+  document.getElementById("modalPrice").textContent =
     naira(account.price);
 
 
   const detailsText = `
-
 Rank: ${account.details.rank}
 
 Rare Outfits: ${account.details.rareOutfits}
@@ -492,48 +326,33 @@ Emotes: ${account.details.emotes}
 Evo Guns: ${account.details.evoGuns}
 
 ${account.description}
-
   `.trim();
 
 
   document.getElementById(
     "modalDescription"
-  ).textContent =
-    detailsText;
+  ).textContent = detailsText;
 
 
   const status =
-    document.getElementById(
-      "modalStatus"
-    );
+    document.getElementById("modalStatus");
 
 
-  status.textContent =
-    "AVAILABLE";
-
-
-  status.className =
-    "badge available";
+  status.textContent = "AVAILABLE";
+  status.className = "badge available";
 
 
   const wa =
-    document.getElementById(
-      "modalWhatsApp"
-    );
+    document.getElementById("modalWhatsApp");
 
 
-  wa.href =
-    waLink(account);
-
-
-  wa.style.display =
-    "inline-block";
+  wa.href = waLink(account);
+  wa.style.display = "inline-block";
 
 
   document
     .getElementById("modal")
     .classList.add("open");
-
 }
 
 
@@ -545,37 +364,24 @@ document
   .querySelectorAll(".filter")
   .forEach(function (button) {
 
-
     button.addEventListener(
       "click",
       function () {
 
-
         document
           .querySelectorAll(".filter")
           .forEach(function (btn) {
-
-            btn.classList.remove(
-              "active"
-            );
-
+            btn.classList.remove("active");
           });
 
-
-        button.classList.add(
-          "active"
-        );
-
+        button.classList.add("active");
 
         activeFilter =
           button.dataset.filter;
 
-
         render();
-
       }
     );
-
   });
 
 
@@ -598,9 +404,7 @@ if (search) {
 // ==================================================
 
 const closeModal =
-  document.getElementById(
-    "closeModal"
-  );
+  document.getElementById("closeModal");
 
 
 if (closeModal) {
@@ -620,9 +424,7 @@ if (closeModal) {
 
 
 const modal =
-  document.getElementById(
-    "modal"
-  );
+  document.getElementById("modal");
 
 
 if (modal) {
@@ -631,9 +433,7 @@ if (modal) {
     "click",
     function (event) {
 
-      if (
-        event.target.id === "modal"
-      ) {
+      if (event.target.id === "modal") {
 
         event.currentTarget
           .classList.remove("open");
@@ -654,12 +454,9 @@ document
   .querySelectorAll("[data-whatsapp]")
   .forEach(function (element) {
 
-
     element.href =
       `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-
         "Hello LILY NATY, I want to ask about the available Free Fire accounts."
-
       )}`;
 
   });
@@ -670,4 +467,3 @@ document
 // ==================================================
 
 loadAccounts();
-```
