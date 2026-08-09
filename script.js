@@ -1,3 +1,4 @@
+```javascript
 // ==================================================
 // LILY NATY MM ACCOUNTS
 // GOOGLE SHEETS VERSION
@@ -50,6 +51,7 @@ function getValue(row, possibleNames) {
   const keys = Object.keys(row);
 
   for (const wanted of possibleNames) {
+
     const wantedClean = cleanKey(wanted);
 
     const foundKey = keys.find(function (key) {
@@ -72,7 +74,9 @@ function getValue(row, possibleNames) {
 function convertAccount(row) {
 
   return {
-    id: String(getValue(row, ["ID"])),
+    id: String(
+      getValue(row, ["ID"])
+    ),
 
     title:
       getValue(row, ["Title"]) ||
@@ -83,10 +87,15 @@ function convertAccount(row) {
       "Free Fire",
 
     price:
-      Number(getValue(row, ["Price"])) || 0,
+      Number(
+        getValue(row, ["Price"])
+      ) || 0,
 
     status:
-      String(getValue(row, ["Status"]) || "available")
+      String(
+        getValue(row, ["Status"]) ||
+        "available"
+      )
         .trim()
         .toLowerCase(),
 
@@ -143,11 +152,13 @@ async function loadAccounts() {
 
     if (!response.ok) {
       throw new Error(
-        "Google Sheet returned " + response.status
+        "Google Sheet returned " +
+        response.status
       );
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (!Array.isArray(data)) {
       throw new Error(
@@ -155,15 +166,22 @@ async function loadAccounts() {
       );
     }
 
-    accounts = data.map(convertAccount);
+    accounts =
+      data.map(convertAccount);
 
-    console.log("LILY NATY accounts loaded:", accounts);
+    console.log(
+      "LILY NATY accounts loaded:",
+      accounts
+    );
 
     render();
 
   } catch (error) {
 
-    console.error("Account loading error:", error);
+    console.error(
+      "Account loading error:",
+      error
+    );
 
     grid.innerHTML = `
       <p style="color:#ff7777;padding:20px;">
@@ -175,16 +193,19 @@ async function loadAccounts() {
 
 
 // ==================================================
-// WHATSAPP
+// WHATSAPP LINK
 // ==================================================
 
 function waLink(account) {
 
-  const message = encodeURIComponent(
-    `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
-  );
+  const message =
+    encodeURIComponent(
+      `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
+    );
 
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+  return (
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`
+  );
 }
 
 
@@ -199,90 +220,160 @@ function render() {
   }
 
   const q =
-    search.value.trim().toLowerCase();
-
-  const filtered = accounts.filter(function (account) {
-
-    // SOLD ACCOUNTS DO NOT SHOW
-    if (account.status === "sold") {
-      return false;
-    }
-
-    const filterOK =
-      activeFilter === "all" ||
-      account.status === activeFilter;
-
-    const searchText = `
-      ${account.title}
-      ${account.game}
-      ${account.id}
-      ${account.details.rank}
-    `.toLowerCase();
-
-    const searchOK =
-      !q || searchText.includes(q);
-
-    return filterOK && searchOK;
-  });
+    search.value
+      .trim()
+      .toLowerCase();
 
 
-  grid.innerHTML = filtered.map(function (account) {
+  // ==================================================
+  // FILTER ACCOUNTS
+  // ==================================================
 
-    return `
-      <article>
+  const filtered =
+    accounts.filter(function (account) {
 
-        <img
-          src="${account.image}"
-          alt="${account.title} #${account.id}"
-          loading="lazy"
-        >
+      // ALL
+      if (activeFilter === "all") {
 
-        <div class="card-body">
+        // Show everything
+        // available AND sold
 
-          <div class="card-top">
+      }
 
-            <span class="badge available">
-              AVAILABLE
-            </span>
+      // AVAILABLE
+      else if (
+        activeFilter === "available" &&
+        account.status !== "available"
+      ) {
 
-            <small>
-              #${account.id}
-            </small>
+        return false;
 
-          </div>
+      }
 
-          <h3>
-            ${account.title}
-          </h3>
+      // SOLD
+      else if (
+        activeFilter === "sold" &&
+        account.status !== "sold"
+      ) {
 
-          <p>
-            ${account.description}
-          </p>
+        return false;
 
-          <div class="price">
-            ${naira(account.price)}
-          </div>
+      }
 
-          <div class="card-actions">
 
-            <button
-              onclick="openDetails('${account.id}')"
+      // SEARCH
+      const searchText = `
+        ${account.title}
+        ${account.game}
+        ${account.id}
+        ${account.details.rank}
+      `.toLowerCase();
+
+
+      const searchOK =
+        !q ||
+        searchText.includes(q);
+
+
+      return searchOK;
+
+    });
+
+
+  // ==================================================
+  // DISPLAY ACCOUNTS
+  // ==================================================
+
+  grid.innerHTML =
+    filtered
+      .map(function (account) {
+
+        const isSold =
+          account.status === "sold";
+
+
+        const badgeText =
+          isSold
+            ? "SOLD"
+            : "AVAILABLE";
+
+
+        const badgeClass =
+          isSold
+            ? "sold"
+            : "available";
+
+
+        return `
+
+          <article>
+
+            <img
+              src="${account.image}"
+              alt="${account.title} #${account.id}"
+              loading="lazy"
             >
-              View Details
-            </button>
 
-          </div>
 
-        </div>
+            <div class="card-body">
 
-      </article>
-    `;
 
-  }).join("");
+              <div class="card-top">
 
+                <span class="badge ${badgeClass}">
+                  ${badgeText}
+                </span>
+
+                <small>
+                  #${account.id}
+                </small>
+
+              </div>
+
+
+              <h3>
+                ${account.title}
+              </h3>
+
+
+              <p>
+                ${account.description}
+              </p>
+
+
+              <div class="price">
+                ${naira(account.price)}
+              </div>
+
+
+              <div class="card-actions">
+
+                <button
+                  onclick="openDetails('${account.id}')"
+                >
+                  View Details
+                </button>
+
+              </div>
+
+
+            </div>
+
+          </article>
+
+        `;
+
+      })
+      .join("");
+
+
+  // ==================================================
+  // EMPTY MESSAGE
+  // ==================================================
 
   empty.hidden =
     filtered.length !== 0;
+
 }
 
 
@@ -294,27 +385,37 @@ function openDetails(id) {
 
   const account =
     accounts.find(function (item) {
+
       return item.id === String(id);
+
     });
+
 
   if (!account) {
     return;
   }
 
 
-  document.getElementById("modalImg").src =
+  document.getElementById(
+    "modalImg"
+  ).src =
     account.image;
 
 
-  document.getElementById("modalTitle").textContent =
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
     `${account.title} #${account.id}`;
 
 
-  document.getElementById("modalPrice").textContent =
+  document.getElementById(
+    "modalPrice"
+  ).textContent =
     naira(account.price);
 
 
   const detailsText = `
+
 Rank: ${account.details.rank}
 
 Rare Outfits: ${account.details.rareOutfits}
@@ -326,33 +427,84 @@ Emotes: ${account.details.emotes}
 Evo Guns: ${account.details.evoGuns}
 
 ${account.description}
+
   `.trim();
 
 
   document.getElementById(
     "modalDescription"
-  ).textContent = detailsText;
+  ).textContent =
+    detailsText;
 
+
+  // ==================================================
+  // STATUS
+  // ==================================================
 
   const status =
-    document.getElementById("modalStatus");
+    document.getElementById(
+      "modalStatus"
+    );
 
 
-  status.textContent = "AVAILABLE";
-  status.className = "badge available";
+  const isSold =
+    account.status === "sold";
 
+
+  if (isSold) {
+
+    status.textContent =
+      "SOLD";
+
+    status.className =
+      "badge sold";
+
+  } else {
+
+    status.textContent =
+      "AVAILABLE";
+
+    status.className =
+      "badge available";
+
+  }
+
+
+  // ==================================================
+  // WHATSAPP
+  // ==================================================
 
   const wa =
-    document.getElementById("modalWhatsApp");
+    document.getElementById(
+      "modalWhatsApp"
+    );
 
 
-  wa.href = waLink(account);
-  wa.style.display = "inline-block";
+  if (isSold) {
 
+    // Sold account cannot be purchased
+    wa.style.display =
+      "none";
+
+  } else {
+
+    wa.href =
+      waLink(account);
+
+    wa.style.display =
+      "inline-block";
+
+  }
+
+
+  // ==================================================
+  // OPEN MODAL
+  // ==================================================
 
   document
     .getElementById("modal")
     .classList.add("open");
+
 }
 
 
@@ -371,17 +523,28 @@ document
         document
           .querySelectorAll(".filter")
           .forEach(function (btn) {
-            btn.classList.remove("active");
+
+            btn.classList.remove(
+              "active"
+            );
+
           });
 
-        button.classList.add("active");
+
+        button.classList.add(
+          "active"
+        );
+
 
         activeFilter =
           button.dataset.filter;
 
+
         render();
+
       }
     );
+
   });
 
 
@@ -404,7 +567,9 @@ if (search) {
 // ==================================================
 
 const closeModal =
-  document.getElementById("closeModal");
+  document.getElementById(
+    "closeModal"
+  );
 
 
 if (closeModal) {
@@ -424,7 +589,9 @@ if (closeModal) {
 
 
 const modal =
-  document.getElementById("modal");
+  document.getElementById(
+    "modal"
+  );
 
 
 if (modal) {
@@ -433,7 +600,9 @@ if (modal) {
     "click",
     function (event) {
 
-      if (event.target.id === "modal") {
+      if (
+        event.target.id === "modal"
+      ) {
 
         event.currentTarget
           .classList.remove("open");
@@ -467,3 +636,4 @@ document
 // ==================================================
 
 loadAccounts();
+```
