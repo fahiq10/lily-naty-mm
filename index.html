@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -299,45 +300,6 @@
     }
 
     /* =========================
-       VISITOR COUNTER
-    ========================== */
-
-    .visitor-counter {
-      width: fit-content;
-
-      margin: 0 auto 25px;
-
-      padding: 10px 18px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      gap: 7px;
-
-      background: #0d0d0d;
-
-      border: 1px solid #292929;
-      border-radius: 30px;
-
-      color: #aaa;
-
-      font-size: 12px;
-      font-weight: 900;
-
-      letter-spacing: 0.5px;
-    }
-
-    .visitor-counter-icon {
-      font-size: 15px;
-    }
-
-    #visitorCount {
-      color: #a855f7;
-      font-weight: 1000;
-    }
-
-    /* =========================
        HERO
     ========================== */
 
@@ -351,8 +313,6 @@
       justify-content: space-between;
 
       gap: 50px;
-
-      position: relative;
     }
 
     .hero-copy {
@@ -1203,26 +1163,6 @@
   </header>
 
   <!-- =========================
-       VISITOR COUNTER
-  ========================== -->
-
-  <div class="visitor-counter">
-
-    <span class="visitor-counter-icon">
-      👀
-    </span>
-
-    <span>
-      TOTAL VISITORS:
-    </span>
-
-    <span id="visitorCount">
-      Loading...
-    </span>
-
-  </div>
-
-  <!-- =========================
        HERO
   ========================== -->
 
@@ -1983,74 +1923,7 @@
 
   <script src="script.js"></script>
 
-  <!-- =========================
-       GOATCOUNTER
-  ========================== -->
-
-  <script
-    data-goatcounter="https://lilynatymm.goatcounter.com/count"
-    async
-    src="https://gc.zgo.at/count.js">
-  </script>
-
-  <!-- =========================
-       VISITOR COUNTER
-  ========================== -->
-
-  <script>
-
-    function loadVisitorCount() {
-
-      if (
-        window.goatcounter &&
-        typeof window.goatcounter.visit_count === "function"
-      ) {
-
-        window.goatcounter.visit_count({
-
-          path: "TOTAL",
-
-          append: "#visitorCount",
-
-          no_branding: true
-
-        });
-
-        return true;
-
-      }
-
-      return false;
-
-    }
-
-    if (!loadVisitorCount()) {
-
-      const visitorCounterInterval =
-        setInterval(function () {
-
-          if (loadVisitorCount()) {
-
-            clearInterval(
-              visitorCounterInterval
-            );
-
-          }
-
-        }, 200);
-
-      setTimeout(function () {
-
-        clearInterval(
-          visitorCounterInterval
-        );
-
-      }, 10000);
-
-    }
-
-  </script>
-
 </body>
 
 </html>
+```
