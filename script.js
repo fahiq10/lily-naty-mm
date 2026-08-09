@@ -1,7 +1,7 @@
 ```javascript
 // ==================================================
 // LILY NATY MM ACCOUNTS
-// GOOGLE SHEETS VERSION
+// GOOGLE SHEETS + SELL ACCOUNT
 // ==================================================
 
 const WHATSAPP_NUMBER = "2349122602735";
@@ -25,11 +25,13 @@ let activeFilter = "all";
 // ==================================================
 
 function naira(number) {
+
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
     maximumFractionDigits: 0
   }).format(Number(number) || 0);
+
 }
 
 // ==================================================
@@ -37,28 +39,38 @@ function naira(number) {
 // ==================================================
 
 function cleanKey(key) {
+
   return String(key || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "");
+
 }
 
 function getValue(row, possibleNames) {
+
   const keys = Object.keys(row);
 
   for (const wanted of possibleNames) {
+
     const wantedClean = cleanKey(wanted);
 
     const foundKey = keys.find(function (key) {
+
       return cleanKey(key) === wantedClean;
+
     });
 
     if (foundKey !== undefined) {
+
       return row[foundKey];
+
     }
+
   }
 
   return "";
+
 }
 
 // ==================================================
@@ -66,8 +78,12 @@ function getValue(row, possibleNames) {
 // ==================================================
 
 function convertAccount(row) {
+
   return {
-    id: String(getValue(row, ["ID"])),
+
+    id: String(
+      getValue(row, ["ID"])
+    ),
 
     title:
       getValue(row, ["Title"]) ||
@@ -78,14 +94,17 @@ function convertAccount(row) {
       "Free Fire",
 
     price:
-      Number(getValue(row, ["Price"])) || 0,
+      Number(
+        getValue(row, ["Price"])
+      ) || 0,
 
     status:
       String(
-        getValue(row, ["Status"]) || "available"
+        getValue(row, ["Status"]) ||
+        "available"
       )
-        .trim()
-        .toLowerCase(),
+      .trim()
+      .toLowerCase(),
 
     image:
       getValue(row, ["Image"]) || "",
@@ -95,16 +114,23 @@ function convertAccount(row) {
       "Free Fire account.",
 
     details: {
+
       rank:
         getValue(row, ["Rank"]) ||
         "Not specified",
 
       rareOutfits:
-        getValue(row, ["rare outfits"]) ||
+        getValue(
+          row,
+          ["rare outfits"]
+        ) ||
         "Not specified",
 
       gunSkins:
-        getValue(row, ["gunskins", "gun skins"]) ||
+        getValue(
+          row,
+          ["gunskins", "gun skins"]
+        ) ||
         "Not specified",
 
       emotes:
@@ -112,10 +138,16 @@ function convertAccount(row) {
         "Not specified",
 
       evoGuns:
-        getValue(row, ["evo guns"]) ||
+        getValue(
+          row,
+          ["evo guns"]
+        ) ||
         "Not specified"
+
     }
+
   };
+
 }
 
 // ==================================================
@@ -123,32 +155,47 @@ function convertAccount(row) {
 // ==================================================
 
 async function loadAccounts() {
+
   try {
-    grid.innerHTML = `
-      <p style="color:#777;padding:20px;">
-        Loading accounts...
-      </p>
-    `;
+
+    if (grid) {
+
+      grid.innerHTML = `
+        <p style="color:#777;padding:20px;">
+          Loading accounts...
+        </p>
+      `;
+
+    }
 
     const response = await fetch(
-      GOOGLE_SHEET_API + "?t=" + Date.now()
+      GOOGLE_SHEET_API +
+      "?t=" +
+      Date.now()
     );
 
     if (!response.ok) {
+
       throw new Error(
-        "Google Sheet returned " + response.status
+        "Google Sheet returned " +
+        response.status
       );
+
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (!Array.isArray(data)) {
+
       throw new Error(
         "Google Sheet did not return an array."
       );
+
     }
 
-    accounts = data.map(convertAccount);
+    accounts =
+      data.map(convertAccount);
 
     console.log(
       "LILY NATY accounts loaded:",
@@ -164,25 +211,35 @@ async function loadAccounts() {
       error
     );
 
-    grid.innerHTML = `
-      <p style="color:#ff7777;padding:20px;">
-        Unable to load accounts right now.
-      </p>
-    `;
+    if (grid) {
+
+      grid.innerHTML = `
+        <p style="color:#ff7777;padding:20px;">
+          Unable to load accounts right now.
+        </p>
+      `;
+
+    }
+
   }
+
 }
 
 // ==================================================
-// WHATSAPP
+// WHATSAPP LINK
 // ==================================================
 
 function waLink(account) {
 
-  const message = encodeURIComponent(
-    `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
+  const message =
+    encodeURIComponent(
+      `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
+    );
+
+  return (
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`
   );
 
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
 }
 
 // ==================================================
@@ -196,88 +253,112 @@ function render() {
   }
 
   const q =
-    search.value.trim().toLowerCase();
+    search.value
+      .trim()
+      .toLowerCase();
 
   const filtered =
-    accounts.filter(function (account) {
+    accounts.filter(
+      function (account) {
 
-      const filterOK =
-        activeFilter === "all" ||
-        account.status === activeFilter;
+        const filterOK =
+          activeFilter === "all" ||
+          account.status === activeFilter;
 
-      const searchText = `
-        ${account.title}
-        ${account.game}
-        ${account.id}
-        ${account.details.rank}
-      `.toLowerCase();
+        const searchText = `
+          ${account.title}
+          ${account.game}
+          ${account.id}
+          ${account.details.rank}
+        `.toLowerCase();
 
-      const searchOK =
-        !q || searchText.includes(q);
+        const searchOK =
+          !q ||
+          searchText.includes(q);
 
-      return filterOK && searchOK;
-    });
+        return filterOK && searchOK;
+
+      }
+    );
 
   grid.innerHTML =
-    filtered.map(function (account) {
+    filtered.map(
+      function (account) {
 
-      const isSold =
-        account.status === "sold";
+        const isSold =
+          account.status === "sold";
 
-      return `
-        <article class="${isSold ? "sold-account" : ""}">
+        return `
 
-          <img
-            src="${account.image}"
-            alt="${account.title} #${account.id}"
-            loading="lazy"
+          <article
+            class="${isSold ? "sold-account" : ""}"
           >
 
-          <div class="card-body">
+            <img
+              src="${account.image}"
+              alt="${account.title} #${account.id}"
+              loading="lazy"
+            >
 
-            <div class="card-top">
+            <div class="card-body">
 
-              <span class="badge ${isSold ? "sold" : "available"}">
-                ${isSold ? "SOLD" : "AVAILABLE"}
-              </span>
+              <div class="card-top">
 
-              <small>
-                #${account.id}
-              </small>
+                <span
+                  class="badge ${
+                    isSold
+                      ? "sold"
+                      : "available"
+                  }"
+                >
+                  ${
+                    isSold
+                      ? "SOLD"
+                      : "AVAILABLE"
+                  }
+                </span>
+
+                <small>
+                  #${account.id}
+                </small>
+
+              </div>
+
+              <h3>
+                ${account.title}
+              </h3>
+
+              <p>
+                ${account.description}
+              </p>
+
+              <div class="price">
+                ${naira(account.price)}
+              </div>
+
+              <div class="card-actions">
+
+                <button
+                  onclick="openDetails('${account.id}')"
+                >
+                  View Details
+                </button>
+
+              </div>
 
             </div>
 
-            <h3>
-              ${account.title}
-            </h3>
+          </article>
 
-            <p>
-              ${account.description}
-            </p>
+        `;
 
-            <div class="price">
-              ${naira(account.price)}
-            </div>
-
-            <div class="card-actions">
-
-              <button
-                onclick="openDetails('${account.id}')"
-              >
-                View Details
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-      `;
-
-    }).join("");
+      }
+    )
+    .join("");
 
   empty.hidden =
     filtered.length !== 0;
+
 }
 
 // ==================================================
@@ -287,9 +368,13 @@ function render() {
 function openDetails(id) {
 
   const account =
-    accounts.find(function (item) {
-      return item.id === String(id);
-    });
+    accounts.find(
+      function (item) {
+
+        return item.id === String(id);
+
+      }
+    );
 
   if (!account) {
     return;
@@ -310,6 +395,7 @@ function openDetails(id) {
     naira(account.price);
 
   const detailsText = `
+
 Rank: ${account.details.rank}
 
 Rare Outfits: ${account.details.rareOutfits}
@@ -321,7 +407,8 @@ Emotes: ${account.details.emotes}
 Evo Guns: ${account.details.evoGuns}
 
 ${account.description}
-  `.trim();
+
+`.trim();
 
   document.getElementById(
     "modalDescription"
@@ -337,10 +424,16 @@ ${account.description}
     account.status === "sold";
 
   status.textContent =
-    isSold ? "SOLD" : "AVAILABLE";
+    isSold
+      ? "SOLD"
+      : "AVAILABLE";
 
   status.className =
-    `badge ${isSold ? "sold" : "available"}`;
+    `badge ${
+      isSold
+        ? "sold"
+        : "available"
+    }`;
 
   const wa =
     document.getElementById(
@@ -358,6 +451,7 @@ ${account.description}
   document
     .getElementById("modal")
     .classList.add("open");
+
 }
 
 // ==================================================
@@ -366,28 +460,39 @@ ${account.description}
 
 document
   .querySelectorAll(".filter")
-  .forEach(function (button) {
+  .forEach(
+    function (button) {
 
-    button.addEventListener(
-      "click",
-      function () {
+      button.addEventListener(
+        "click",
+        function () {
 
-        document
-          .querySelectorAll(".filter")
-          .forEach(function (btn) {
-            btn.classList.remove("active");
-          });
+          document
+            .querySelectorAll(".filter")
+            .forEach(
+              function (btn) {
 
-        button.classList.add("active");
+                btn.classList.remove(
+                  "active"
+                );
 
-        activeFilter =
-          button.dataset.filter;
+              }
+            );
 
-        render();
-      }
-    );
+          button.classList.add(
+            "active"
+          );
 
-  });
+          activeFilter =
+            button.dataset.filter;
+
+          render();
+
+        }
+      );
+
+    }
+  );
 
 // ==================================================
 // SEARCH
@@ -452,19 +557,165 @@ if (modal) {
 }
 
 // ==================================================
-// WHATSAPP BUTTONS
+// GENERAL WHATSAPP BUTTONS
 // ==================================================
 
 document
   .querySelectorAll("[data-whatsapp]")
-  .forEach(function (element) {
+  .forEach(
+    function (element) {
 
-    element.href =
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-        "Hello LILY NATY, I want to ask about the available Free Fire accounts."
-      )}`;
+      element.href =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${
+          encodeURIComponent(
+            "Hello LILY NATY, I want to ask about the available Free Fire accounts."
+          )
+        }`;
 
-  });
+    }
+  );
+
+// ==================================================
+// SELL ACCOUNT FORM
+// ==================================================
+
+const sellerForm =
+  document.getElementById(
+    "sellerForm"
+  );
+
+if (sellerForm) {
+
+  sellerForm.addEventListener(
+    "submit",
+    function (event) {
+
+      event.preventDefault();
+
+      const sellerName =
+        document.getElementById(
+          "sellerName"
+        ).value.trim();
+
+      const accountTitle =
+        document.getElementById(
+          "accountTitle"
+        ).value.trim();
+
+      const accountRank =
+        document.getElementById(
+          "accountRank"
+        ).value.trim();
+
+      const accountPrice =
+        document.getElementById(
+          "accountPrice"
+        ).value.trim();
+
+      const rareOutfits =
+        document.getElementById(
+          "rareOutfits"
+        ).value.trim();
+
+      const gunskins =
+        document.getElementById(
+          "gunskins"
+        ).value.trim();
+
+      const emotes =
+        document.getElementById(
+          "emotes"
+        ).value.trim();
+
+      const evoGuns =
+        document.getElementById(
+          "evoGuns"
+        ).value.trim();
+
+      const description =
+        document.getElementById(
+          "accountDescription"
+        ).value.trim();
+
+      const screenshot =
+        document.getElementById(
+          "accountScreenshot"
+        ).files[0];
+
+      if (!screenshot) {
+
+        alert(
+          "Please select an account screenshot."
+        );
+
+        return;
+
+      }
+
+      const message = `
+
+SELL ACCOUNT REQUEST
+
+Seller Name:
+${sellerName}
+
+Account Title:
+${accountTitle}
+
+Rank:
+${accountRank}
+
+Asking Price:
+₦${Number(accountPrice).toLocaleString("en-NG")}
+
+Rare Outfits:
+${rareOutfits}
+
+Gun Skins:
+${gunskins}
+
+Emotes:
+${emotes}
+
+Evo Guns:
+${evoGuns}
+
+Description:
+${description}
+
+Screenshot:
+${screenshot.name}
+
+Please review this account.
+
+`;
+
+      const whatsappURL =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${
+          encodeURIComponent(message)
+        }`;
+
+      const success =
+        document.getElementById(
+          "sellSuccess"
+        );
+
+      if (success) {
+
+        success.style.display =
+          "block";
+
+      }
+
+      window.open(
+        whatsappURL,
+        "_blank"
+      );
+
+    }
+  );
+
+}
 
 // ==================================================
 // START WEBSITE
