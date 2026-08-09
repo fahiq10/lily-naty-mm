@@ -1922,6 +1922,743 @@
   <!-- ACCOUNT SCRIPT -->
 
   <script src="script.js"></script>
+```html
+<!-- =========================
+     LILY NATY AI ASSISTANT
+========================== -->
+
+<style>
+  #lilyBotButton {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9998;
+
+    width: 58px;
+    height: 58px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #a855f7;
+    color: white;
+
+    font-size: 25px;
+    cursor: pointer;
+
+    box-shadow: 0 8px 30px rgba(168, 85, 247, 0.35);
+    transition: 0.2s;
+  }
+
+  #lilyBotButton:hover {
+    transform: scale(1.08);
+    background: #9333d9;
+  }
+
+  #lilyBot {
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    z-index: 9999;
+
+    width: min(360px, calc(100vw - 30px));
+    height: 500px;
+
+    display: none;
+    flex-direction: column;
+
+    background: #0b0b0b;
+    border: 1px solid #292929;
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.7);
+  }
+
+  #lilyBot.open {
+    display: flex;
+    animation: lilyBotIn 0.2s ease;
+  }
+
+  @keyframes lilyBotIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .lily-bot-header {
+    padding: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #111;
+
+    border-bottom: 1px solid #242424;
+  }
+
+  .lily-bot-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .lily-bot-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #a855f7;
+
+    font-size: 18px;
+  }
+
+  .lily-bot-title strong {
+    display: block;
+    font-size: 14px;
+  }
+
+  .lily-bot-title small {
+    color: #7cffad;
+    font-size: 10px;
+  }
+
+  #lilyBotClose {
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #222;
+    color: white;
+
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  #lilyBotMessages {
+    flex: 1;
+
+    padding: 15px;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .lily-message {
+    max-width: 85%;
+
+    padding: 11px 13px;
+
+    border-radius: 14px;
+
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .lily-bot-message {
+    align-self: flex-start;
+
+    background: #171717;
+    color: #ddd;
+
+    border-bottom-left-radius: 4px;
+  }
+
+  .lily-user-message {
+    align-self: flex-end;
+
+    background: #a855f7;
+    color: white;
+
+    border-bottom-right-radius: 4px;
+  }
+
+  .lily-quick-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 5px;
+  }
+
+  .lily-quick-buttons button {
+    padding: 8px 10px;
+
+    border: 1px solid #333;
+    border-radius: 9px;
+
+    background: #111;
+    color: #ddd;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+  }
+
+  .lily-quick-buttons button:hover {
+    border-color: #a855f7;
+    color: white;
+  }
+
+  .lily-bot-input {
+    padding: 12px;
+
+    display: flex;
+    gap: 8px;
+
+    background: #111;
+
+    border-top: 1px solid #242424;
+  }
+
+  #lilyBotInput {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 11px 12px;
+
+    background: #191919;
+
+    border: 1px solid #292929;
+    border-radius: 10px;
+
+    color: white;
+
+    outline: none;
+
+    font-family: inherit;
+  }
+
+  #lilyBotInput:focus {
+    border-color: #a855f7;
+  }
+
+  #lilyBotSend {
+    width: 42px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #a855f7;
+    color: white;
+
+    font-size: 17px;
+    font-weight: 900;
+
+    cursor: pointer;
+  }
+
+  #lilyBotSend:hover {
+    background: #9333d9;
+  }
+
+  .lily-whatsapp-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 8px;
+    padding: 9px 12px;
+
+    background: #25d366;
+    color: white;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 900;
+  }
+
+  @media (max-width: 500px) {
+    #lilyBot {
+      right: 10px;
+      bottom: 82px;
+
+      width: calc(100vw - 20px);
+      height: 480px;
+    }
+
+    #lilyBotButton {
+      right: 15px;
+      bottom: 15px;
+    }
+  }
+</style>
+
+
+<!-- BOT BUTTON -->
+
+<button
+  id="lilyBotButton"
+  aria-label="Open LILY NATY Assistant"
+>
+  🤖
+</button>
+
+
+<!-- BOT WINDOW -->
+
+<div id="lilyBot">
+
+  <div class="lily-bot-header">
+
+    <div class="lily-bot-title">
+
+      <div class="lily-bot-icon">
+        🤖
+      </div>
+
+      <div>
+        <strong>LILY NATY Assistant</strong>
+        <small>● Online</small>
+      </div>
+
+    </div>
+
+    <button id="lilyBotClose">
+      ×
+    </button>
+
+  </div>
+
+
+  <div id="lilyBotMessages">
+
+    <div class="lily-message lily-bot-message">
+      👋 Hey! Welcome to <b>LILY NATY MM ACCOUNTS</b>!<br><br>
+      I'm the LILY NATY Assistant. I can help you with
+      buying accounts, selling accounts, and our MM community.
+    </div>
+
+    <div class="lily-quick-buttons">
+
+      <button onclick="lilyQuick('How do I buy an account?')">
+        🛒 How to buy
+      </button>
+
+      <button onclick="lilyQuick('How do I sell my account?')">
+        💰 Sell account
+      </button>
+
+      <button onclick="lilyQuick('How does the MM work?')">
+        🛡️ How MM works
+      </button>
+
+      <button onclick="lilyQuick('I want to contact LILY NATY')">
+        📲 Contact LILY NATY
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="lily-bot-input">
+
+    <input
+      id="lilyBotInput"
+      type="text"
+      placeholder="Ask me something..."
+      autocomplete="off"
+    >
+
+    <button id="lilyBotSend">
+      ➤
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+  const lilyBotButton =
+    document.getElementById("lilyBotButton");
+
+  const lilyBot =
+    document.getElementById("lilyBot");
+
+  const lilyBotClose =
+    document.getElementById("lilyBotClose");
+
+  const lilyBotInput =
+    document.getElementById("lilyBotInput");
+
+  const lilyBotSend =
+    document.getElementById("lilyBotSend");
+
+  const lilyBotMessages =
+    document.getElementById("lilyBotMessages");
+
+
+  /* OPEN BOT */
+
+  lilyBotButton.addEventListener("click", function () {
+
+    lilyBot.classList.toggle("open");
+
+    if (lilyBot.classList.contains("open")) {
+      lilyBotInput.focus();
+    }
+
+  });
+
+
+  /* CLOSE BOT */
+
+  lilyBotClose.addEventListener("click", function () {
+
+    lilyBot.classList.remove("open");
+
+  });
+
+
+  /* ADD MESSAGE */
+
+  function lilyAddMessage(text, type) {
+
+    const message =
+      document.createElement("div");
+
+    message.className =
+      "lily-message " +
+      (type === "user"
+        ? "lily-user-message"
+        : "lily-bot-message");
+
+    message.innerHTML = text;
+
+    lilyBotMessages.appendChild(message);
+
+    lilyBotMessages.scrollTop =
+      lilyBotMessages.scrollHeight;
+
+  }
+
+
+  /* WHATSAPP */
+
+  function lilyWhatsApp() {
+
+    const number = "2349122602735";
+
+    const message =
+      encodeURIComponent(
+        "Hello LILY NATY, I need help with a Free Fire account."
+      );
+
+    window.open(
+      "https://wa.me/" + number + "?text=" + message,
+      "_blank"
+    );
+
+  }
+
+
+  /* BOT ANSWERS */
+
+  function lilyGetAnswer(question) {
+
+    const q =
+      question.toLowerCase().trim();
+
+
+    /* BUY */
+
+    if (
+      q.includes("buy") ||
+      q.includes("purchase") ||
+      q.includes("account") &&
+      q.includes("get")
+    ) {
+
+      return `
+        🛒 <b>Buying an account is easy.</b><br><br>
+
+        1️⃣ Browse the available accounts.<br>
+        2️⃣ Open the account you like.<br>
+        3️⃣ Check the screenshots and details.<br>
+        4️⃣ Tap <b>Contact to Buy on WhatsApp</b>.<br><br>
+
+        Always confirm the account details and trade
+        terms before proceeding.
+      `;
+
+    }
+
+
+    /* SELL */
+
+    if (
+      q.includes("sell") ||
+      q.includes("selling")
+    ) {
+
+      return `
+        💰 <b>Want to sell your account?</b><br><br>
+
+        Scroll to the <b>Sell Your Account</b> section,
+        fill in your account information, choose your
+        screenshot and submit it.<br><br>
+
+        LILY NATY will review it before deciding
+        whether it should be listed.
+      `;
+
+    }
+
+
+    /* MM */
+
+    if (
+      q.includes("mm") ||
+      q.includes("middleman") ||
+      q.includes("middle man")
+    ) {
+
+      return `
+        🛡️ <b>How our MM works:</b><br><br>
+
+        A middleman helps coordinate communication
+        between the buyer and seller during an agreed
+        trade.<br><br>
+
+        Always confirm the account details and trade
+        terms before proceeding.
+      `;
+
+    }
+
+
+    /* PRICE */
+
+    if (
+      q.includes("price") ||
+      q.includes("cost") ||
+      q.includes("how much")
+    ) {
+
+      return `
+        💰 Account prices are shown directly
+        on the marketplace listings.<br><br>
+
+        Find an account you like and open its details
+        to see the current price.
+      `;
+
+    }
+
+
+    /* AVAILABLE */
+
+    if (
+      q.includes("available") ||
+      q.includes("sold")
+    ) {
+
+      return `
+        🔎 You can use the <b>Available</b> and
+        <b>Sold</b> filters in the Accounts section
+        to find the listings you want.
+      `;
+
+    }
+
+
+    /* COMMUNITY */
+
+    if (
+      q.includes("community") ||
+      q.includes("join")
+    ) {
+
+      return `
+        👥 You can visit the
+        <b>LILY NATY MM Community</b> section
+        on the website to learn more about our
+        middleman community.
+      `;
+
+    }
+
+
+    /* CONTACT */
+
+    if (
+      q.includes("contact") ||
+      q.includes("whatsapp") ||
+      q.includes("message")
+    ) {
+
+      return `
+        📲 You can contact LILY NATY directly on WhatsApp.
+
+        <br>
+
+        <a
+          class="lily-whatsapp-button"
+          href="https://wa.me/2349122602735"
+          target="_blank"
+          rel="noopener"
+        >
+          Open WhatsApp →
+        </a>
+      `;
+
+    }
+
+
+    /* GREETING */
+
+    if (
+      q.includes("hello") ||
+      q.includes("hi") ||
+      q.includes("hey")
+    ) {
+
+      return `
+        👋 Hey! Welcome to LILY NATY MM ACCOUNTS.
+
+        <br><br>
+
+        I can help you with:
+
+        <br><br>
+
+        🛒 Buying an account<br>
+        💰 Selling an account<br>
+        🛡️ MM information<br>
+        📲 Contacting LILY NATY
+      `;
+
+    }
+
+
+    /* DEFAULT */
+
+    return `
+      🤔 I'm not completely sure what you mean.
+
+      <br><br>
+
+      Try asking me:
+
+      <br><br>
+
+      • How do I buy an account?<br>
+      • How do I sell my account?<br>
+      • How does MM work?<br>
+      • What is the price?<br>
+      • How do I contact LILY NATY?
+    `;
+
+  }
+
+
+  /* SEND MESSAGE */
+
+  function lilySendMessage() {
+
+    const text =
+      lilyBotInput.value.trim();
+
+    if (!text) return;
+
+
+    lilyAddMessage(
+      text,
+      "user"
+    );
+
+    lilyBotInput.value = "";
+
+
+    setTimeout(function () {
+
+      const answer =
+        lilyGetAnswer(text);
+
+      lilyAddMessage(
+        answer,
+        "bot"
+      );
+
+    }, 350);
+
+  }
+
+
+  /* QUICK BUTTON */
+
+  function lilyQuick(text) {
+
+    lilyAddMessage(
+      text,
+      "user"
+    );
+
+    setTimeout(function () {
+
+      const answer =
+        lilyGetAnswer(text);
+
+      lilyAddMessage(
+        answer,
+        "bot"
+      );
+
+    }, 350);
+
+  }
+
+
+  /* BUTTON */
+
+  lilyBotSend.addEventListener(
+    "click",
+    lilySendMessage
+  );
+
+
+  /* ENTER KEY */
+
+  lilyBotInput.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (event.key === "Enter") {
+
+        lilySendMessage();
+
+      }
+
+    }
+  );
+</script>
+```
 
 </body>
 
