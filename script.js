@@ -1,7 +1,6 @@
-```javascript
 // ==================================================
 // LILY NATY MM ACCOUNTS
-// GOOGLE SHEETS + SELL ACCOUNT
+// GOOGLE SHEETS + WHATSAPP SELL ACCOUNT
 // ==================================================
 
 const WHATSAPP_NUMBER = "2349122602735";
@@ -25,13 +24,11 @@ let activeFilter = "all";
 // ==================================================
 
 function naira(number) {
-
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
     maximumFractionDigits: 0
   }).format(Number(number) || 0);
-
 }
 
 // ==================================================
@@ -39,38 +36,28 @@ function naira(number) {
 // ==================================================
 
 function cleanKey(key) {
-
   return String(key || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "");
-
 }
 
 function getValue(row, possibleNames) {
-
   const keys = Object.keys(row);
 
   for (const wanted of possibleNames) {
-
     const wantedClean = cleanKey(wanted);
 
     const foundKey = keys.find(function (key) {
-
       return cleanKey(key) === wantedClean;
-
     });
 
     if (foundKey !== undefined) {
-
       return row[foundKey];
-
     }
-
   }
 
   return "";
-
 }
 
 // ==================================================
@@ -78,9 +65,7 @@ function getValue(row, possibleNames) {
 // ==================================================
 
 function convertAccount(row) {
-
   return {
-
     id: String(
       getValue(row, ["ID"])
     ),
@@ -103,8 +88,8 @@ function convertAccount(row) {
         getValue(row, ["Status"]) ||
         "available"
       )
-      .trim()
-      .toLowerCase(),
+        .trim()
+        .toLowerCase(),
 
     image:
       getValue(row, ["Image"]) || "",
@@ -114,23 +99,16 @@ function convertAccount(row) {
       "Free Fire account.",
 
     details: {
-
       rank:
         getValue(row, ["Rank"]) ||
         "Not specified",
 
       rareOutfits:
-        getValue(
-          row,
-          ["rare outfits"]
-        ) ||
+        getValue(row, ["rare outfits"]) ||
         "Not specified",
 
       gunSkins:
-        getValue(
-          row,
-          ["gunskins", "gun skins"]
-        ) ||
+        getValue(row, ["gunskins", "gun skins"]) ||
         "Not specified",
 
       emotes:
@@ -138,34 +116,24 @@ function convertAccount(row) {
         "Not specified",
 
       evoGuns:
-        getValue(
-          row,
-          ["evo guns"]
-        ) ||
+        getValue(row, ["evo guns"]) ||
         "Not specified"
-
     }
-
   };
-
 }
 
 // ==================================================
-// LOAD ACCOUNTS
+// LOAD ACCOUNTS FROM GOOGLE SHEETS
 // ==================================================
 
 async function loadAccounts() {
-
   try {
-
     if (grid) {
-
       grid.innerHTML = `
         <p style="color:#777;padding:20px;">
           Loading accounts...
         </p>
       `;
-
     }
 
     const response = await fetch(
@@ -175,23 +143,19 @@ async function loadAccounts() {
     );
 
     if (!response.ok) {
-
       throw new Error(
         "Google Sheet returned " +
         response.status
       );
-
     }
 
     const data =
       await response.json();
 
     if (!Array.isArray(data)) {
-
       throw new Error(
         "Google Sheet did not return an array."
       );
-
     }
 
     accounts =
@@ -205,41 +169,34 @@ async function loadAccounts() {
     render();
 
   } catch (error) {
-
     console.error(
       "Account loading error:",
       error
     );
 
     if (grid) {
-
       grid.innerHTML = `
         <p style="color:#ff7777;padding:20px;">
           Unable to load accounts right now.
         </p>
       `;
-
     }
-
   }
-
 }
 
 // ==================================================
-// WHATSAPP LINK
+// WHATSAPP ACCOUNT LINK
 // ==================================================
 
 function waLink(account) {
-
   const message =
-    encodeURIComponent(
-      `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
-    );
+    `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`;
 
   return (
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${
+      encodeURIComponent(message)
+    }`
   );
-
 }
 
 // ==================================================
@@ -247,7 +204,6 @@ function waLink(account) {
 // ==================================================
 
 function render() {
-
   if (!grid || !search) {
     return;
   }
@@ -277,7 +233,6 @@ function render() {
           searchText.includes(q);
 
         return filterOK && searchOK;
-
       }
     );
 
@@ -289,7 +244,6 @@ function render() {
           account.status === "sold";
 
         return `
-
           <article
             class="${isSold ? "sold-account" : ""}"
           >
@@ -349,20 +303,19 @@ function render() {
             </div>
 
           </article>
-
         `;
-
       }
     )
     .join("");
 
-  empty.hidden =
-    filtered.length !== 0;
-
+  if (empty) {
+    empty.hidden =
+      filtered.length !== 0;
+  }
 }
 
 // ==================================================
-// ACCOUNT DETAILS
+// ACCOUNT DETAILS MODAL
 // ==================================================
 
 function openDetails(id) {
@@ -370,9 +323,7 @@ function openDetails(id) {
   const account =
     accounts.find(
       function (item) {
-
         return item.id === String(id);
-
       }
     );
 
@@ -382,7 +333,8 @@ function openDetails(id) {
 
   document.getElementById(
     "modalImg"
-  ).src = account.image;
+  ).src =
+    account.image;
 
   document.getElementById(
     "modalTitle"
@@ -395,7 +347,6 @@ function openDetails(id) {
     naira(account.price);
 
   const detailsText = `
-
 Rank: ${account.details.rank}
 
 Rare Outfits: ${account.details.rareOutfits}
@@ -407,7 +358,6 @@ Emotes: ${account.details.emotes}
 Evo Guns: ${account.details.evoGuns}
 
 ${account.description}
-
 `.trim();
 
   document.getElementById(
@@ -451,7 +401,6 @@ ${account.description}
   document
     .getElementById("modal")
     .classList.add("open");
-
 }
 
 // ==================================================
@@ -487,10 +436,8 @@ document
             button.dataset.filter;
 
           render();
-
         }
       );
-
     }
   );
 
@@ -499,12 +446,10 @@ document
 // ==================================================
 
 if (search) {
-
   search.addEventListener(
     "input",
     render
   );
-
 }
 
 // ==================================================
@@ -528,7 +473,6 @@ if (closeModal) {
 
     }
   );
-
 }
 
 const modal =
@@ -550,10 +494,8 @@ if (modal) {
           .classList.remove("open");
 
       }
-
     }
   );
-
 }
 
 // ==================================================
@@ -576,7 +518,7 @@ document
   );
 
 // ==================================================
-// SELL ACCOUNT FORM
+// SELL ACCOUNT → WHATSAPP
 // ==================================================
 
 const sellerForm =
@@ -591,6 +533,10 @@ if (sellerForm) {
     function (event) {
 
       event.preventDefault();
+
+      // ----------------------------------------------
+      // GET SELLER INFORMATION
+      // ----------------------------------------------
 
       const sellerName =
         document.getElementById(
@@ -637,75 +583,81 @@ if (sellerForm) {
           "accountDescription"
         ).value.trim();
 
-      const screenshot =
+      // ----------------------------------------------
+      // CHECK SCREENSHOT
+      // ----------------------------------------------
+
+      const screenshotInput =
         document.getElementById(
           "accountScreenshot"
-        ).files[0];
+        );
 
-      if (!screenshot) {
+      if (
+        !screenshotInput ||
+        !screenshotInput.files ||
+        screenshotInput.files.length === 0
+      ) {
 
         alert(
-          "Please select an account screenshot."
+          "Please choose a screenshot of the account first."
         );
 
         return;
-
       }
 
+      const screenshot =
+        screenshotInput.files[0];
+
+      // ----------------------------------------------
+      // CREATE WHATSAPP MESSAGE
+      // ----------------------------------------------
+
       const message = `
+🔥 LILY NATY SELL ACCOUNT REQUEST
 
-SELL ACCOUNT REQUEST
-
-Seller Name:
+👤 Seller Name:
 ${sellerName}
 
-Account Title:
+🎮 Account Title:
 ${accountTitle}
 
-Rank:
+🏆 Rank:
 ${accountRank}
 
-Asking Price:
+💰 Asking Price:
 ₦${Number(accountPrice).toLocaleString("en-NG")}
 
-Rare Outfits:
+👕 Rare Outfits:
 ${rareOutfits}
 
-Gun Skins:
+🔫 Gun Skins:
 ${gunskins}
 
-Emotes:
+😎 Emotes:
 ${emotes}
 
-Evo Guns:
+⚡ Evo Guns:
 ${evoGuns}
 
-Description:
+📝 Description:
 ${description}
 
-Screenshot:
+📸 Screenshot:
 ${screenshot.name}
 
-Please review this account.
+Please review this account submission.
 
+I will send the account screenshot separately in this WhatsApp chat.
 `;
+
+      // ----------------------------------------------
+      // OPEN WHATSAPP
+      // ----------------------------------------------
 
       const whatsappURL =
         `https://wa.me/${WHATSAPP_NUMBER}?text=${
           encodeURIComponent(message)
         }`;
-
-      const success =
-        document.getElementById(
-          "sellSuccess"
-        );
-
-      if (success) {
-
-        success.style.display =
-          "block";
-
-      }
 
       window.open(
         whatsappURL,
@@ -714,7 +666,6 @@ Please review this account.
 
     }
   );
-
 }
 
 // ==================================================
@@ -722,4 +673,3 @@ Please review this account.
 // ==================================================
 
 loadAccounts();
-```
