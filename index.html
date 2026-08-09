@@ -3,7 +3,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -41,7 +40,6 @@
       color: inherit;
     }
 
-
     /* =========================
        ONBOARDING
     ========================== */
@@ -56,13 +54,11 @@
       justify-content: center;
 
       padding: 20px;
-
       background: #050505;
     }
 
     .onboarding-box {
       width: min(500px, 100%);
-
       padding: 45px 30px;
 
       text-align: center;
@@ -72,8 +68,7 @@
       border: 1px solid #242424;
       border-radius: 24px;
 
-      box-shadow:
-        0 25px 80px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
     }
 
     .onboarding-logo {
@@ -89,7 +84,6 @@
       border-radius: 18px;
 
       background: #8b35d6;
-
       color: white;
 
       font-size: 20px;
@@ -106,7 +100,6 @@
     }
 
     @keyframes onboardingFade {
-
       from {
         opacity: 0;
         transform: translateY(10px);
@@ -116,7 +109,6 @@
         opacity: 1;
         transform: translateY(0);
       }
-
     }
 
     .onboarding-label {
@@ -185,7 +177,6 @@
       justify-content: center;
 
       gap: 7px;
-
       margin-top: 25px;
     }
 
@@ -194,14 +185,12 @@
       height: 7px;
 
       border-radius: 50%;
-
       background: #333;
     }
 
     .onboarding-dot.active {
       background: #a855f7;
     }
-
 
     /* =========================
        HEADER
@@ -217,7 +206,6 @@
       justify-content: space-between;
 
       gap: 20px;
-
       padding: 18px 6%;
 
       background: rgba(5, 5, 5, 0.95);
@@ -274,7 +262,6 @@
       font-weight: 900;
     }
 
-
     /* =========================
        GENERAL BUTTONS
     ========================== */
@@ -311,7 +298,6 @@
     .secondary:hover {
       transform: translateY(-2px);
     }
-
 
     /* =========================
        HERO
@@ -386,7 +372,6 @@
       -webkit-text-stroke: 1px #333;
     }
 
-
     /* =========================
        TRUST
     ========================== */
@@ -426,7 +411,6 @@
       color: #777;
       font-size: 11px;
     }
-
 
     /* =========================
        ACCOUNTS
@@ -569,18 +553,19 @@
       color: #777;
     }
 
-
     /* =========================
        SELL ACCOUNT
     ========================== */
 
     .sell-section {
       padding: 90px 6%;
+
       border-top: 1px solid #191919;
     }
 
     .sell-box {
       max-width: 900px;
+
       margin: auto;
       padding: 40px;
 
@@ -679,7 +664,6 @@
 
     .sell-submit:hover {
       background: #9333d9;
-
       transform: translateY(-2px);
     }
 
@@ -691,6 +675,21 @@
       font-size: 12px;
     }
 
+    .sell-success {
+      display: none;
+
+      margin-top: 20px;
+      padding: 15px;
+
+      background: rgba(124, 255, 173, 0.08);
+
+      border: 1px solid #28704a;
+      border-radius: 12px;
+
+      color: #7cffad;
+
+      font-weight: 700;
+    }
 
     /* =========================
        COMMUNITY
@@ -747,7 +746,6 @@
       object-fit: cover;
     }
 
-
     /* =========================
        HOW IT WORKS
     ========================== */
@@ -790,7 +788,6 @@
       color: #888;
     }
 
-
     /* =========================
        FAQ
     ========================== */
@@ -818,7 +815,6 @@
       color: #999;
     }
 
-
     /* =========================
        CONTACT
     ========================== */
@@ -841,7 +837,6 @@
       border-radius: 22px;
     }
 
-
     /* =========================
        FOOTER
     ========================== */
@@ -859,7 +854,6 @@
 
       color: #777;
     }
-
 
     /* =========================
        MODAL
@@ -937,7 +931,6 @@
       padding: 20px 5px 5px;
     }
 
-
     /* =========================
        MOBILE
     ========================== */
@@ -998,9 +991,7 @@
       .sell-field.full {
         grid-column: auto;
       }
-
     }
-
 
     @media (max-width: 500px) {
 
@@ -1028,20 +1019,17 @@
       .sell-box {
         padding: 25px;
       }
-
     }
 
   </style>
 
 </head>
 
-
 <body>
 
-
-  <!-- ==================================================
+  <!-- =========================
        ONBOARDING
-  ================================================== -->
+  ========================== -->
 
   <div id="onboarding">
 
@@ -1076,7 +1064,6 @@
 
       </div>
 
-
       <div class="onboarding-step">
 
         <div class="onboarding-label">
@@ -1103,7 +1090,6 @@
 
       </div>
 
-
       <div class="onboarding-step">
 
         <div class="onboarding-label">
@@ -1128,7 +1114,6 @@
 
       </div>
 
-
       <div class="onboarding-dots">
 
         <span class="onboarding-dot active"></span>
@@ -1141,10 +1126,9 @@
 
   </div>
 
-
-  <!-- ==================================================
+  <!-- =========================
        HEADER
-  ================================================== -->
+  ========================== -->
 
   <header>
 
@@ -1178,10 +1162,9 @@
 
   </header>
 
-
-  <!-- ==================================================
+  <!-- =========================
        HERO
-  ================================================== -->
+  ========================== -->
 
   <section id="home" class="hero">
 
@@ -1210,6 +1193,15 @@
           View Accounts
         </a>
 
+        <!-- NEW SELL ACCOUNT BUTTON -->
+
+        <a
+          class="secondary"
+          href="#sell"
+        >
+          Sell Your Account →
+        </a>
+
         <a
           class="secondary"
           data-whatsapp
@@ -1222,7 +1214,6 @@
 
     </div>
 
-
     <div class="hero-art">
       FREE<br>
       FIRE
@@ -1230,10 +1221,9 @@
 
   </section>
 
-
-  <!-- ==================================================
+  <!-- =========================
        TRUST
-  ================================================== -->
+  ========================== -->
 
   <section class="trust">
 
@@ -1275,10 +1265,9 @@
 
   </section>
 
-
-  <!-- ==================================================
+  <!-- =========================
        ACCOUNTS
-  ================================================== -->
+  ========================== -->
 
   <section
     id="accounts"
@@ -1307,7 +1296,6 @@
 
     </div>
 
-
     <div class="filters">
 
       <button
@@ -1333,12 +1321,10 @@
 
     </div>
 
-
     <div
       id="accountGrid"
       class="grid"
     ></div>
-
 
     <p
       id="empty"
@@ -1350,10 +1336,9 @@
 
   </section>
 
-
-  <!-- ==================================================
+  <!-- =========================
        SELL YOUR ACCOUNT
-  ================================================== -->
+  ========================== -->
 
   <section
     id="sell"
@@ -1376,7 +1361,6 @@
         deciding whether to list the account.
       </p>
 
-
       <form
         class="sell-form"
         id="sellerForm"
@@ -1397,7 +1381,6 @@
 
         </div>
 
-
         <div class="sell-field">
 
           <label for="accountTitle">
@@ -1413,7 +1396,6 @@
 
         </div>
 
-
         <div class="sell-field">
 
           <label for="accountRank">
@@ -1428,7 +1410,6 @@
           >
 
         </div>
-
 
         <div class="sell-field">
 
@@ -1446,7 +1427,6 @@
 
         </div>
 
-
         <div class="sell-field">
 
           <label for="rareOutfits">
@@ -1462,7 +1442,6 @@
           >
 
         </div>
-
 
         <div class="sell-field">
 
@@ -1480,7 +1459,6 @@
 
         </div>
 
-
         <div class="sell-field">
 
           <label for="emotes">
@@ -1496,7 +1474,6 @@
           >
 
         </div>
-
 
         <div class="sell-field">
 
@@ -1514,7 +1491,6 @@
 
         </div>
 
-
         <div class="sell-field full">
 
           <label for="accountDescription">
@@ -1528,7 +1504,6 @@
           ></textarea>
 
         </div>
-
 
         <div class="sell-field full">
 
@@ -1545,7 +1520,6 @@
 
         </div>
 
-
         <button
           type="submit"
           class="sell-submit"
@@ -1555,6 +1529,14 @@
 
       </form>
 
+      <div
+        id="sellSuccess"
+        class="sell-success"
+      >
+        Your account information has been prepared.
+        WhatsApp will open so you can send the details
+        to LILY NATY for review.
+      </div>
 
       <p class="sell-note">
         Your account will not automatically appear on the
@@ -1565,10 +1547,9 @@
 
   </section>
 
-
-  <!-- ==================================================
-       LILY NATY MM COMMUNITY
-  ================================================== -->
+  <!-- =========================
+       COMMUNITY
+  ========================== -->
 
   <section
     id="community"
@@ -1600,7 +1581,6 @@
 
     </div>
 
-
     <div class="community-icon">
 
       <img
@@ -1612,10 +1592,9 @@
 
   </section>
 
-
-  <!-- ==================================================
+  <!-- =========================
        HOW IT WORKS
-  ================================================== -->
+  ========================== -->
 
   <section
     id="how"
@@ -1629,7 +1608,6 @@
     <h2>
       Simple 3-step purchase
     </h2>
-
 
     <div class="steps">
 
@@ -1645,7 +1623,6 @@
 
       </article>
 
-
       <article>
 
         <span>02</span>
@@ -1658,7 +1635,6 @@
         </p>
 
       </article>
-
 
       <article>
 
@@ -1677,10 +1653,9 @@
 
   </section>
 
-
-  <!-- ==================================================
+  <!-- =========================
        FAQ
-  ================================================== -->
+  ========================== -->
 
   <section
     id="faq"
@@ -1694,7 +1669,6 @@
     <h2>
       Questions?
     </h2>
-
 
     <details>
 
@@ -1710,6 +1684,20 @@
 
     </details>
 
+    <details>
+
+      <summary>
+        How do I sell my account?
+      </summary>
+
+      <p>
+        Scroll to Sell Your Account, fill in the form,
+        choose your screenshot and submit the form.
+        WhatsApp will open with your account information
+        ready to send for review.
+      </p>
+
+    </details>
 
     <details>
 
@@ -1723,7 +1711,6 @@
       </p>
 
     </details>
-
 
     <details>
 
@@ -1741,10 +1728,9 @@
 
   </section>
 
-
-  <!-- ==================================================
+  <!-- =========================
        CONTACT
-  ================================================== -->
+  ========================== -->
 
   <section class="contact-banner">
 
@@ -1764,7 +1750,6 @@
 
     </div>
 
-
     <a
       class="primary"
       data-whatsapp
@@ -1775,10 +1760,9 @@
 
   </section>
 
-
-  <!-- ==================================================
+  <!-- =========================
        FOOTER
-  ================================================== -->
+  ========================== -->
 
   <footer>
 
@@ -1792,10 +1776,9 @@
 
   </footer>
 
-
-  <!-- ==================================================
+  <!-- =========================
        MODAL
-  ================================================== -->
+  ========================== -->
 
   <div id="modal">
 
@@ -1844,10 +1827,9 @@
 
   </div>
 
-
-  <!-- ==================================================
+  <!-- =========================
        ONBOARDING SCRIPT
-  ================================================== -->
+  ========================== -->
 
   <script>
 
@@ -1863,7 +1845,6 @@
         ".onboarding-dot"
       );
 
-
     function showOnboardingStep() {
 
       onboardingSteps.forEach(
@@ -1877,7 +1858,6 @@
         }
       );
 
-
       onboardingDots.forEach(
         (dot, index) => {
 
@@ -1890,7 +1870,6 @@
       );
 
     }
-
 
     function nextOnboarding() {
 
@@ -1907,7 +1886,6 @@
 
     }
 
-
     function finishOnboarding() {
 
       localStorage.setItem(
@@ -1915,13 +1893,11 @@
         "true"
       );
 
-
       document.getElementById(
         "onboarding"
       ).style.display = "none";
 
     }
-
 
     window.addEventListener(
       "DOMContentLoaded",
@@ -1931,7 +1907,6 @@
           localStorage.getItem(
             "lilyNatyOnboardingComplete"
           );
-
 
         if (completed === "true") {
 
@@ -1946,11 +1921,9 @@
 
   </script>
 
-
   <!-- ACCOUNT SCRIPT -->
 
   <script src="script.js"></script>
-
 
 </body>
 
