@@ -1,3 +1,4 @@
+```javascript
 // ==================================================
 // LILY NATY MM ACCOUNTS
 // GOOGLE SHEETS VERSION
@@ -80,7 +81,9 @@ function convertAccount(row) {
       Number(getValue(row, ["Price"])) || 0,
 
     status:
-      String(getValue(row, ["Status"]) || "available")
+      String(
+        getValue(row, ["Status"]) || "available"
+      )
         .trim()
         .toLowerCase(),
 
@@ -155,6 +158,7 @@ async function loadAccounts() {
     render();
 
   } catch (error) {
+
     console.error(
       "Account loading error:",
       error
@@ -173,6 +177,7 @@ async function loadAccounts() {
 // ==================================================
 
 function waLink(account) {
+
   const message = encodeURIComponent(
     `Hello LILY NATY, I'm interested in Free Fire Account #${account.id} - ${naira(account.price)}. Is it still available?`
   );
@@ -185,6 +190,7 @@ function waLink(account) {
 // ==================================================
 
 function render() {
+
   if (!grid || !search) {
     return;
   }
@@ -192,28 +198,25 @@ function render() {
   const q =
     search.value.trim().toLowerCase();
 
-  const filtered = accounts.filter(function (account) {
+  const filtered =
+    accounts.filter(function (account) {
 
-    // ==============================================
-    // FILTER SYSTEM
-    // ==============================================
+      const filterOK =
+        activeFilter === "all" ||
+        account.status === activeFilter;
 
-    const filterOK =
-      activeFilter === "all" ||
-      account.status === activeFilter;
+      const searchText = `
+        ${account.title}
+        ${account.game}
+        ${account.id}
+        ${account.details.rank}
+      `.toLowerCase();
 
-    const searchText = `
-      ${account.title}
-      ${account.game}
-      ${account.id}
-      ${account.details.rank}
-    `.toLowerCase();
+      const searchOK =
+        !q || searchText.includes(q);
 
-    const searchOK =
-      !q || searchText.includes(q);
-
-    return filterOK && searchOK;
-  });
+      return filterOK && searchOK;
+    });
 
   grid.innerHTML =
     filtered.map(function (account) {
@@ -347,8 +350,6 @@ ${account.description}
   wa.href =
     waLink(account);
 
-  // Don't allow WhatsApp purchase button
-  // for sold accounts
   wa.style.display =
     isSold
       ? "none"
@@ -393,10 +394,12 @@ document
 // ==================================================
 
 if (search) {
+
   search.addEventListener(
     "input",
     render
   );
+
 }
 
 // ==================================================
@@ -468,3 +471,4 @@ document
 // ==================================================
 
 loadAccounts();
+```
