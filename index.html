@@ -1,21 +1,19 @@
+```html
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
->
-
-<meta
-name="description"
-content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
-
->
+  <meta
+    name="description"
+    content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
+  >
 
   <title>LILY NATY MM ACCOUNTS</title>
 
@@ -265,44 +263,6 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
     }
 
     /* =========================
-       VISITOR COUNTER
-    ========================== */
-
-    .visitor-counter {
-      margin: 20px 6% 0;
-      padding: 14px 20px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      gap: 10px;
-
-      background: #0c0c0c;
-
-      border: 1px solid #252525;
-      border-radius: 14px;
-
-      color: #aaa;
-
-      font-size: 13px;
-      font-weight: 800;
-
-      text-align: center;
-    }
-
-    .visitor-counter-icon {
-      color: #a855f7;
-      font-size: 18px;
-    }
-
-    #visitorCount {
-      color: white;
-      font-size: 16px;
-      font-weight: 1000;
-    }
-
-    /* =========================
        GENERAL BUTTONS
     ========================== */
 
@@ -340,6 +300,45 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
     }
 
     /* =========================
+       VISITOR COUNTER
+    ========================== */
+
+    .visitor-counter {
+      width: fit-content;
+
+      margin: 0 auto 25px;
+
+      padding: 10px 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+
+      background: #0d0d0d;
+
+      border: 1px solid #292929;
+      border-radius: 30px;
+
+      color: #aaa;
+
+      font-size: 12px;
+      font-weight: 900;
+
+      letter-spacing: 0.5px;
+    }
+
+    .visitor-counter-icon {
+      font-size: 15px;
+    }
+
+    #visitorCount {
+      color: #a855f7;
+      font-weight: 1000;
+    }
+
+    /* =========================
        HERO
     ========================== */
 
@@ -353,6 +352,8 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
       justify-content: space-between;
 
       gap: 50px;
+
+      position: relative;
     }
 
     .hero-copy {
@@ -1061,8 +1062,7 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
       }
 
       .visitor-counter {
-        margin-left: 4%;
-        margin-right: 4%;
+        font-size: 11px;
       }
     }
 
@@ -1078,98 +1078,96 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
 
   <div id="onboarding">
 
-```
-<div class="onboarding-box">
+    <div class="onboarding-box">
 
-  <div class="onboarding-step active">
+      <div class="onboarding-step active">
 
-    <div class="onboarding-logo">
-      LN
+        <div class="onboarding-logo">
+          LN
+        </div>
+
+        <div class="onboarding-label">
+          WELCOME
+        </div>
+
+        <h1>
+          LILY NATY <span>MM</span>
+        </h1>
+
+        <p>
+          Welcome to LILY NATY MM ACCOUNTS.
+          Explore Free Fire accounts and learn about
+          our middleman community.
+        </p>
+
+        <button
+          class="onboarding-button"
+          onclick="nextOnboarding()"
+        >
+          I Understand & Continue
+        </button>
+
+      </div>
+
+      <div class="onboarding-step">
+
+        <div class="onboarding-label">
+          MM COMMUNITY
+        </div>
+
+        <h2>
+          How Our MM Works
+        </h2>
+
+        <p>
+          A middleman helps coordinate communication
+          between the buyer and seller during an agreed
+          trade. Always confirm account details and
+          trade terms before proceeding.
+        </p>
+
+        <button
+          class="onboarding-button"
+          onclick="nextOnboarding()"
+        >
+          Next →
+        </button>
+
+      </div>
+
+      <div class="onboarding-step">
+
+        <div class="onboarding-label">
+          READY
+        </div>
+
+        <h2>
+          You're All Set
+        </h2>
+
+        <p>
+          Browse available accounts, check their details,
+          or visit the LILY NATY MM Community.
+        </p>
+
+        <button
+          class="onboarding-button"
+          onclick="finishOnboarding()"
+        >
+          Enter LILY NATY MM →
+        </button>
+
+      </div>
+
+      <div class="onboarding-dots">
+
+        <span class="onboarding-dot active"></span>
+        <span class="onboarding-dot"></span>
+        <span class="onboarding-dot"></span>
+
+      </div>
+
     </div>
-
-    <div class="onboarding-label">
-      WELCOME
-    </div>
-
-    <h1>
-      LILY NATY <span>MM</span>
-    </h1>
-
-    <p>
-      Welcome to LILY NATY MM ACCOUNTS.
-      Explore Free Fire accounts and learn about
-      our middleman community.
-    </p>
-
-    <button
-      class="onboarding-button"
-      onclick="nextOnboarding()"
-    >
-      I Understand & Continue
-    </button>
-
-  </div>
-
-  <div class="onboarding-step">
-
-    <div class="onboarding-label">
-      MM COMMUNITY
-    </div>
-
-    <h2>
-      How Our MM Works
-    </h2>
-
-    <p>
-      A middleman helps coordinate communication
-      between the buyer and seller during an agreed
-      trade. Always confirm account details and
-      trade terms before proceeding.
-    </p>
-
-    <button
-      class="onboarding-button"
-      onclick="nextOnboarding()"
-    >
-      Next →
-    </button>
-
-  </div>
-
-  <div class="onboarding-step">
-
-    <div class="onboarding-label">
-      READY
-    </div>
-
-    <h2>
-      You're All Set
-    </h2>
-
-    <p>
-      Browse available accounts, check their details,
-      or visit the LILY NATY MM Community.
-    </p>
-
-    <button
-      class="onboarding-button"
-      onclick="finishOnboarding()"
-    >
-      Enter LILY NATY MM →
-    </button>
-
-  </div>
-
-  <div class="onboarding-dots">
-
-    <span class="onboarding-dot active"></span>
-    <span class="onboarding-dot"></span>
-    <span class="onboarding-dot"></span>
-
-  </div>
-
-</div>
-```
 
   </div>
 
@@ -1179,59 +1177,35 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
 
   <header>
 
-```
-<a class="brand" href="#home">
-  LILY NATY <span>MM ACCOUNTS</span>
-</a>
+    <a class="brand" href="#home">
+      LILY NATY <span>MM ACCOUNTS</span>
+    </a>
 
-<nav>
+    <nav>
 
-  <a href="#home">Home</a>
+      <a href="#home">Home</a>
 
-  <a href="#accounts">Accounts</a>
+      <a href="#accounts">Accounts</a>
 
-  <a href="#sell">Sell Account</a>
+      <a href="#sell">Sell Account</a>
 
-  <a href="#community">MM Community</a>
+      <a href="#community">MM Community</a>
 
-  <a href="#how">How It Works</a>
+      <a href="#how">How It Works</a>
 
-  <a href="#faq">FAQ</a>
+      <a href="#faq">FAQ</a>
 
-</nav>
+    </nav>
 
-<a
-  class="wa-btn"
-  data-whatsapp
-  href="#"
->
-  WhatsApp
-</a>
-```
+    <a
+      class="wa-btn"
+      data-whatsapp
+      href="#"
+    >
+      WhatsApp
+    </a>
 
   </header>
-
-  <!-- =========================
-       VISITOR COUNTER
-  ========================== -->
-
-  <div class="visitor-counter">
-
-```
-<span class="visitor-counter-icon">
-  👀
-</span>
-
-<span>
-  TOTAL VISITORS:
-</span>
-
-<span id="visitorCount">
-  Loading...
-</span>
-```
-
-  </div>
 
   <!-- =========================
        HERO
@@ -1239,56 +1213,72 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
 
   <section id="home" class="hero">
 
-```
-<div class="hero-copy">
+    <div class="hero-copy">
 
-  <p class="eyebrow">
-    TRUSTED • FAST • FREE FIRE ONLY
-  </p>
+      <!-- VISITOR COUNTER -->
 
-  <h1>
-    PREMIUM <b>FREE FIRE</b><br>
-    ACCOUNTS
-  </h1>
+      <div class="visitor-counter">
 
-  <p>
-    Browse available accounts, check the screenshots
-    and contact LILY NATY directly to buy.
-  </p>
+        <span class="visitor-counter-icon">
+          👀
+        </span>
 
-  <div class="hero-actions">
+        <span>
+          TOTAL VISITORS:
+        </span>
 
-    <a
-      class="primary"
-      href="#accounts"
-    >
-      View Accounts
-    </a>
+        <span id="visitorCount">
+          Loading...
+        </span>
 
-    <a
-      class="secondary"
-      href="#sell"
-    >
-      Sell Your Account →
-    </a>
+      </div>
 
-    <a
-      class="secondary"
-      data-whatsapp
-      href="#"
-    >
-      Contact on WhatsApp
-    </a>
+      <p class="eyebrow">
+        TRUSTED • FAST • FREE FIRE ONLY
+      </p>
 
-  </div>
+      <h1>
+        PREMIUM <b>FREE FIRE</b><br>
+        ACCOUNTS
+      </h1>
 
-</div>
+      <p>
+        Browse available accounts, check the screenshots
+        and contact LILY NATY directly to buy.
+      </p>
 
-<div class="hero-art">
-  FREE<br>
-  FIRE
-</div>
-```
+      <div class="hero-actions">
+
+        <a
+          class="primary"
+          href="#accounts"
+        >
+          View Accounts
+        </a>
+
+        <a
+          class="secondary"
+          href="#sell"
+        >
+          Sell Your Account →
+        </a>
+
+        <a
+          class="secondary"
+          data-whatsapp
+          href="#"
+        >
+          Contact on WhatsApp
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="hero-art">
+      FREE<br>
+      FIRE
+    </div>
 
   </section>
 
@@ -1298,43 +1288,41 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
 
   <section class="trust">
 
-```
-<div>
-  <strong>✓</strong>
+    <div>
+      <strong>✓</strong>
 
-  <span>
-    <b>Verified Listings</b>
-    <small>Account details shown clearly</small>
-  </span>
-</div>
+      <span>
+        <b>Verified Listings</b>
+        <small>Account details shown clearly</small>
+      </span>
+    </div>
 
-<div>
-  <strong>⚡</strong>
+    <div>
+      <strong>⚡</strong>
 
-  <span>
-    <b>Fast Response</b>
-    <small>Contact directly on WhatsApp</small>
-  </span>
-</div>
+      <span>
+        <b>Fast Response</b>
+        <small>Contact directly on WhatsApp</small>
+      </span>
+    </div>
 
-<div>
-  <strong>₦</strong>
+    <div>
+      <strong>₦</strong>
 
-  <span>
-    <b>Clear Prices</b>
-    <small>No hidden price on listings</small>
-  </span>
-</div>
+      <span>
+        <b>Clear Prices</b>
+        <small>No hidden price on listings</small>
+      </span>
+    </div>
 
-<div>
-  <strong>◉</strong>
+    <div>
+      <strong>◉</strong>
 
-  <span>
-    <b>Free Fire Only</b>
-    <small>Focused marketplace</small>
-  </span>
-</div>
-```
+      <span>
+        <b>Free Fire Only</b>
+        <small>Focused marketplace</small>
+      </span>
+    </div>
 
   </section>
 
@@ -1347,67 +1335,65 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
     class="accounts-section"
   >
 
-```
-<div class="section-heading">
+    <div class="section-heading">
 
-  <div>
+      <div>
 
-    <p class="eyebrow">
-      LILY NATY MARKETPLACE
+        <p class="eyebrow">
+          LILY NATY MARKETPLACE
+        </p>
+
+        <h2>
+          AVAILABLE ACCOUNTS
+        </h2>
+
+      </div>
+
+      <input
+        id="search"
+        type="search"
+        placeholder="Search accounts..."
+      >
+
+    </div>
+
+    <div class="filters">
+
+      <button
+        class="filter active"
+        data-filter="all"
+      >
+        All
+      </button>
+
+      <button
+        class="filter"
+        data-filter="available"
+      >
+        Available
+      </button>
+
+      <button
+        class="filter"
+        data-filter="sold"
+      >
+        Sold
+      </button>
+
+    </div>
+
+    <div
+      id="accountGrid"
+      class="grid"
+    ></div>
+
+    <p
+      id="empty"
+      class="empty"
+      hidden
+    >
+      No accounts match your search.
     </p>
-
-    <h2>
-      AVAILABLE ACCOUNTS
-    </h2>
-
-  </div>
-
-  <input
-    id="search"
-    type="search"
-    placeholder="Search accounts..."
-  >
-
-</div>
-
-<div class="filters">
-
-  <button
-    class="filter active"
-    data-filter="all"
-  >
-    All
-  </button>
-
-  <button
-    class="filter"
-    data-filter="available"
-  >
-    Available
-  </button>
-
-  <button
-    class="filter"
-    data-filter="sold"
-  >
-    Sold
-  </button>
-
-</div>
-
-<div
-  id="accountGrid"
-  class="grid"
-></div>
-
-<p
-  id="empty"
-  class="empty"
-  hidden
->
-  No accounts match your search.
-</p>
-```
 
   </section>
 
@@ -1420,207 +1406,205 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
     class="sell-section"
   >
 
-```
-<div class="sell-box">
+    <div class="sell-box">
 
-  <p class="eyebrow">
-    SELL YOUR ACCOUNT
-  </p>
+      <p class="eyebrow">
+        SELL YOUR ACCOUNT
+      </p>
 
-  <h2>
-    Want to sell your Free Fire account?
-  </h2>
+      <h2>
+        Want to sell your Free Fire account?
+      </h2>
 
-  <p>
-    Submit your account details and screenshot.
-    LILY NATY will review the information before
-    deciding whether to list the account.
-  </p>
+      <p>
+        Submit your account details and screenshot.
+        LILY NATY will review the information before
+        deciding whether to list the account.
+      </p>
 
-  <form
-    class="sell-form"
-    id="sellerForm"
-  >
-
-    <div class="sell-field">
-
-      <label for="sellerName">
-        YOUR NAME / NICKNAME
-      </label>
-
-      <input
-        id="sellerName"
-        type="text"
-        placeholder="Enter your name or nickname"
-        required
+      <form
+        class="sell-form"
+        id="sellerForm"
       >
 
-    </div>
+        <div class="sell-field">
 
-    <div class="sell-field">
+          <label for="sellerName">
+            YOUR NAME / NICKNAME
+          </label>
 
-      <label for="accountTitle">
-        ACCOUNT TITLE
-      </label>
+          <input
+            id="sellerName"
+            type="text"
+            placeholder="Enter your name or nickname"
+            required
+          >
 
-      <input
-        id="accountTitle"
-        type="text"
-        placeholder="e.g. Free Fire MAX Account"
-        required
+        </div>
+
+        <div class="sell-field">
+
+          <label for="accountTitle">
+            ACCOUNT TITLE
+          </label>
+
+          <input
+            id="accountTitle"
+            type="text"
+            placeholder="e.g. Free Fire MAX Account"
+            required
+          >
+
+        </div>
+
+        <div class="sell-field">
+
+          <label for="accountRank">
+            RANK
+          </label>
+
+          <input
+            id="accountRank"
+            type="text"
+            placeholder="e.g. Heroic"
+            required
+          >
+
+        </div>
+
+        <div class="sell-field">
+
+          <label for="accountPrice">
+            ASKING PRICE (₦)
+          </label>
+
+          <input
+            id="accountPrice"
+            type="number"
+            placeholder="e.g. 300000"
+            min="0"
+            required
+          >
+
+        </div>
+
+        <div class="sell-field">
+
+          <label for="rareOutfits">
+            RARE OUTFITS
+          </label>
+
+          <input
+            id="rareOutfits"
+            type="number"
+            placeholder="e.g. 627"
+            min="0"
+            required
+          >
+
+        </div>
+
+        <div class="sell-field">
+
+          <label for="gunskins">
+            GUN SKINS
+          </label>
+
+          <input
+            id="gunskins"
+            type="number"
+            placeholder="e.g. 597"
+            min="0"
+            required
+          >
+
+        </div>
+
+        <div class="sell-field">
+
+          <label for="emotes">
+            EMOTES
+          </label>
+
+          <input
+            id="emotes"
+            type="number"
+            placeholder="e.g. 106"
+            min="0"
+            required
+          >
+
+        </div>
+
+        <div class="sell-field">
+
+          <label for="evoGuns">
+            EVO GUNS
+          </label>
+
+          <input
+            id="evoGuns"
+            type="number"
+            placeholder="e.g. 12"
+            min="0"
+            required
+          >
+
+        </div>
+
+        <div class="sell-field full">
+
+          <label for="accountDescription">
+            SHORT DESCRIPTION
+          </label>
+
+          <textarea
+            id="accountDescription"
+            placeholder="Tell us about the account, rare items, special features, etc."
+            required
+          ></textarea>
+
+        </div>
+
+        <div class="sell-field full">
+
+          <label for="accountScreenshot">
+            ACCOUNT SCREENSHOT
+          </label>
+
+          <input
+            id="accountScreenshot"
+            type="file"
+            accept="image/*"
+            required
+          >
+
+        </div>
+
+        <button
+          type="submit"
+          class="sell-submit"
+        >
+          Submit Account for Review →
+        </button>
+
+      </form>
+
+      <div
+        id="sellSuccess"
+        class="sell-success"
       >
+        Your account information has been prepared.
+        WhatsApp will open so you can send the details
+        to LILY NATY for review.
+      </div>
+
+      <p class="sell-note">
+        Your account will not automatically appear on the
+        marketplace. It must be reviewed and approved first.
+      </p>
 
     </div>
-
-    <div class="sell-field">
-
-      <label for="accountRank">
-        RANK
-      </label>
-
-      <input
-        id="accountRank"
-        type="text"
-        placeholder="e.g. Heroic"
-        required
-      >
-
-    </div>
-
-    <div class="sell-field">
-
-      <label for="accountPrice">
-        ASKING PRICE (₦)
-      </label>
-
-      <input
-        id="accountPrice"
-        type="number"
-        placeholder="e.g. 300000"
-        min="0"
-        required
-      >
-
-    </div>
-
-    <div class="sell-field">
-
-      <label for="rareOutfits">
-        RARE OUTFITS
-      </label>
-
-      <input
-        id="rareOutfits"
-        type="number"
-        placeholder="e.g. 627"
-        min="0"
-        required
-      >
-
-    </div>
-
-    <div class="sell-field">
-
-      <label for="gunskins">
-        GUN SKINS
-      </label>
-
-      <input
-        id="gunskins"
-        type="number"
-        placeholder="e.g. 597"
-        min="0"
-        required
-      >
-
-    </div>
-
-    <div class="sell-field">
-
-      <label for="emotes">
-        EMOTES
-      </label>
-
-      <input
-        id="emotes"
-        type="number"
-        placeholder="e.g. 106"
-        min="0"
-        required
-      >
-
-    </div>
-
-    <div class="sell-field">
-
-      <label for="evoGuns">
-        EVO GUNS
-      </label>
-
-      <input
-        id="evoGuns"
-        type="number"
-        placeholder="e.g. 12"
-        min="0"
-        required
-      >
-
-    </div>
-
-    <div class="sell-field full">
-
-      <label for="accountDescription">
-        SHORT DESCRIPTION
-      </label>
-
-      <textarea
-        id="accountDescription"
-        placeholder="Tell us about the account, rare items, special features, etc."
-        required
-      ></textarea>
-
-    </div>
-
-    <div class="sell-field full">
-
-      <label for="accountScreenshot">
-        ACCOUNT SCREENSHOT
-      </label>
-
-      <input
-        id="accountScreenshot"
-        type="file"
-        accept="image/*"
-        required
-      >
-
-    </div>
-
-    <button
-      type="submit"
-      class="sell-submit"
-    >
-      Submit Account for Review →
-    </button>
-
-  </form>
-
-  <div
-    id="sellSuccess"
-    class="sell-success"
-  >
-    Your account information has been prepared.
-    WhatsApp will open so you can send the details
-    to LILY NATY for review.
-  </div>
-
-  <p class="sell-note">
-    Your account will not automatically appear on the
-    marketplace. It must be reviewed and approved first.
-  </p>
-
-</div>
-```
 
   </section>
 
@@ -1633,41 +1617,39 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
     class="community-banner"
   >
 
-```
-<div class="community-content">
+    <div class="community-content">
 
-  <p class="eyebrow">
-    LILY NATY COMMUNITY
-  </p>
+      <p class="eyebrow">
+        LILY NATY COMMUNITY
+      </p>
 
-  <h2>
-    Join the LILY NATY MM Community
-  </h2>
+      <h2>
+        Join the LILY NATY MM Community
+      </h2>
 
-  <p>
-    Buying or selling a Free Fire account?
-    Learn about our middleman community and
-    how the trade process works.
-  </p>
+      <p>
+        Buying or selling a Free Fire account?
+        Learn about our middleman community and
+        how the trade process works.
+      </p>
 
-  <a
-    class="primary"
-    href="community.html"
-  >
-    Enter MM Community →
-  </a>
+      <a
+        class="primary"
+        href="community.html"
+      >
+        Enter MM Community →
+      </a>
 
-</div>
+    </div>
 
-<div class="community-icon">
+    <div class="community-icon">
 
-  <img
-    src="lily-naty-community.png"
-    alt="LILY NATY MM Community"
-  >
+      <img
+        src="lily-naty-community.png"
+        alt="LILY NATY MM Community"
+      >
 
-</div>
-```
+    </div>
 
   </section>
 
@@ -1680,57 +1662,55 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
     class="how"
   >
 
-```
-<p class="eyebrow">
-  HOW IT WORKS
-</p>
-
-<h2>
-  Simple 3-step purchase
-</h2>
-
-<div class="steps">
-
-  <article>
-
-    <span>01</span>
-
-    <h3>Choose</h3>
-
-    <p>
-      Pick an account and inspect its listing.
+    <p class="eyebrow">
+      HOW IT WORKS
     </p>
 
-  </article>
+    <h2>
+      Simple 3-step purchase
+    </h2>
 
-  <article>
+    <div class="steps">
 
-    <span>02</span>
+      <article>
 
-    <h3>Contact</h3>
+        <span>01</span>
 
-    <p>
-      Tap Contact to Buy and message
-      LILY NATY on WhatsApp.
-    </p>
+        <h3>Choose</h3>
 
-  </article>
+        <p>
+          Pick an account and inspect its listing.
+        </p>
 
-  <article>
+      </article>
 
-    <span>03</span>
+      <article>
 
-    <h3>Complete</h3>
+        <span>02</span>
 
-    <p>
-      Agree on the deal and receive the
-      account details after payment.
-    </p>
+        <h3>Contact</h3>
 
-  </article>
+        <p>
+          Tap Contact to Buy and message
+          LILY NATY on WhatsApp.
+        </p>
 
-</div>
-```
+      </article>
+
+      <article>
+
+        <span>03</span>
+
+        <h3>Complete</h3>
+
+        <p>
+          Agree on the deal and receive the
+          account details after payment.
+        </p>
+
+      </article>
+
+    </div>
 
   </section>
 
@@ -1743,71 +1723,69 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
     class="faq"
   >
 
-```
-<p class="eyebrow">
-  FAQ
-</p>
+    <p class="eyebrow">
+      FAQ
+    </p>
 
-<h2>
-  Questions?
-</h2>
+    <h2>
+      Questions?
+    </h2>
 
-<details>
+    <details>
 
-  <summary>
-    How do I buy an account?
-  </summary>
+      <summary>
+        How do I buy an account?
+      </summary>
 
-  <p>
-    Open an account listing and tap Contact to Buy.
-    WhatsApp will open with the account number
-    pre-filled.
-  </p>
+      <p>
+        Open an account listing and tap Contact to Buy.
+        WhatsApp will open with the account number
+        pre-filled.
+      </p>
 
-</details>
+    </details>
 
-<details>
+    <details>
 
-  <summary>
-    How do I sell my account?
-  </summary>
+      <summary>
+        How do I sell my account?
+      </summary>
 
-  <p>
-    Scroll to Sell Your Account, fill in the form,
-    choose your screenshot and submit the form.
-    WhatsApp will open with your account information
-    ready to send for review.
-  </p>
+      <p>
+        Scroll to Sell Your Account, fill in the form,
+        choose your screenshot and submit the form.
+        WhatsApp will open with your account information
+        ready to send for review.
+      </p>
 
-</details>
+    </details>
 
-<details>
+    <details>
 
-  <summary>
-    Can I ask for more screenshots?
-  </summary>
+      <summary>
+        Can I ask for more screenshots?
+      </summary>
 
-  <p>
-    Yes. Message LILY NATY before buying and
-    request any extra proof or details you need.
-  </p>
+      <p>
+        Yes. Message LILY NATY before buying and
+        request any extra proof or details you need.
+      </p>
 
-</details>
+    </details>
 
-<details>
+    <details>
 
-  <summary>
-    Can an account be marked sold?
-  </summary>
+      <summary>
+        Can an account be marked sold?
+      </summary>
 
-  <p>
-    Yes. Update the listing data in
-    <code>script.js</code> and set its status
-    to <code>sold</code>.
-  </p>
+      <p>
+        Yes. Update the listing data in
+        <code>script.js</code> and set its status
+        to <code>sold</code>.
+      </p>
 
-</details>
-```
+    </details>
 
   </section>
 
@@ -1817,31 +1795,29 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
 
   <section class="contact-banner">
 
-```
-<div>
+    <div>
 
-  <p class="eyebrow">
-    NEED HELP?
-  </p>
+      <p class="eyebrow">
+        NEED HELP?
+      </p>
 
-  <h2>
-    Want to ask about an account?
-  </h2>
+      <h2>
+        Want to ask about an account?
+      </h2>
 
-  <p>
-    Message LILY NATY directly on WhatsApp.
-  </p>
+      <p>
+        Message LILY NATY directly on WhatsApp.
+      </p>
 
-</div>
+    </div>
 
-<a
-  class="primary"
-  data-whatsapp
-  href="#"
->
-  Chat on WhatsApp →
-</a>
-```
+    <a
+      class="primary"
+      data-whatsapp
+      href="#"
+    >
+      Chat on WhatsApp →
+    </a>
 
   </section>
 
@@ -1851,15 +1827,13 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
 
   <footer>
 
-```
-<div class="brand">
-  LILY NATY <span>MM ACCOUNTS</span>
-</div>
+    <div class="brand">
+      LILY NATY <span>MM ACCOUNTS</span>
+    </div>
 
-<p>
-  © 2026 LILY NATY. All rights reserved.
-</p>
-```
+    <p>
+      © 2026 LILY NATY. All rights reserved.
+    </p>
 
   </footer>
 
@@ -1869,50 +1843,48 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
 
   <div id="modal">
 
-```
-<div class="modal-card">
+    <div class="modal-card">
 
-  <button
-    id="closeModal"
-    class="close"
-  >
-    ×
-  </button>
+      <button
+        id="closeModal"
+        class="close"
+      >
+        ×
+      </button>
 
-  <img
-    id="modalImg"
-    src=""
-    alt="Free Fire account screenshot"
-  >
+      <img
+        id="modalImg"
+        src=""
+        alt="Free Fire account screenshot"
+      >
 
-  <div class="modal-info">
+      <div class="modal-info">
 
-    <span
-      id="modalStatus"
-      class="badge"
-    ></span>
+        <span
+          id="modalStatus"
+          class="badge"
+        ></span>
 
-    <h2 id="modalTitle"></h2>
+        <h2 id="modalTitle"></h2>
 
-    <div
-      id="modalPrice"
-      class="price"
-    ></div>
+        <div
+          id="modalPrice"
+          class="price"
+        ></div>
 
-    <p id="modalDescription"></p>
+        <p id="modalDescription"></p>
 
-    <a
-      id="modalWhatsApp"
-      class="primary"
-      href="#"
-    >
-      Contact to Buy on WhatsApp
-    </a>
+        <a
+          id="modalWhatsApp"
+          class="primary"
+          href="#"
+        >
+          Contact to Buy on WhatsApp
+        </a>
 
-  </div>
+      </div>
 
-</div>
-```
+    </div>
 
   </div>
 
@@ -2021,48 +1993,68 @@ content="LILY NATY MM ACCOUNTS — Free Fire accounts marketplace."
   <script
     data-goatcounter="https://lilynatymm.goatcounter.com/count"
     async
-    src="//gc.zgo.at/count.js"
-  ></script>
+    src="https://gc.zgo.at/count.js">
+  </script>
 
   <!-- =========================
-       VISITOR COUNTER SCRIPT
+       VISITOR COUNTER
   ========================== -->
 
   <script>
 
-    (function () {
+    function loadVisitorCount() {
 
-      var timer = setInterval(function () {
+      if (
+        window.goatcounter &&
+        typeof window.goatcounter.visit_count === "function"
+      ) {
 
-        if (
-          window.goatcounter &&
-          window.goatcounter.visit_count
-        ) {
+        window.goatcounter.visit_count({
 
-          clearInterval(timer);
+          path: "TOTAL",
 
-          window.goatcounter.visit_count({
+          append: "#visitorCount",
 
-            append: "#visitorCount",
+          no_branding: true
 
-            path: "TOTAL",
+        });
 
-            no_branding: true,
+        return true;
 
-            attr: {
-              class: "goatcounter-total-count"
-            }
+      }
 
-          });
+      return false;
 
-        }
+    }
 
-      }, 100);
+    if (!loadVisitorCount()) {
 
-    })();
+      const visitorCounterInterval =
+        setInterval(function () {
+
+          if (loadVisitorCount()) {
+
+            clearInterval(
+              visitorCounterInterval
+            );
+
+          }
+
+        }, 200);
+
+      setTimeout(function () {
+
+        clearInterval(
+          visitorCounterInterval
+        );
+
+      }, 10000);
+
+    }
 
   </script>
 
 </body>
 
 </html>
+```
