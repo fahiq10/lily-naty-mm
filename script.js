@@ -1,12 +1,22 @@
 // ==================================================
 // LILY NATY MM ACCOUNTS
-// GOOGLE SHEETS + WHATSAPP SELL ACCOUNT
+// GOOGLE SHEETS + WHATSAPP + LILY NATY AI
+// ==================================================
+
+
+// ==================================================
+// SETTINGS
 // ==================================================
 
 const WHATSAPP_NUMBER = "2349122602735";
 
 const GOOGLE_SHEET_API =
   "https://script.google.com/macros/s/AKfycbwHnvjNUOBQm25wi6SYrwbnjlyT8R9fJjcWrBdnREqKzZ7Y_LOs1BBcISAG9jgOUn4Xdg/exec";
+
+// Your Cloudflare Worker
+const AI_WORKER_URL =
+  "https://lily-naty-ai.fahiqabiola.workers.dev";
+
 
 // ==================================================
 // WEBSITE ELEMENTS
@@ -18,6 +28,7 @@ const empty = document.getElementById("empty");
 
 let accounts = [];
 let activeFilter = "all";
+
 
 // ==================================================
 // NAIRA FORMAT
@@ -31,6 +42,7 @@ function naira(number) {
   }).format(Number(number) || 0);
 }
 
+
 // ==================================================
 // CLEAN GOOGLE SHEET DATA
 // ==================================================
@@ -41,6 +53,7 @@ function cleanKey(key) {
     .toLowerCase()
     .replace(/\s+/g, "");
 }
+
 
 function getValue(row, possibleNames) {
   const keys = Object.keys(row);
@@ -59,6 +72,7 @@ function getValue(row, possibleNames) {
 
   return "";
 }
+
 
 // ==================================================
 // CONVERT GOOGLE SHEET ROW
@@ -118,6 +132,7 @@ function convertAccount(row) {
   };
 }
 
+
 // ==================================================
 // LOAD ACCOUNTS
 // ==================================================
@@ -125,8 +140,7 @@ function convertAccount(row) {
 async function loadAccounts() {
   try {
     if (grid) {
-      grid.innerHTML =
-        '<p style="color:#777;padding:20px;">Loading accounts...</p>';
+      grid.innerHTML = "Loading accounts...";
     }
 
     const response = await fetch(
@@ -169,8 +183,9 @@ async function loadAccounts() {
   }
 }
 
+
 // ==================================================
-// BUY ACCOUNT WHATSAPP
+// WHATSAPP BUY LINK
 // ==================================================
 
 function waLink(account) {
@@ -188,6 +203,7 @@ function waLink(account) {
     encodeURIComponent(message)
   );
 }
+
 
 // ==================================================
 // RENDER ACCOUNTS
@@ -298,6 +314,7 @@ function render() {
       filtered.length !== 0;
   }
 }
+
 
 // ==================================================
 // ACCOUNT DETAILS
@@ -410,6 +427,7 @@ function openDetails(id) {
   }
 }
 
+
 // ==================================================
 // FILTER BUTTONS
 // ==================================================
@@ -441,6 +459,7 @@ document
     );
   });
 
+
 // ==================================================
 // SEARCH
 // ==================================================
@@ -451,6 +470,7 @@ if (search) {
     render
   );
 }
+
 
 // ==================================================
 // CLOSE MODAL
@@ -480,6 +500,7 @@ if (closeModal) {
   );
 }
 
+
 const modal =
   document.getElementById(
     "modal"
@@ -501,6 +522,7 @@ if (modal) {
   );
 }
 
+
 // ==================================================
 // GENERAL WHATSAPP BUTTONS
 // ==================================================
@@ -517,8 +539,8 @@ document
       WHATSAPP_NUMBER +
       "?text=" +
       encodeURIComponent(message);
-
   });
+
 
 // ==================================================
 // SELL ACCOUNT FORM
@@ -540,10 +562,6 @@ if (sellerForm) {
       console.log(
         "SELL ACCOUNT FORM SUBMITTED"
       );
-
-      // ------------------------------------------
-      // GET FORM VALUES
-      // ------------------------------------------
 
       const sellerName =
         document.getElementById(
@@ -595,10 +613,6 @@ if (sellerForm) {
           "accountScreenshot"
         );
 
-      // ------------------------------------------
-      // CHECK SCREENSHOT
-      // ------------------------------------------
-
       if (
         !screenshotInput ||
         !screenshotInput.files ||
@@ -614,10 +628,6 @@ if (sellerForm) {
 
       const screenshot =
         screenshotInput.files[0];
-
-      // ------------------------------------------
-      // CREATE WHATSAPP MESSAGE
-      // ------------------------------------------
 
       const message =
         "SELL ACCOUNT REQUEST\n\n" +
@@ -670,10 +680,6 @@ if (sellerForm) {
 
         "Please review my account.";
 
-      // ------------------------------------------
-      // WHATSAPP URL
-      // ------------------------------------------
-
       const whatsappURL =
         "https://wa.me/" +
         WHATSAPP_NUMBER +
@@ -686,10 +692,6 @@ if (sellerForm) {
         "Opening WhatsApp:",
         whatsappURL
       );
-
-      // ------------------------------------------
-      // SHOW SUCCESS MESSAGE
-      // ------------------------------------------
 
       const success =
         document.getElementById(
@@ -704,19 +706,203 @@ if (sellerForm) {
           "block";
       }
 
-      // ------------------------------------------
-      // OPEN WHATSAPP
-      // ------------------------------------------
-
       window.location.href =
         whatsappURL;
-
     }
   );
 }
+
+
+// ==================================================
+// LILY NATY AI
+// ==================================================
+
+async function askLilyNatyAI(message) {
+
+  if (!message || !String(message).trim()) {
+    return "Please enter a message.";
+  }
+
+  try {
+
+    const response =
+      await fetch(
+        AI_WORKER_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            message:
+              String(message).trim()
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        "AI request failed."
+      );
+    }
+
+    return (
+      data.reply ||
+      data.message ||
+      "Sorry, I couldn't generate a response."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "LILY NATY AI error:",
+      error
+    );
+
+    return "Sorry, LILY NATY AI is temporarily unavailable. Please try again.";
+  }
+}
+
+
+// ==================================================
+// MAKE AI FUNCTION AVAILABLE TO THE WEBSITE
+// ==================================================
+
+window.askLilyNatyAI =
+  askLilyNatyAI;
+
+
+// ==================================================
+// OPTIONAL AI CHAT CONNECTION
+// ==================================================
+//
+// If your HTML already has elements with these IDs:
+//
+// aiForm
+// aiInput
+// aiMessages
+//
+// this will automatically connect them to the
+// Cloudflare AI Worker.
+//
+
+const aiForm =
+  document.getElementById(
+    "aiForm"
+  );
+
+const aiInput =
+  document.getElementById(
+    "aiInput"
+  );
+
+const aiMessages =
+  document.getElementById(
+    "aiMessages"
+  );
+
+
+if (
+  aiForm &&
+  aiInput &&
+  aiMessages
+) {
+
+  aiForm.addEventListener(
+    "submit",
+    async function (event) {
+
+      event.preventDefault();
+
+      const message =
+        aiInput.value.trim();
+
+      if (!message) {
+        return;
+      }
+
+      aiInput.value = "";
+
+      const userMessage =
+        document.createElement(
+          "div"
+        );
+
+      userMessage.className =
+        "ai-user-message";
+
+      userMessage.textContent =
+        message;
+
+      aiMessages.appendChild(
+        userMessage
+      );
+
+      const loadingMessage =
+        document.createElement(
+          "div"
+        );
+
+      loadingMessage.className =
+        "ai-loading";
+
+      loadingMessage.textContent =
+        "LILY NATY AI is thinking...";
+
+      aiMessages.appendChild(
+        loadingMessage
+      );
+
+      aiMessages.scrollTop =
+        aiMessages.scrollHeight;
+
+      const reply =
+        await askLilyNatyAI(
+          message
+        );
+
+      loadingMessage.remove();
+
+      const aiMessage =
+        document.createElement(
+          "div"
+        );
+
+      aiMessage.className =
+        "ai-message";
+
+      aiMessage.textContent =
+        reply;
+
+      aiMessages.appendChild(
+        aiMessage
+      );
+
+      aiMessages.scrollTop =
+        aiMessages.scrollHeight;
+    }
+  );
+}
+
 
 // ==================================================
 // START WEBSITE
 // ==================================================
 
 loadAccounts();
+
+console.log(
+  "LILY NATY MM website loaded."
+);
+
+console.log(
+  "LILY NATY AI Worker:",
+  AI_WORKER_URL
+);
