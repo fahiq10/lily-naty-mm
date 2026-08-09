@@ -360,6 +360,40 @@
       flex-wrap: wrap;
     }
 
+    /* =========================
+       VISITOR COUNTER
+    ========================== */
+
+    .visitor-counter {
+      display: inline-flex;
+
+      align-items: center;
+      gap: 8px;
+
+      margin-top: 18px;
+      padding: 8px 13px;
+
+      background: #0d0d0d;
+
+      border: 1px solid #292929;
+      border-radius: 999px;
+
+      color: #999;
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .visitor-counter strong {
+      color: #a855f7;
+      font-size: 13px;
+    }
+
+    .visitor-counter #visitor-count {
+      color: white;
+      font-weight: 900;
+    }
+
     .hero-art {
       color: #111;
 
@@ -1193,8 +1227,6 @@
           View Accounts
         </a>
 
-        <!-- NEW SELL ACCOUNT BUTTON -->
-
         <a
           class="secondary"
           href="#sell"
@@ -1210,6 +1242,13 @@
           Contact on WhatsApp
         </a>
 
+      </div>
+
+      <!-- VISITOR COUNTER -->
+
+      <div class="visitor-counter">
+        👥 <strong>Visitors:</strong>
+        <span id="visitor-count">Loading...</span>
       </div>
 
     </div>
@@ -1924,7 +1963,50 @@
   <!-- ACCOUNT SCRIPT -->
 
   <script src="script.js"></script>
-<script data-goatcounter="https://lilynatymm.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  <!-- GOATCOUNTER -->
+
+  <script>
+    var t = setInterval(function () {
+
+      if (
+        window.goatcounter &&
+        window.goatcounter.visit_count
+      ) {
+
+        clearInterval(t);
+
+        window.goatcounter.visit_count({
+          path: "TOTAL",
+          append: "#visitor-count",
+          type: "html",
+          no_branding: true,
+          style: `
+            div {
+              display: inline;
+              background: transparent;
+              border: none;
+              padding: 0;
+              margin: 0;
+              color: white;
+              font-size: 12px;
+              font-weight: 900;
+            }
+          `
+        });
+
+      }
+
+    }, 100);
+
+  </script>
+
+  <script
+    data-goatcounter="https://lilynatymm.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"
+  ></script>
+
 </body>
 
 </html>
