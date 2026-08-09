@@ -3,7 +3,6 @@
 // GOOGLE SHEETS + WHATSAPP + LILY NATY AI
 // ==================================================
 
-
 // ==================================================
 // SETTINGS
 // ==================================================
@@ -13,7 +12,7 @@ const WHATSAPP_NUMBER = "2349122602735";
 const GOOGLE_SHEET_API =
   "https://script.google.com/macros/s/AKfycbwHnvjNUOBQm25wi6SYrwbnjlyT8R9fJjcWrBdnREqKzZ7Y_LOs1BBcISAG9jgOUn4Xdg/exec";
 
-// Your Cloudflare Worker
+// Cloudflare Worker
 const AI_WORKER_URL =
   "https://lily-naty-ai.fahiqabiola.workers.dev";
 
@@ -22,11 +21,17 @@ const AI_WORKER_URL =
 // WEBSITE ELEMENTS
 // ==================================================
 
-const grid = document.getElementById("accountGrid");
-const search = document.getElementById("search");
-const empty = document.getElementById("empty");
+const grid =
+  document.getElementById("accountGrid");
+
+const search =
+  document.getElementById("search");
+
+const empty =
+  document.getElementById("empty");
 
 let accounts = [];
+
 let activeFilter = "all";
 
 
@@ -35,11 +40,13 @@ let activeFilter = "all";
 // ==================================================
 
 function naira(number) {
+
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
     maximumFractionDigits: 0
   }).format(Number(number) || 0);
+
 }
 
 
@@ -48,29 +55,44 @@ function naira(number) {
 // ==================================================
 
 function cleanKey(key) {
+
   return String(key || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "");
+
 }
 
 
 function getValue(row, possibleNames) {
+
   const keys = Object.keys(row);
 
   for (const wanted of possibleNames) {
-    const wantedClean = cleanKey(wanted);
 
-    const foundKey = keys.find(function (key) {
-      return cleanKey(key) === wantedClean;
-    });
+    const wantedClean =
+      cleanKey(wanted);
+
+    const foundKey =
+      keys.find(function (key) {
+
+        return (
+          cleanKey(key) ===
+          wantedClean
+        );
+
+      });
 
     if (foundKey !== undefined) {
+
       return row[foundKey];
+
     }
+
   }
 
   return "";
+
 }
 
 
@@ -79,8 +101,13 @@ function getValue(row, possibleNames) {
 // ==================================================
 
 function convertAccount(row) {
+
   return {
-    id: String(getValue(row, ["ID"])),
+
+    id:
+      String(
+        getValue(row, ["ID"])
+      ),
 
     title:
       getValue(row, ["Title"]) ||
@@ -91,7 +118,9 @@ function convertAccount(row) {
       "Free Fire",
 
     price:
-      Number(getValue(row, ["Price"])) || 0,
+      Number(
+        getValue(row, ["Price"])
+      ) || 0,
 
     status:
       String(
@@ -109,6 +138,7 @@ function convertAccount(row) {
       "Free Fire account.",
 
     details: {
+
       rank:
         getValue(row, ["Rank"]) ||
         "Not specified",
@@ -118,7 +148,10 @@ function convertAccount(row) {
         "Not specified",
 
       gunSkins:
-        getValue(row, ["gunskins", "gun skins"]) ||
+        getValue(row, [
+          "gunskins",
+          "gun skins"
+        ]) ||
         "Not specified",
 
       emotes:
@@ -128,8 +161,11 @@ function convertAccount(row) {
       evoGuns:
         getValue(row, ["evo guns"]) ||
         "Not specified"
+
     }
+
   };
+
 }
 
 
@@ -138,30 +174,45 @@ function convertAccount(row) {
 // ==================================================
 
 async function loadAccounts() {
+
   try {
+
     if (grid) {
-      grid.innerHTML = "Loading accounts...";
+
+      grid.innerHTML =
+        "Loading accounts...";
+
     }
 
-    const response = await fetch(
-      GOOGLE_SHEET_API + "?t=" + Date.now()
-    );
+    const response =
+      await fetch(
+        GOOGLE_SHEET_API +
+        "?t=" +
+        Date.now()
+      );
 
     if (!response.ok) {
+
       throw new Error(
-        "Google Sheet returned " + response.status
+        "Google Sheet returned " +
+        response.status
       );
+
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (!Array.isArray(data)) {
+
       throw new Error(
         "Google Sheet did not return an array."
       );
+
     }
 
-    accounts = data.map(convertAccount);
+    accounts =
+      data.map(convertAccount);
 
     console.log(
       "LILY NATY accounts loaded:",
@@ -170,17 +221,24 @@ async function loadAccounts() {
 
     render();
 
-  } catch (error) {
+  }
+
+  catch (error) {
+
     console.error(
       "Account loading error:",
       error
     );
 
     if (grid) {
+
       grid.innerHTML =
         '<p style="color:#ff7777;padding:20px;">Unable to load accounts right now.</p>';
+
     }
+
   }
+
 }
 
 
@@ -189,6 +247,7 @@ async function loadAccounts() {
 // ==================================================
 
 function waLink(account) {
+
   const message =
     "Hello LILY NATY, I am interested in Free Fire Account #" +
     account.id +
@@ -202,6 +261,7 @@ function waLink(account) {
     "?text=" +
     encodeURIComponent(message)
   );
+
 }
 
 
@@ -210,8 +270,11 @@ function waLink(account) {
 // ==================================================
 
 function render() {
+
   if (!grid || !search) {
+
     return;
+
   }
 
   const q =
@@ -219,100 +282,128 @@ function render() {
       .trim()
       .toLowerCase();
 
-  const filtered = accounts.filter(
-    function (account) {
-      const filterOK =
-        activeFilter === "all" ||
-        account.status === activeFilter;
+  const filtered =
+    accounts.filter(
+      function (account) {
 
-      const searchText = (
-        account.title +
-        " " +
-        account.game +
-        " " +
-        account.id +
-        " " +
-        account.details.rank
-      ).toLowerCase();
+        const filterOK =
+          activeFilter === "all" ||
+          account.status === activeFilter;
 
-      const searchOK =
-        !q ||
-        searchText.includes(q);
+        const searchText = (
 
-      return filterOK && searchOK;
-    }
-  );
+          account.title +
+          " " +
+          account.game +
+          " " +
+          account.id +
+          " " +
+          account.details.rank
 
-  grid.innerHTML = filtered
-    .map(function (account) {
-      const isSold =
-        account.status === "sold";
+        ).toLowerCase();
 
-      return (
-        '<article class="' +
-        (isSold ? "sold-account" : "") +
-        '">' +
+        const searchOK =
+          !q ||
+          searchText.includes(q);
 
-        '<img ' +
-        'src="' +
-        account.image +
-        '" ' +
-        'alt="' +
-        account.title +
-        " #" +
-        account.id +
-        '" ' +
-        'loading="lazy">' +
+        return (
+          filterOK &&
+          searchOK
+        );
 
-        '<div class="card-body">' +
+      }
+    );
 
-        '<div class="card-top">' +
 
-        '<span class="badge ' +
-        (isSold ? "sold" : "available") +
-        '">' +
-        (isSold ? "SOLD" : "AVAILABLE") +
-        "</span>" +
+  grid.innerHTML =
+    filtered
+      .map(function (account) {
 
-        "<small>#" +
-        account.id +
-        "</small>" +
+        const isSold =
+          account.status === "sold";
 
-        "</div>" +
+        return (
 
-        "<h3>" +
-        account.title +
-        "</h3>" +
+          '<article class="' +
+          (isSold
+            ? "sold-account"
+            : "") +
+          '">' +
 
-        "<p>" +
-        account.description +
-        "</p>" +
+          '<img ' +
+          'src="' +
+          account.image +
+          '" ' +
+          'alt="' +
+          account.title +
+          " #" +
+          account.id +
+          '" ' +
+          'loading="lazy">' +
 
-        '<div class="price">' +
-        naira(account.price) +
-        "</div>" +
+          '<div class="card-body">' +
 
-        '<div class="card-actions">' +
+          '<div class="card-top">' +
 
-        '<button type="button" onclick="openDetails(\'' +
-        account.id +
-        "')\">" +
-        "View Details" +
-        "</button>" +
+          '<span class="badge ' +
+          (isSold
+            ? "sold"
+            : "available") +
+          '">' +
 
-        "</div>" +
+          (isSold
+            ? "SOLD"
+            : "AVAILABLE") +
 
-        "</div>" +
+          "</span>" +
 
-        "</article>"
-      );
-    })
-    .join("");
+          "<small>#" +
+          account.id +
+          "</small>" +
+
+          "</div>" +
+
+          "<h3>" +
+          account.title +
+          "</h3>" +
+
+          "<p>" +
+          account.description +
+          "</p>" +
+
+          '<div class="price">' +
+          naira(account.price) +
+          "</div>" +
+
+          '<div class="card-actions">' +
+
+          '<button type="button" onclick="openDetails(\'' +
+          account.id +
+          "')\">" +
+
+          "View Details" +
+
+          "</button>" +
+
+          "</div>" +
+
+          "</div>" +
+
+          "</article>"
+
+        );
+
+      })
+      .join("");
+
 
   if (empty) {
+
     empty.hidden =
       filtered.length !== 0;
+
   }
+
 }
 
 
@@ -321,85 +412,132 @@ function render() {
 // ==================================================
 
 function openDetails(id) {
+
   const account =
-    accounts.find(function (item) {
-      return item.id === String(id);
-    });
+    accounts.find(
+      function (item) {
+
+        return (
+          item.id ===
+          String(id)
+        );
+
+      }
+    );
 
   if (!account) {
+
     return;
+
   }
+
 
   const modalImg =
-    document.getElementById("modalImg");
+    document.getElementById(
+      "modalImg"
+    );
 
   const modalTitle =
-    document.getElementById("modalTitle");
+    document.getElementById(
+      "modalTitle"
+    );
 
   const modalPrice =
-    document.getElementById("modalPrice");
+    document.getElementById(
+      "modalPrice"
+    );
 
   const modalDescription =
-    document.getElementById("modalDescription");
+    document.getElementById(
+      "modalDescription"
+    );
 
   const modalStatus =
-    document.getElementById("modalStatus");
+    document.getElementById(
+      "modalStatus"
+    );
 
   const modalWhatsApp =
-    document.getElementById("modalWhatsApp");
+    document.getElementById(
+      "modalWhatsApp"
+    );
 
   const modal =
-    document.getElementById("modal");
+    document.getElementById(
+      "modal"
+    );
+
 
   if (modalImg) {
+
     modalImg.src =
       account.image;
+
   }
 
+
   if (modalTitle) {
+
     modalTitle.textContent =
       account.title +
       " #" +
       account.id;
+
   }
+
 
   if (modalPrice) {
+
     modalPrice.textContent =
       naira(account.price);
+
   }
 
+
   const detailsText =
+
     "Rank: " +
     account.details.rank +
+
     "\n\n" +
 
     "Rare Outfits: " +
     account.details.rareOutfits +
+
     "\n\n" +
 
     "Gun Skins: " +
     account.details.gunSkins +
+
     "\n\n" +
 
     "Emotes: " +
     account.details.emotes +
+
     "\n\n" +
 
     "Evo Guns: " +
     account.details.evoGuns +
+
     "\n\n" +
 
     account.description;
 
+
   if (modalDescription) {
+
     modalDescription.textContent =
       detailsText;
+
   }
+
 
   const isSold =
     account.status === "sold";
 
+
   if (modalStatus) {
+
     modalStatus.textContent =
       isSold
         ? "SOLD"
@@ -407,12 +545,17 @@ function openDetails(id) {
 
     modalStatus.className =
       "badge " +
-      (isSold
-        ? "sold"
-        : "available");
+      (
+        isSold
+          ? "sold"
+          : "available"
+      );
+
   }
 
+
   if (modalWhatsApp) {
+
     modalWhatsApp.href =
       waLink(account);
 
@@ -420,11 +563,18 @@ function openDetails(id) {
       isSold
         ? "none"
         : "inline-flex";
+
   }
 
+
   if (modal) {
-    modal.classList.add("open");
+
+    modal.classList.add(
+      "open"
+    );
+
   }
+
 }
 
 
@@ -435,6 +585,7 @@ function openDetails(id) {
 document
   .querySelectorAll(".filter")
   .forEach(function (button) {
+
     button.addEventListener(
       "click",
       function () {
@@ -442,9 +593,11 @@ document
         document
           .querySelectorAll(".filter")
           .forEach(function (btn) {
+
             btn.classList.remove(
               "active"
             );
+
           });
 
         button.classList.add(
@@ -455,8 +608,10 @@ document
           button.dataset.filter;
 
         render();
+
       }
     );
+
   });
 
 
@@ -465,10 +620,12 @@ document
 // ==================================================
 
 if (search) {
+
   search.addEventListener(
     "input",
     render
   );
+
 }
 
 
@@ -481,7 +638,9 @@ const closeModal =
     "closeModal"
   );
 
+
 if (closeModal) {
+
   closeModal.addEventListener(
     "click",
     function () {
@@ -492,12 +651,16 @@ if (closeModal) {
         );
 
       if (modal) {
+
         modal.classList.remove(
           "open"
         );
+
       }
+
     }
   );
+
 }
 
 
@@ -506,7 +669,9 @@ const modal =
     "modal"
   );
 
+
 if (modal) {
+
   modal.addEventListener(
     "click",
     function (event) {
@@ -514,12 +679,16 @@ if (modal) {
       if (
         event.target === modal
       ) {
+
         modal.classList.remove(
           "open"
         );
+
       }
+
     }
   );
+
 }
 
 
@@ -538,7 +707,10 @@ document
       "https://wa.me/" +
       WHATSAPP_NUMBER +
       "?text=" +
-      encodeURIComponent(message);
+      encodeURIComponent(
+        message
+      );
+
   });
 
 
@@ -551,6 +723,7 @@ const sellerForm =
     "sellerForm"
   );
 
+
 if (sellerForm) {
 
   sellerForm.addEventListener(
@@ -559,59 +732,66 @@ if (sellerForm) {
 
       event.preventDefault();
 
-      console.log(
-        "SELL ACCOUNT FORM SUBMITTED"
-      );
 
       const sellerName =
         document.getElementById(
           "sellerName"
         ).value.trim();
 
+
       const accountTitle =
         document.getElementById(
           "accountTitle"
         ).value.trim();
+
 
       const accountRank =
         document.getElementById(
           "accountRank"
         ).value.trim();
 
+
       const accountPrice =
         document.getElementById(
           "accountPrice"
         ).value.trim();
+
 
       const rareOutfits =
         document.getElementById(
           "rareOutfits"
         ).value.trim();
 
+
       const gunskins =
         document.getElementById(
           "gunskins"
         ).value.trim();
+
 
       const emotes =
         document.getElementById(
           "emotes"
         ).value.trim();
 
+
       const evoGuns =
         document.getElementById(
           "evoGuns"
         ).value.trim();
+
 
       const description =
         document.getElementById(
           "accountDescription"
         ).value.trim();
 
+
       const screenshotInput =
         document.getElementById(
           "accountScreenshot"
         );
+
 
       if (
         !screenshotInput ||
@@ -624,61 +804,78 @@ if (sellerForm) {
         );
 
         return;
+
       }
+
 
       const screenshot =
         screenshotInput.files[0];
 
+
       const message =
+
         "SELL ACCOUNT REQUEST\n\n" +
 
         "Seller Name:\n" +
         sellerName +
+
         "\n\n" +
 
         "Account Title:\n" +
         accountTitle +
+
         "\n\n" +
 
         "Rank:\n" +
         accountRank +
+
         "\n\n" +
 
         "Asking Price:\n" +
         "₦" +
-        Number(accountPrice).toLocaleString(
+        Number(
+          accountPrice
+        ).toLocaleString(
           "en-NG"
         ) +
+
         "\n\n" +
 
         "Rare Outfits:\n" +
         rareOutfits +
+
         "\n\n" +
 
         "Gun Skins:\n" +
         gunskins +
+
         "\n\n" +
 
         "Emotes:\n" +
         emotes +
+
         "\n\n" +
 
         "Evo Guns:\n" +
         evoGuns +
+
         "\n\n" +
 
         "Description:\n" +
         description +
+
         "\n\n" +
 
         "Screenshot selected:\n" +
         screenshot.name +
+
         "\n\n" +
 
         "I have selected the account screenshot. " +
         "I will attach it to this WhatsApp message.\n\n" +
 
         "Please review my account.";
+
 
       const whatsappURL =
         "https://wa.me/" +
@@ -688,28 +885,30 @@ if (sellerForm) {
           message
         );
 
-      console.log(
-        "Opening WhatsApp:",
-        whatsappURL
-      );
 
       const success =
         document.getElementById(
           "sellSuccess"
         );
 
+
       if (success) {
+
         success.textContent =
           "Your details are ready. WhatsApp is opening — please attach the screenshot you selected.";
 
         success.style.display =
           "block";
+
       }
+
 
       window.location.href =
         whatsappURL;
+
     }
   );
+
 }
 
 
@@ -719,9 +918,15 @@ if (sellerForm) {
 
 async function askLilyNatyAI(message) {
 
-  if (!message || !String(message).trim()) {
+  if (
+    !message ||
+    !String(message).trim()
+  ) {
+
     return "Please enter a message.";
+
   }
+
 
   try {
 
@@ -737,42 +942,64 @@ async function askLilyNatyAI(message) {
           },
 
           body: JSON.stringify({
+
             message:
               String(message).trim()
+
           })
+
         }
       );
+
 
     const data =
       await response.json();
 
+
+    console.log(
+      "LILY NATY AI response:",
+      data
+    );
+
+
     if (!response.ok) {
+
       throw new Error(
-        data.error ||
+        data?.error ||
         "AI request failed."
       );
+
     }
 
+
     return (
-      data.reply ||
-      data.message ||
+      data?.reply ||
+      data?.message ||
       "Sorry, I couldn't generate a response."
     );
 
-  } catch (error) {
+  }
+
+
+  catch (error) {
 
     console.error(
       "LILY NATY AI error:",
       error
     );
 
-    return "Sorry, LILY NATY AI is temporarily unavailable. Please try again.";
+
+    return (
+      "Sorry, LILY NATY AI is temporarily unavailable. Please try again."
+    );
+
   }
+
 }
 
 
 // ==================================================
-// MAKE AI FUNCTION AVAILABLE TO THE WEBSITE
+// MAKE AI FUNCTION AVAILABLE GLOBALLY
 // ==================================================
 
 window.askLilyNatyAI =
@@ -780,18 +1007,8 @@ window.askLilyNatyAI =
 
 
 // ==================================================
-// OPTIONAL AI CHAT CONNECTION
+// AI CHAT CONNECTION
 // ==================================================
-//
-// If your HTML already has elements with these IDs:
-//
-// aiForm
-// aiInput
-// aiMessages
-//
-// this will automatically connect them to the
-// Cloudflare AI Worker.
-//
 
 const aiForm =
   document.getElementById(
@@ -821,14 +1038,19 @@ if (
 
       event.preventDefault();
 
+
       const message =
         aiInput.value.trim();
 
+
       if (!message) {
+
         return;
+
       }
 
-      aiInput.value = "";
+
+      // Show user message
 
       const userMessage =
         document.createElement(
@@ -845,6 +1067,15 @@ if (
         userMessage
       );
 
+
+      // Clear input
+
+      aiInput.value =
+        "";
+
+
+      // Loading message
+
       const loadingMessage =
         document.createElement(
           "div"
@@ -860,15 +1091,25 @@ if (
         loadingMessage
       );
 
+
       aiMessages.scrollTop =
         aiMessages.scrollHeight;
+
+
+      // Ask the Cloudflare Worker
 
       const reply =
         await askLilyNatyAI(
           message
         );
 
+
+      // Remove loading
+
       loadingMessage.remove();
+
+
+      // Show AI response
 
       const aiMessage =
         document.createElement(
@@ -885,10 +1126,20 @@ if (
         aiMessage
       );
 
+
       aiMessages.scrollTop =
         aiMessages.scrollHeight;
+
     }
   );
+
+}
+else {
+
+  console.warn(
+    "LILY NATY AI chat elements were not found. Expected: aiForm, aiInput and aiMessages."
+  );
+
 }
 
 
@@ -898,9 +1149,11 @@ if (
 
 loadAccounts();
 
+
 console.log(
   "LILY NATY MM website loaded."
 );
+
 
 console.log(
   "LILY NATY AI Worker:",
