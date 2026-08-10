@@ -3,6 +3,7 @@
 // GOOGLE SHEETS + WHATSAPP + LILY NATY AI
 // ==================================================
 
+
 // ==================================================
 // SETTINGS
 // ==================================================
@@ -12,7 +13,6 @@ const WHATSAPP_NUMBER = "2349122602735";
 const GOOGLE_SHEET_API =
   "https://script.google.com/macros/s/AKfycbwHnvjNUOBQm25wi6SYrwbnjlyT8R9fJjcWrBdnREqKzZ7Y_LOs1BBcISAG9jgOUn4Xdg/exec";
 
-// Cloudflare Worker
 const AI_WORKER_URL =
   "https://lily-naty-ai.fahiqabiola.workers.dev";
 
@@ -21,17 +21,11 @@ const AI_WORKER_URL =
 // WEBSITE ELEMENTS
 // ==================================================
 
-const grid =
-  document.getElementById("accountGrid");
-
-const search =
-  document.getElementById("search");
-
-const empty =
-  document.getElementById("empty");
+const grid = document.getElementById("accountGrid");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
 
 let accounts = [];
-
 let activeFilter = "all";
 
 
@@ -40,13 +34,11 @@ let activeFilter = "all";
 // ==================================================
 
 function naira(number) {
-
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
     maximumFractionDigits: 0
   }).format(Number(number) || 0);
-
 }
 
 
@@ -55,44 +47,29 @@ function naira(number) {
 // ==================================================
 
 function cleanKey(key) {
-
   return String(key || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "");
-
 }
 
 
 function getValue(row, possibleNames) {
-
-  const keys = Object.keys(row);
+  const keys = Object.keys(row || {});
 
   for (const wanted of possibleNames) {
+    const wantedClean = cleanKey(wanted);
 
-    const wantedClean =
-      cleanKey(wanted);
-
-    const foundKey =
-      keys.find(function (key) {
-
-        return (
-          cleanKey(key) ===
-          wantedClean
-        );
-
-      });
+    const foundKey = keys.find(function (key) {
+      return cleanKey(key) === wantedClean;
+    });
 
     if (foundKey !== undefined) {
-
       return row[foundKey];
-
     }
-
   }
 
   return "";
-
 }
 
 
@@ -101,13 +78,10 @@ function getValue(row, possibleNames) {
 // ==================================================
 
 function convertAccount(row) {
-
   return {
-
-    id:
-      String(
-        getValue(row, ["ID"])
-      ),
+    id: String(
+      getValue(row, ["ID"]) || ""
+    ),
 
     title:
       getValue(row, ["Title"]) ||
@@ -138,81 +112,65 @@ function convertAccount(row) {
       "Free Fire account.",
 
     details: {
-
       rank:
         getValue(row, ["Rank"]) ||
         "Not specified",
 
       rareOutfits:
-        getValue(row, ["rare outfits"]) ||
+        getValue(row, ["Rare Outfits", "rare outfits"]) ||
         "Not specified",
 
       gunSkins:
-        getValue(row, [
-          "gunskins",
-          "gun skins"
-        ]) ||
+        getValue(row, ["Gunskins", "Gun Skins", "gun skins"]) ||
         "Not specified",
 
       emotes:
-        getValue(row, ["emotes"]) ||
+        getValue(row, ["Emotes"]) ||
         "Not specified",
 
       evoGuns:
-        getValue(row, ["evo guns"]) ||
+        getValue(row, ["Evo Guns", "evo guns"]) ||
         "Not specified"
-
     }
-
   };
-
 }
 
 
 // ==================================================
-// LOAD ACCOUNTS
+// LOAD ACCOUNTS FROM GOOGLE SHEETS
 // ==================================================
 
 async function loadAccounts() {
-
   try {
-
     if (grid) {
-
       grid.innerHTML =
-        "Loading accounts...";
-
+        '<p style="color:#aaa;padding:20px;">Loading accounts...</p>';
     }
 
-    const response =
-      await fetch(
-        GOOGLE_SHEET_API +
-        "?t=" +
-        Date.now()
-      );
+    const response = await fetch(
+      GOOGLE_SHEET_API + "?t=" + Date.now()
+    );
 
     if (!response.ok) {
-
       throw new Error(
-        "Google Sheet returned " +
+        "Google Sheet returned HTTP " +
         response.status
       );
-
     }
 
-    const data =
-      await response.json();
+    const data = await response.json();
 
     if (!Array.isArray(data)) {
-
       throw new Error(
         "Google Sheet did not return an array."
       );
-
     }
 
-    accounts =
-      data.map(convertAccount);
+    accounts = data
+      .map(convertAccount)
+      .filter(function (account) {
+        return account.id !== "";
+      });
 
     console.log(
       "LILY NATY accounts loaded:",
@@ -221,9 +179,7 @@ async function loadAccounts() {
 
     render();
 
-  }
-
-  catch (error) {
+  } catch (error) {
 
     console.error(
       "Account loading error:",
@@ -231,14 +187,10 @@ async function loadAccounts() {
     );
 
     if (grid) {
-
       grid.innerHTML =
-        '<p style="color:#ff7777;padding:20px;">Unable to load accounts right now.</p>';
-
+        '<p style="color:#ff7777;padding:20px;">Unable to load accounts right now. Please try again later.</p>';
     }
-
   }
-
 }
 
 
@@ -261,7 +213,21 @@ function waLink(account) {
     "?text=" +
     encodeURIComponent(message)
   );
+}
 
+
+// ==================================================
+// ESCAPE HTML
+// ==================================================
+
+function escapeHTML(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 
@@ -272,9 +238,7 @@ function waLink(account) {
 function render() {
 
   if (!grid || !search) {
-
     return;
-
   }
 
   const q =
@@ -283,152 +247,166 @@ function render() {
       .toLowerCase();
 
   const filtered =
-    accounts.filter(
-      function (account) {
+    accounts.filter(function (account) {
 
-        const filterOK =
-          activeFilter === "all" ||
-          account.status === activeFilter;
+      const filterOK =
+        activeFilter === "all" ||
+        account.status === activeFilter;
 
-        const searchText = (
+      const searchText = (
+        account.title +
+        " " +
+        account.game +
+        " " +
+        account.id +
+        " " +
+        account.details.rank +
+        " " +
+        account.description
+      ).toLowerCase();
 
-          account.title +
-          " " +
-          account.game +
-          " " +
-          account.id +
-          " " +
-          account.details.rank
+      const searchOK =
+        !q ||
+        searchText.includes(q);
 
-        ).toLowerCase();
-
-        const searchOK =
-          !q ||
-          searchText.includes(q);
-
-        return (
-          filterOK &&
-          searchOK
-        );
-
-      }
-    );
+      return filterOK && searchOK;
+    });
 
 
-  grid.innerHTML =
-    filtered
-      .map(function (account) {
+  if (filtered.length === 0) {
 
-        const isSold =
-          account.status === "sold";
+    grid.innerHTML = "";
 
-        return (
+  } else {
 
-          '<article class="' +
-          (isSold
-            ? "sold-account"
-            : "") +
-          '">' +
+    grid.innerHTML =
+      filtered
+        .map(function (account) {
 
-          '<img ' +
-          'src="' +
-          account.image +
-          '" ' +
-          'alt="' +
-          account.title +
-          " #" +
-          account.id +
-          '" ' +
-          'loading="lazy">' +
+          const isSold =
+            account.status === "sold";
 
-          '<div class="card-body">' +
+          const safeId =
+            encodeURIComponent(
+              account.id
+            );
 
-          '<div class="card-top">' +
+          const image =
+            escapeHTML(account.image);
 
-          '<span class="badge ' +
-          (isSold
-            ? "sold"
-            : "available") +
-          '">' +
+          const title =
+            escapeHTML(account.title);
 
-          (isSold
-            ? "SOLD"
-            : "AVAILABLE") +
+          const description =
+            escapeHTML(
+              account.description
+            );
 
-          "</span>" +
+          return (
+            '<article class="' +
+            (isSold
+              ? "sold-account"
+              : "") +
+            '">' +
 
-          "<small>#" +
-          account.id +
-          "</small>" +
+              '<img ' +
+                'src="' +
+                image +
+                '" ' +
+                'alt="' +
+                title +
+                " #" +
+                escapeHTML(account.id) +
+                '" ' +
+                'loading="lazy" ' +
+                'onerror="this.style.display=\'none\'">' +
 
-          "</div>" +
+              '<div class="card-body">' +
 
-          "<h3>" +
-          account.title +
-          "</h3>" +
+                '<div class="card-top">' +
 
-          "<p>" +
-          account.description +
-          "</p>" +
+                  '<span class="badge ' +
+                    (isSold
+                      ? "sold"
+                      : "available") +
+                  '">' +
 
-          '<div class="price">' +
-          naira(account.price) +
-          "</div>" +
+                    (isSold
+                      ? "SOLD"
+                      : "AVAILABLE") +
 
-          '<div class="card-actions">' +
+                  "</span>" +
 
-          '<button type="button" onclick="openDetails(\'' +
-          account.id +
-          "')\">" +
+                  "<small>#" +
+                    escapeHTML(account.id) +
+                  "</small>" +
 
-          "View Details" +
+                "</div>" +
 
-          "</button>" +
+                "<h3>" +
+                  title +
+                "</h3>" +
 
-          "</div>" +
+                "<p>" +
+                  description +
+                "</p>" +
 
-          "</div>" +
+                '<div class="price">' +
+                  naira(account.price) +
+                "</div>" +
 
-          "</article>"
+                '<div class="card-actions">' +
 
-        );
+                  '<button ' +
+                    'type="button" ' +
+                    'onclick="openDetails(decodeURIComponent(\'' +
+                    safeId +
+                    "'))\">" +
 
-      })
-      .join("");
+                    "View Details" +
+
+                  "</button>" +
+
+                "</div>" +
+
+              "</div>" +
+
+            "</article>"
+          );
+        })
+        .join("");
+  }
 
 
   if (empty) {
 
     empty.hidden =
       filtered.length !== 0;
-
   }
-
 }
 
 
 // ==================================================
-// ACCOUNT DETAILS
+// ACCOUNT DETAILS MODAL
 // ==================================================
 
 function openDetails(id) {
 
   const account =
-    accounts.find(
-      function (item) {
+    accounts.find(function (item) {
 
-        return (
-          item.id ===
-          String(id)
-        );
+      return item.id === String(id);
 
-      }
-    );
+    });
+
 
   if (!account) {
+    console.error(
+      "Account not found:",
+      id
+    );
 
     return;
-
   }
 
 
@@ -495,36 +473,33 @@ function openDetails(id) {
 
 
   const detailsText =
-
     "Rank: " +
     account.details.rank +
-
     "\n\n" +
 
     "Rare Outfits: " +
     account.details.rareOutfits +
-
     "\n\n" +
 
     "Gun Skins: " +
     account.details.gunSkins +
-
     "\n\n" +
 
     "Emotes: " +
     account.details.emotes +
-
     "\n\n" +
 
     "Evo Guns: " +
     account.details.evoGuns +
-
     "\n\n" +
 
     account.description;
 
 
   if (modalDescription) {
+
+    modalDescription.style.whiteSpace =
+      "pre-line";
 
     modalDescription.textContent =
       detailsText;
@@ -545,12 +520,9 @@ function openDetails(id) {
 
     modalStatus.className =
       "badge " +
-      (
-        isSold
-          ? "sold"
-          : "available"
-      );
-
+      (isSold
+        ? "sold"
+        : "available");
   }
 
 
@@ -563,7 +535,6 @@ function openDetails(id) {
       isSold
         ? "none"
         : "inline-flex";
-
   }
 
 
@@ -574,8 +545,15 @@ function openDetails(id) {
     );
 
   }
-
 }
+
+
+// ==================================================
+// MAKE OPEN DETAILS AVAILABLE TO HTML
+// ==================================================
+
+window.openDetails =
+  openDetails;
 
 
 // ==================================================
@@ -600,15 +578,18 @@ document
 
           });
 
+
         button.classList.add(
           "active"
         );
 
+
         activeFilter =
-          button.dataset.filter;
+          button.dataset.filter ||
+          "all";
+
 
         render();
-
       }
     );
 
@@ -630,7 +611,7 @@ if (search) {
 
 
 // ==================================================
-// CLOSE MODAL
+// CLOSE ACCOUNT MODAL
 // ==================================================
 
 const closeModal =
@@ -664,23 +645,24 @@ if (closeModal) {
 }
 
 
-const modal =
+const accountModal =
   document.getElementById(
     "modal"
   );
 
 
-if (modal) {
+if (accountModal) {
 
-  modal.addEventListener(
+  accountModal.addEventListener(
     "click",
     function (event) {
 
       if (
-        event.target === modal
+        event.target ===
+        accountModal
       ) {
 
-        modal.classList.remove(
+        accountModal.classList.remove(
           "open"
         );
 
@@ -711,6 +693,12 @@ document
         message
       );
 
+    element.target =
+      "_blank";
+
+    element.rel =
+      "noopener";
+
   });
 
 
@@ -733,58 +721,65 @@ if (sellerForm) {
       event.preventDefault();
 
 
-      const sellerName =
-        document.getElementById(
-          "sellerName"
-        ).value.trim();
+      const getInputValue =
+        function (id) {
 
+          const element =
+            document.getElementById(
+              id
+            );
+
+          return element
+            ? element.value.trim()
+            : "";
+
+        };
+
+
+      const sellerName =
+        getInputValue(
+          "sellerName"
+        );
 
       const accountTitle =
-        document.getElementById(
+        getInputValue(
           "accountTitle"
-        ).value.trim();
-
+        );
 
       const accountRank =
-        document.getElementById(
+        getInputValue(
           "accountRank"
-        ).value.trim();
-
+        );
 
       const accountPrice =
-        document.getElementById(
+        getInputValue(
           "accountPrice"
-        ).value.trim();
-
+        );
 
       const rareOutfits =
-        document.getElementById(
+        getInputValue(
           "rareOutfits"
-        ).value.trim();
-
+        );
 
       const gunskins =
-        document.getElementById(
+        getInputValue(
           "gunskins"
-        ).value.trim();
-
+        );
 
       const emotes =
-        document.getElementById(
+        getInputValue(
           "emotes"
-        ).value.trim();
-
+        );
 
       const evoGuns =
-        document.getElementById(
+        getInputValue(
           "evoGuns"
-        ).value.trim();
-
+        );
 
       const description =
-        document.getElementById(
+        getInputValue(
           "accountDescription"
-        ).value.trim();
+        );
 
 
       const screenshotInput =
@@ -804,7 +799,6 @@ if (sellerForm) {
         );
 
         return;
-
       }
 
 
@@ -812,63 +806,55 @@ if (sellerForm) {
         screenshotInput.files[0];
 
 
-      const message =
+      const numericPrice =
+        Number(
+          accountPrice
+        ) || 0;
 
+
+      const message =
         "SELL ACCOUNT REQUEST\n\n" +
 
         "Seller Name:\n" +
         sellerName +
-
         "\n\n" +
 
         "Account Title:\n" +
         accountTitle +
-
         "\n\n" +
 
         "Rank:\n" +
         accountRank +
-
         "\n\n" +
 
         "Asking Price:\n" +
-        "₦" +
-        Number(
-          accountPrice
-        ).toLocaleString(
-          "en-NG"
+        naira(
+          numericPrice
         ) +
-
         "\n\n" +
 
         "Rare Outfits:\n" +
         rareOutfits +
-
         "\n\n" +
 
         "Gun Skins:\n" +
         gunskins +
-
         "\n\n" +
 
         "Emotes:\n" +
         emotes +
-
         "\n\n" +
 
         "Evo Guns:\n" +
         evoGuns +
-
         "\n\n" +
 
         "Description:\n" +
         description +
-
         "\n\n" +
 
         "Screenshot selected:\n" +
         screenshot.name +
-
         "\n\n" +
 
         "I have selected the account screenshot. " +
@@ -903,8 +889,10 @@ if (sellerForm) {
       }
 
 
-      window.location.href =
-        whatsappURL;
+      window.open(
+        whatsappURL,
+        "_blank"
+      );
 
     }
   );
@@ -913,7 +901,7 @@ if (sellerForm) {
 
 
 // ==================================================
-// LILY NATY AI
+// LILY NATY AI — CLOUDFLARE WORKER
 // ==================================================
 
 async function askLilyNatyAI(message) {
@@ -942,12 +930,9 @@ async function askLilyNatyAI(message) {
           },
 
           body: JSON.stringify({
-
             message:
               String(message).trim()
-
           })
-
         }
       );
 
@@ -956,16 +941,10 @@ async function askLilyNatyAI(message) {
       await response.json();
 
 
-    console.log(
-      "LILY NATY AI response:",
-      data
-    );
-
-
     if (!response.ok) {
 
       throw new Error(
-        data?.error ||
+        data.error ||
         "AI request failed."
       );
 
@@ -973,15 +952,13 @@ async function askLilyNatyAI(message) {
 
 
     return (
-      data?.reply ||
-      data?.message ||
+      data.reply ||
+      data.message ||
       "Sorry, I couldn't generate a response."
     );
 
-  }
 
-
-  catch (error) {
+  } catch (error) {
 
     console.error(
       "LILY NATY AI error:",
@@ -990,7 +967,8 @@ async function askLilyNatyAI(message) {
 
 
     return (
-      "Sorry, LILY NATY AI is temporarily unavailable. Please try again."
+      "Sorry, LILY NATY AI is temporarily unavailable. " +
+      "Please try again."
     );
 
   }
@@ -999,7 +977,7 @@ async function askLilyNatyAI(message) {
 
 
 // ==================================================
-// MAKE AI FUNCTION AVAILABLE GLOBALLY
+// MAKE AI FUNCTION AVAILABLE
 // ==================================================
 
 window.askLilyNatyAI =
@@ -1007,155 +985,366 @@ window.askLilyNatyAI =
 
 
 // ==================================================
-// AI CHAT CONNECTION
+// LILY NATY AI CHAT
+// CONNECTS TO YOUR ACTUAL 🤖 BOT
 // ==================================================
 
-const aiForm =
+const lilyBotButton =
   document.getElementById(
-    "aiForm"
+    "lilyBotButton"
   );
 
-const aiInput =
+const lilyBot =
   document.getElementById(
-    "aiInput"
+    "lilyBot"
   );
 
-const aiMessages =
+const lilyBotClose =
   document.getElementById(
-    "aiMessages"
+    "lilyBotClose"
   );
 
+const lilyBotInput =
+  document.getElementById(
+    "lilyBotInput"
+  );
+
+const lilyBotSend =
+  document.getElementById(
+    "lilyBotSend"
+  );
+
+const lilyBotMessages =
+  document.getElementById(
+    "lilyBotMessages"
+  );
+
+
+// ==================================================
+// OPEN AI BOT
+// ==================================================
 
 if (
-  aiForm &&
-  aiInput &&
-  aiMessages
+  lilyBotButton &&
+  lilyBot
 ) {
 
-  aiForm.addEventListener(
-    "submit",
-    async function (event) {
+  lilyBotButton.addEventListener(
+    "click",
+    function () {
 
-      event.preventDefault();
-
-
-      const message =
-        aiInput.value.trim();
+      lilyBot.classList.toggle(
+        "open"
+      );
 
 
-      if (!message) {
+      if (
+        lilyBot.classList.contains(
+          "open"
+        ) &&
+        lilyBotInput
+      ) {
 
-        return;
+        lilyBotInput.focus();
 
       }
-
-
-      // Show user message
-
-      const userMessage =
-        document.createElement(
-          "div"
-        );
-
-      userMessage.className =
-        "ai-user-message";
-
-      userMessage.textContent =
-        message;
-
-      aiMessages.appendChild(
-        userMessage
-      );
-
-
-      // Clear input
-
-      aiInput.value =
-        "";
-
-
-      // Loading message
-
-      const loadingMessage =
-        document.createElement(
-          "div"
-        );
-
-      loadingMessage.className =
-        "ai-loading";
-
-      loadingMessage.textContent =
-        "LILY NATY AI is thinking...";
-
-      aiMessages.appendChild(
-        loadingMessage
-      );
-
-
-      aiMessages.scrollTop =
-        aiMessages.scrollHeight;
-
-
-      // Ask the Cloudflare Worker
-
-      const reply =
-        await askLilyNatyAI(
-          message
-        );
-
-
-      // Remove loading
-
-      loadingMessage.remove();
-
-
-      // Show AI response
-
-      const aiMessage =
-        document.createElement(
-          "div"
-        );
-
-      aiMessage.className =
-        "ai-message";
-
-      aiMessage.textContent =
-        reply;
-
-      aiMessages.appendChild(
-        aiMessage
-      );
-
-
-      aiMessages.scrollTop =
-        aiMessages.scrollHeight;
 
     }
   );
 
 }
-else {
 
-  console.warn(
-    "LILY NATY AI chat elements were not found. Expected: aiForm, aiInput and aiMessages."
+
+// ==================================================
+// CLOSE AI BOT
+// ==================================================
+
+if (
+  lilyBotClose &&
+  lilyBot
+) {
+
+  lilyBotClose.addEventListener(
+    "click",
+    function () {
+
+      lilyBot.classList.remove(
+        "open"
+      );
+
+    }
   );
 
 }
+
+
+// ==================================================
+// ADD AI MESSAGE
+// ==================================================
+
+function lilyAddMessage(
+  text,
+  type
+) {
+
+  if (!lilyBotMessages) {
+    return;
+  }
+
+
+  const message =
+    document.createElement(
+      "div"
+    );
+
+
+  message.className =
+    "lily-message " +
+    (
+      type === "user"
+        ? "lily-user-message"
+        : "lily-bot-message"
+    );
+
+
+  message.innerHTML =
+    String(text)
+      .replace(/\n/g, "<br>");
+
+
+  lilyBotMessages.appendChild(
+    message
+  );
+
+
+  lilyBotMessages.scrollTop =
+    lilyBotMessages.scrollHeight;
+}
+
+
+// ==================================================
+// WHATSAPP FROM AI
+// ==================================================
+
+function lilyWhatsApp() {
+
+  const message =
+    encodeURIComponent(
+      "Hello LILY NATY, I need help with a Free Fire account."
+    );
+
+
+  window.open(
+    "https://wa.me/" +
+    WHATSAPP_NUMBER +
+    "?text=" +
+    message,
+    "_blank"
+  );
+
+}
+
+
+window.lilyWhatsApp =
+  lilyWhatsApp;
+
+
+// ==================================================
+// SEND MESSAGE TO CLOUDFLARE AI
+// ==================================================
+
+async function lilySendMessage() {
+
+  if (
+    !lilyBotInput ||
+    !lilyBotMessages
+  ) {
+
+    return;
+
+  }
+
+
+  const text =
+    lilyBotInput.value.trim();
+
+
+  if (!text) {
+    return;
+  }
+
+
+  lilyAddMessage(
+    text,
+    "user"
+  );
+
+
+  lilyBotInput.value = "";
+
+
+  const loading =
+    document.createElement(
+      "div"
+    );
+
+
+  loading.className =
+    "lily-message lily-bot-message";
+
+
+  loading.textContent =
+    "LILY NATY AI is thinking...";
+
+
+  lilyBotMessages.appendChild(
+    loading
+  );
+
+
+  lilyBotMessages.scrollTop =
+    lilyBotMessages.scrollHeight;
+
+
+  const answer =
+    await askLilyNatyAI(
+      text
+    );
+
+
+  loading.remove();
+
+
+  lilyAddMessage(
+    answer,
+    "bot"
+  );
+
+}
+
+
+// ==================================================
+// SEND BUTTON
+// ==================================================
+
+if (lilyBotSend) {
+
+  lilyBotSend.addEventListener(
+    "click",
+    lilySendMessage
+  );
+
+}
+
+
+// ==================================================
+// ENTER KEY
+// ==================================================
+
+if (lilyBotInput) {
+
+  lilyBotInput.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.key ===
+        "Enter"
+      ) {
+
+        event.preventDefault();
+
+        lilySendMessage();
+
+      }
+
+    }
+  );
+
+}
+
+
+// ==================================================
+// QUICK AI BUTTONS
+// ==================================================
+
+async function lilyQuick(text) {
+
+  if (!text) {
+    return;
+  }
+
+
+  lilyAddMessage(
+    text,
+    "user"
+  );
+
+
+  const loading =
+    document.createElement(
+      "div"
+    );
+
+
+  loading.className =
+    "lily-message lily-bot-message";
+
+
+  loading.textContent =
+    "LILY NATY AI is thinking...";
+
+
+  if (lilyBotMessages) {
+
+    lilyBotMessages.appendChild(
+      loading
+    );
+
+    lilyBotMessages.scrollTop =
+      lilyBotMessages.scrollHeight;
+
+  }
+
+
+  const answer =
+    await askLilyNatyAI(
+      text
+    );
+
+
+  loading.remove();
+
+
+  lilyAddMessage(
+    answer,
+    "bot"
+  );
+
+}
+
+
+window.lilyQuick =
+  lilyQuick;
 
 
 // ==================================================
 // START WEBSITE
 // ==================================================
 
-loadAccounts();
-
-
 console.log(
   "LILY NATY MM website loaded."
 );
 
+console.log(
+  "Google Sheets API:",
+  GOOGLE_SHEET_API
+);
 
 console.log(
   "LILY NATY AI Worker:",
   AI_WORKER_URL
 );
+
+
+loadAccounts();
