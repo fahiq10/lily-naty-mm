@@ -542,9 +542,16 @@
       border: none;
       border-radius: 9px;
 
+      background: #a855f7;
+      color: white;
+
       cursor: pointer;
 
       font-weight: 900;
+    }
+
+    .card-actions button:hover {
+      background: #9333d9;
     }
 
     .empty {
@@ -931,7 +938,7 @@
     }
 
     /* =========================
-       AI BOT
+       LILY NATY AI ASSISTANT
     ========================== */
 
     #lilyBotButton {
@@ -953,6 +960,7 @@
       cursor: pointer;
 
       box-shadow: 0 8px 30px rgba(168, 85, 247, 0.35);
+
       transition: 0.2s;
     }
 
@@ -974,6 +982,7 @@
       flex-direction: column;
 
       background: #0b0b0b;
+
       border: 1px solid #292929;
       border-radius: 20px;
 
@@ -1101,8 +1110,11 @@
     .lily-quick-buttons {
       display: flex;
       flex-wrap: wrap;
+
       gap: 7px;
+
       margin-top: 5px;
+      padding: 0 15px 10px;
     }
 
     .lily-quick-buttons button {
@@ -2066,7 +2078,7 @@
 
 
   <!-- =========================
-       MODAL
+       ACCOUNT DETAILS MODAL
   ========================== -->
 
   <div id="modal">
@@ -2076,6 +2088,8 @@
       <button
         id="closeModal"
         class="close"
+        type="button"
+        aria-label="Close account details"
       >
         ×
       </button>
@@ -2106,6 +2120,8 @@
           id="modalWhatsApp"
           class="primary"
           href="#"
+          target="_blank"
+          rel="noopener"
         >
           Contact to Buy on WhatsApp
         </a>
@@ -2119,15 +2135,22 @@
 
   <!-- =========================
        LILY NATY AI ASSISTANT
+       BOT BUTTON
   ========================== -->
 
   <button
     id="lilyBotButton"
+    type="button"
     aria-label="Open LILY NATY Assistant"
   >
     🤖
   </button>
 
+
+  <!-- =========================
+       LILY NATY AI ASSISTANT
+       BOT WINDOW
+  ========================== -->
 
   <div id="lilyBot">
 
@@ -2140,8 +2163,15 @@
         </div>
 
         <div>
-          <strong>LILY NATY Assistant</strong>
-          <small>● Online</small>
+
+          <strong>
+            LILY NATY Assistant
+          </strong>
+
+          <small>
+            ● Online
+          </small>
+
         </div>
 
       </div>
@@ -2149,6 +2179,7 @@
       <button
         id="lilyBotClose"
         type="button"
+        aria-label="Close LILY NATY Assistant"
       >
         ×
       </button>
@@ -2159,9 +2190,16 @@
     <div id="lilyBotMessages">
 
       <div class="lily-message lily-bot-message">
-        👋 Hey! Welcome to <b>LILY NATY MM ACCOUNTS</b>!<br><br>
-        I'm the LILY NATY Assistant. I can help you with
-        buying accounts, selling accounts, and our MM community.
+
+        👋 Hey! Welcome to
+        <b>LILY NATY MM ACCOUNTS</b>!
+
+        <br><br>
+
+        I'm the LILY NATY Assistant.
+        I can help you with buying accounts,
+        selling accounts, and our MM community.
+
       </div>
 
       <div class="lily-quick-buttons">
@@ -2211,6 +2249,7 @@
       <button
         id="lilyBotSend"
         type="button"
+        aria-label="Send message"
       >
         ➤
       </button>
@@ -2221,7 +2260,7 @@
 
 
   <!-- =========================
-       ONBOARDING JAVASCRIPT
+       ONBOARDING SCRIPT
   ========================== -->
 
   <script>
@@ -2229,15 +2268,19 @@
     let onboardingStep = 0;
 
     const onboardingSteps =
-      document.querySelectorAll(".onboarding-step");
+      document.querySelectorAll(
+        ".onboarding-step"
+      );
 
     const onboardingDots =
-      document.querySelectorAll(".onboarding-dot");
+      document.querySelectorAll(
+        ".onboarding-dot"
+      );
 
     function showOnboardingStep() {
 
       onboardingSteps.forEach(
-        (step, index) => {
+        function (step, index) {
 
           step.classList.toggle(
             "active",
@@ -2248,7 +2291,7 @@
       );
 
       onboardingDots.forEach(
-        (dot, index) => {
+        function (dot, index) {
 
           dot.classList.toggle(
             "active",
@@ -2282,9 +2325,14 @@
         "true"
       );
 
-      document.getElementById(
-        "onboarding"
-      ).style.display = "none";
+      const onboarding =
+        document.getElementById(
+          "onboarding"
+        );
+
+      if (onboarding) {
+        onboarding.style.display = "none";
+      }
 
     }
 
@@ -2299,9 +2347,14 @@
 
         if (completed === "true") {
 
-          document.getElementById(
-            "onboarding"
-          ).style.display = "none";
+          const onboarding =
+            document.getElementById(
+              "onboarding"
+            );
+
+          if (onboarding) {
+            onboarding.style.display = "none";
+          }
 
         }
 
@@ -2312,12 +2365,13 @@
 
 
   <!-- =========================
-       YOUR MAIN SCRIPT
-       DO NOT ADD ANOTHER SCRIPT
-       BELOW THIS LINE
+       MAIN WEBSITE SCRIPT
+       ALL AI JAVASCRIPT IS HERE
+       DO NOT ADD ANOTHER AI SCRIPT
   ========================== -->
 
   <script src="script.js"></script>
 
 </body>
+
 </html>
