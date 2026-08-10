@@ -149,9 +149,8 @@ function convertAccount(row) {
 
 async function loadAccounts() {
   try {
-
     if (grid) {
-      grid.innerHTML = "Loading accounts...";
+      grid.innerHTML = "<p>Loading accounts...</p>";
     }
 
     const response = await fetch(
@@ -206,7 +205,6 @@ async function loadAccounts() {
 // ==================================================
 
 function waLink(account) {
-
   const message =
     "Hello LILY NATY, I am interested in Free Fire Account #" +
     account.id +
@@ -228,7 +226,6 @@ function waLink(account) {
 // ==================================================
 
 function escapeHTML(value) {
-
   return String(value || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -387,10 +384,8 @@ function render() {
 
 
   if (empty) {
-
     empty.hidden =
       filtered.length !== 0;
-
   }
 }
 
@@ -419,25 +414,39 @@ function openDetails(id) {
 
 
   const modalImg =
-    document.getElementById("modalImg");
+    document.getElementById(
+      "modalImg"
+    );
 
   const modalTitle =
-    document.getElementById("modalTitle");
+    document.getElementById(
+      "modalTitle"
+    );
 
   const modalPrice =
-    document.getElementById("modalPrice");
+    document.getElementById(
+      "modalPrice"
+    );
 
   const modalDescription =
-    document.getElementById("modalDescription");
+    document.getElementById(
+      "modalDescription"
+    );
 
   const modalStatus =
-    document.getElementById("modalStatus");
+    document.getElementById(
+      "modalStatus"
+    );
 
   const modalWhatsApp =
-    document.getElementById("modalWhatsApp");
+    document.getElementById(
+      "modalWhatsApp"
+    );
 
   const modal =
-    document.getElementById("modal");
+    document.getElementById(
+      "modal"
+    );
 
 
   if (modalImg) {
@@ -527,8 +536,9 @@ function openDetails(id) {
 
   if (modal) {
 
-    modal.classList.add("open");
-
+    modal.classList.add(
+      "open"
+    );
   }
 }
 
@@ -575,7 +585,6 @@ document
 
 
         render();
-
       }
     );
 
@@ -675,9 +684,7 @@ document
       "https://wa.me/" +
       WHATSAPP_NUMBER +
       "?text=" +
-      encodeURIComponent(
-        message
-      );
+      encodeURIComponent(message);
 
     element.target =
       "_blank";
@@ -887,7 +894,8 @@ if (sellerForm) {
 
 
 // ==================================================
-// LILY NATY AI — CLOUDFLARE WORKER
+// LILY NATY AI
+// CLOUDFLARE WORKER
 // ==================================================
 
 async function askLilyNatyAI(message) {
@@ -898,7 +906,6 @@ async function askLilyNatyAI(message) {
   ) {
 
     return "Please enter a message.";
-
   }
 
 
@@ -955,9 +962,7 @@ async function askLilyNatyAI(message) {
       "Sorry, LILY NATY AI is temporarily unavailable. " +
       "Please try again."
     );
-
   }
-
 }
 
 
@@ -970,10 +975,9 @@ window.askLilyNatyAI =
 
 
 // ==================================================
-// LILY NATY AI CHAT
 // IMPORTANT:
-// AI BOT JAVASCRIPT IS ONLY HERE.
-// DO NOT PUT ANOTHER COPY IN INDEX.HTML.
+// AI BOT ELEMENTS ARE READ HERE,
+// BUT NOT DUPLICATED IN HTML.
 // ==================================================
 
 const lilyBotButton =
@@ -1095,7 +1099,8 @@ function lilyAddMessage(
 
 
   message.innerHTML =
-    String(text);
+    String(text)
+      .replace(/\n/g, "<br>");
 
 
   lilyBotMessages.appendChild(
@@ -1105,7 +1110,6 @@ function lilyAddMessage(
 
   lilyBotMessages.scrollTop =
     lilyBotMessages.scrollHeight;
-
 }
 
 
@@ -1128,7 +1132,6 @@ function lilyWhatsApp() {
     message,
     "_blank"
   );
-
 }
 
 
@@ -1148,7 +1151,6 @@ async function lilySendMessage() {
   ) {
 
     return;
-
   }
 
 
@@ -1206,7 +1208,6 @@ async function lilySendMessage() {
     answer,
     "bot"
   );
-
 }
 
 
@@ -1288,10 +1289,8 @@ async function lilyQuick(text) {
       loading
     );
 
-
     lilyBotMessages.scrollTop =
       lilyBotMessages.scrollHeight;
-
   }
 
 
@@ -1308,7 +1307,6 @@ async function lilyQuick(text) {
     answer,
     "bot"
   );
-
 }
 
 
