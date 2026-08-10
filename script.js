@@ -117,20 +117,27 @@ function convertAccount(row) {
         "Not specified",
 
       rareOutfits:
-        getValue(row, ["Rare Outfits", "rare outfits"]) ||
-        "Not specified",
+        getValue(row, [
+          "Rare Outfits",
+          "rare outfits"
+        ]) || "Not specified",
 
       gunSkins:
-        getValue(row, ["Gunskins", "Gun Skins", "gun skins"]) ||
-        "Not specified",
+        getValue(row, [
+          "Gunskins",
+          "Gun Skins",
+          "gun skins"
+        ]) || "Not specified",
 
       emotes:
         getValue(row, ["Emotes"]) ||
         "Not specified",
 
       evoGuns:
-        getValue(row, ["Evo Guns", "evo guns"]) ||
-        "Not specified"
+        getValue(row, [
+          "Evo Guns",
+          "evo guns"
+        ]) || "Not specified"
     }
   };
 }
@@ -142,9 +149,9 @@ function convertAccount(row) {
 
 async function loadAccounts() {
   try {
+
     if (grid) {
-      grid.innerHTML =
-        '<p style="color:#aaa;padding:20px;">Loading accounts...</p>';
+      grid.innerHTML = "Loading accounts...";
     }
 
     const response = await fetch(
@@ -373,6 +380,7 @@ function render() {
 
             "</article>"
           );
+
         })
         .join("");
   }
@@ -382,6 +390,7 @@ function render() {
 
     empty.hidden =
       filtered.length !== 0;
+
   }
 }
 
@@ -394,13 +403,12 @@ function openDetails(id) {
 
   const account =
     accounts.find(function (item) {
-
       return item.id === String(id);
-
     });
 
 
   if (!account) {
+
     console.error(
       "Account not found:",
       id
@@ -411,64 +419,44 @@ function openDetails(id) {
 
 
   const modalImg =
-    document.getElementById(
-      "modalImg"
-    );
+    document.getElementById("modalImg");
 
   const modalTitle =
-    document.getElementById(
-      "modalTitle"
-    );
+    document.getElementById("modalTitle");
 
   const modalPrice =
-    document.getElementById(
-      "modalPrice"
-    );
+    document.getElementById("modalPrice");
 
   const modalDescription =
-    document.getElementById(
-      "modalDescription"
-    );
+    document.getElementById("modalDescription");
 
   const modalStatus =
-    document.getElementById(
-      "modalStatus"
-    );
+    document.getElementById("modalStatus");
 
   const modalWhatsApp =
-    document.getElementById(
-      "modalWhatsApp"
-    );
+    document.getElementById("modalWhatsApp");
 
   const modal =
-    document.getElementById(
-      "modal"
-    );
+    document.getElementById("modal");
 
 
   if (modalImg) {
-
     modalImg.src =
       account.image;
-
   }
 
 
   if (modalTitle) {
-
     modalTitle.textContent =
       account.title +
       " #" +
       account.id;
-
   }
 
 
   if (modalPrice) {
-
     modalPrice.textContent =
       naira(account.price);
-
   }
 
 
@@ -503,7 +491,6 @@ function openDetails(id) {
 
     modalDescription.textContent =
       detailsText;
-
   }
 
 
@@ -540,9 +527,7 @@ function openDetails(id) {
 
   if (modal) {
 
-    modal.classList.add(
-      "open"
-    );
+    modal.classList.add("open");
 
   }
 }
@@ -590,6 +575,7 @@ document
 
 
         render();
+
       }
     );
 
@@ -957,7 +943,6 @@ async function askLilyNatyAI(message) {
       "Sorry, I couldn't generate a response."
     );
 
-
   } catch (error) {
 
     console.error(
@@ -986,7 +971,9 @@ window.askLilyNatyAI =
 
 // ==================================================
 // LILY NATY AI CHAT
-// CONNECTS TO YOUR ACTUAL 🤖 BOT
+// IMPORTANT:
+// AI BOT JAVASCRIPT IS ONLY HERE.
+// DO NOT PUT ANOTHER COPY IN INDEX.HTML.
 // ==================================================
 
 const lilyBotButton =
@@ -1108,8 +1095,7 @@ function lilyAddMessage(
 
 
   message.innerHTML =
-    String(text)
-      .replace(/\n/g, "<br>");
+    String(text);
 
 
   lilyBotMessages.appendChild(
@@ -1119,6 +1105,7 @@ function lilyAddMessage(
 
   lilyBotMessages.scrollTop =
     lilyBotMessages.scrollHeight;
+
 }
 
 
@@ -1300,6 +1287,7 @@ async function lilyQuick(text) {
     lilyBotMessages.appendChild(
       loading
     );
+
 
     lilyBotMessages.scrollTop =
       lilyBotMessages.scrollHeight;
